@@ -1,1 +1,0 @@
-# woocommerce-nft-plugin
