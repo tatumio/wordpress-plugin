@@ -373,7 +373,7 @@ class Tatum_Admin
                 'post_status' => 'contract_transaction_sent',
             );
             wp_update_post($post_to_update);
-//            $this->admin_notic('success', 'You have successfully broadcast your smart contract with transaction id ' . $response['txId'] . '. Please wait until your transaction is confirmed.');
+            // TODO: add success notification
         } catch (Exception $error) {
             // TODO: handle error
             print_r($error);
