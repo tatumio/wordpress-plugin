@@ -341,6 +341,7 @@ class Tatum_Admin
             wp_update_post($post_to_update);
             add_filter('redirect_post_location', array($this, 'add_notice_query_var'), 99);
         } catch (Exception $error) {
+            // TODO: handle error
             print_r($error);
             exit();
         }
@@ -374,6 +375,7 @@ class Tatum_Admin
             wp_update_post($post_to_update);
 //            $this->admin_notic('success', 'You have successfully broadcast your smart contract with transaction id ' . $response['txId'] . '. Please wait until your transaction is confirmed.');
         } catch (Exception $error) {
+            // TODO: handle error
             print_r($error);
             exit();
         }
