@@ -31,17 +31,25 @@
             do_settings_sections($this->plugin_name);
             ?>
 
+            <table class="form-table">
+                <tbody>
+                <tr>
+                    <th><label for="api_key">Email Address</label></th>
+                    <td>
+                        <select name="api_key">
+                            <?php foreach ($this->get_contract_address_obtained_api_keys() as $key): ?>
+                                <option value="<?= $key->post_title ?>"><?= $key->post_title ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
             <!-- Optional title for quotes list -->
-            <fieldset>
-                <legend class="screen-reader-text"><span>Include title in quotes list.</span></legend>
-                <label for="<?php echo $this->plugin_name; ?>-quo-title">
-                    <input type="checkbox" id="<?php echo $this->plugin_name; ?>-quo-title" name="<?php echo $this->plugin_name; ?>[quo-title]" value="1" <?php checked($quo_title, 1); ?>/>
-                    <span><?php esc_attr_e('Include title in quotes list?', $this->plugin_name); ?></span>
-                </label>
-            </fieldset>
 
-            <?php submit_button('Save all changes', 'primary','submit', TRUE); ?>
-
+            <p class="submit">
+                <?php submit_button('Save all changes', 'primary', 'submit', TRUE); ?>
+            </p>
         </form>
 
 

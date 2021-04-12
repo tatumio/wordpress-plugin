@@ -111,9 +111,9 @@ class Tatum_Admin
     public function new_cpt_rdm_quote() {
         $cap_type = 'post';
         $plural = 'Api keys';
-        $single = 'Random Quote';
+        $single = 'Api key';
         $menu_name = 'Tatum';
-        $cpt_name = 'rdm-quote';
+        $cpt_name = 'api_key';
         $opts['can_export'] = TRUE;
         $opts['capability_type'] = $cap_type;
         $opts['description'] = '';
@@ -181,11 +181,11 @@ class Tatum_Admin
     }
 
     public function meta_box($post) {
-        if (in_array($post->post_status, ['wallet_generated'])) {
+        if (in_array(get_post_meta($post->ID, 'status', true), ['wallet_generated', 'contract_transaction_sent', 'contract_address_obtained'])) {
             add_meta_box('tatum_meta', 'Wallet settings', array($this, 'render_meta_box'));
         }
 
-        if (in_array($post->post_status, ['wallet_generated', 'contract_transaction_sent'])) {
+        if (in_array(get_post_meta($post->ID, 'status', true), ['wallet_generated', 'contract_transaction_sent', 'contract_address_obtained'])) {
             add_meta_box('tatum_nft_meta', 'NFT settings', array($this, 'render_meta_box_nft'));
         }
     }
@@ -194,28 +194,38 @@ class Tatum_Admin
         wp_nonce_field('tatum_nonce', 'tatum_nonce');
         ?>
         <table class="form-table">
+            <?php $this->render_meta_input($post, 'status', 'Status', true, 'Draft'); ?>
             <?php $this->render_meta_input($post, 'mnemonic', 'Mnemonic', true); ?>
             <?php $this->render_meta_input($post, 'xpub', 'Xpub', true); ?>
             <?php $this->render_meta_input($post, 'address', 'Address', true); ?>
             <?php $this->render_meta_input($post, 'private_key', 'Private key', true); ?>
             <?php $this->render_balance($post); ?>
-
         </table>
         <?php
     }
 
     public function render_meta_box_nft($post) {
         wp_nonce_field('tatum_nonce', 'tatum_nonce');
+        $status = get_post_meta($post->ID, 'status', true);
+        $readonly = in_array($status, ['contract_transaction_sent', 'contract_address_obtained']);
+        $contract_address_obtained = in_array($status, ['contract_address_obtained']);
         ?>
         <table class="form-table">
-            <?php $this->render_meta_input($post, 'nft_contract_name', 'Contract name'); ?>
-            <?php $this->render_meta_input($post, 'nft_contract_symbol', 'Contract symbol'); ?>
+            <?php $this->render_meta_input($post, 'nft_contract_name', 'Contract name', $readonly); ?>
+            <?php $this->render_meta_input($post, 'nft_contract_symbol', 'Contract symbol', $readonly); ?>
+            <?php
+            if ($contract_address_obtained) {
+                $this->render_meta_input($post, 'nft_contract_address', 'Contract address', $readonly);
+            } ?>
         </table>
         <?php
     }
 
-    public function render_meta_input($post, $name, $label, $readonly = false) {
+    public function render_meta_input($post, $name, $label, $readonly = false, $default = null) {
         $value = get_post_meta($post->ID, $name, true);
+        if (!$value) {
+            $value = $default;
+        }
         $this->render_input($name, $value, $label, $readonly);
     }
 
@@ -250,9 +260,9 @@ class Tatum_Admin
 
     public function add_plugin_admin_menu() {
         add_submenu_page(
-            'edit.php?post_type=rdm-quote',
-            __('Portfolio Projects Options', 'rushhour'),
-            __('Portfolio Options', 'rushhour'),
+            'edit.php?post_type=api_key',
+            __('General settings', 'tatum'),
+            __('General settings', 'tatum'),
             'manage_options',
             'projects_archive',
             array($this, 'display_plugin_setup_page'));
@@ -295,33 +305,17 @@ class Tatum_Admin
         register_setting($this->plugin_name, $this->plugin_name, array($this, 'validate'));
     }
 
-    public function rushhour_projects_options_display() {
-        echo 'settings';
-    }
-
     public function remove_editor_from_post() {
-        remove_post_type_support('rdm-quote', 'editor');
+        remove_post_type_support('api_key', 'editor');
     }
 
-    public function change_title($title) {
+    public function change_title($title): string {
         $screen = get_current_screen();
-        if ($screen->post_type == 'rdm-quote') {
+        if ($screen->post_type == 'api_key') {
             $title = 'Enter Api key';
         }
         return $title;
     }
-
-    public function save_post($post_id, $post, $update) {
-        switch ($post->post_status) {
-            case 'publish':
-                $this->generate_wallet($post);
-                break;
-            case 'wallet_generated':
-                $this->create_smart_contract($post);
-                break;
-        }
-    }
-
 
     public function generate_wallet($post) {
         try {
@@ -334,11 +328,8 @@ class Tatum_Admin
             update_post_meta($post->ID, 'address', $response['address']);
             $response = Tatum_Connector::generate_ethereum_private_key(['index' => 1, 'mnemonic' => get_post_meta($post->ID, 'mnemonic', true)], $post->post_title);
             update_post_meta($post->ID, 'private_key', $response['key']);
-            $post_to_update = array(
-                'ID' => $post->ID,
-                'post_status' => 'wallet_generated',
-            );
-            wp_update_post($post_to_update);
+            update_post_meta($post->ID, 'status', 'wallet_generated');
+
             add_filter('redirect_post_location', array($this, 'add_notice_query_var'), 99);
         } catch (Exception $error) {
             // TODO: handle error
@@ -349,16 +340,22 @@ class Tatum_Admin
 
     public function create_smart_contract($post) {
         try {
-            $address = get_post_meta($post->ID, 'address', true);
-            $private_key = get_post_meta($post->ID, 'private_key', true);
             $nft_contract_name = $_POST['nft_contract_name'];
             $nft_contract_symbol = $_POST['nft_contract_symbol'];
+            if (empty($nft_contract_name) || empty($nft_contract_symbol)) {
+                // TODO: show error notification
+                echo 'contract name and symbol must be specified';
+                exit();
+            }
+            $address = get_post_meta($post->ID, 'address', true);
+            $private_key = get_post_meta($post->ID, 'private_key', true);
             update_post_meta($post->ID, 'nft_contract_name', $nft_contract_name);
             update_post_meta($post->ID, 'nft_contract_symbol', $nft_contract_symbol);
 
             $balance = Tatum_Connector::get_ethereum_balance($address, $post->post_title);
             if ($balance['balance'] == 0) {
-                echo 'too low balance';
+                // TODO: show error notification
+                echo 'balance is zero';
                 exit();
             }
             $response = Tatum_Connector::deploy_nft_smart_contract([
@@ -368,11 +365,7 @@ class Tatum_Admin
                 'chain' => 'ETH'
             ], $post->post_title);
             update_post_meta($post->ID, 'nft_contract_transaction_hash', $response['txId']);
-            $post_to_update = array(
-                'ID' => $post->ID,
-                'post_status' => 'contract_transaction_sent',
-            );
-            wp_update_post($post_to_update);
+            update_post_meta($post->ID, 'status', 'contract_transaction_sent');
             // TODO: add success notification
         } catch (Exception $error) {
             // TODO: handle error
@@ -398,7 +391,7 @@ class Tatum_Admin
     }
 
     public function change_publish_button($translation, $text) {
-        if ('rdm-quote' == get_post_type())
+        if ('api_key' == get_post_type())
             if ($text == 'Publish' || $text == 'Update')
                 return 'Save';
 
@@ -417,19 +410,51 @@ class Tatum_Admin
             if (!empty($_GET['post'])) {
                 // Get the post object
                 $post = get_post($_GET['post']);
-                if ($post->post_type == 'rdm-quote' && $post->post_status == 'contract_transaction_sent') {
+                if ($post->post_type == 'api_key' && get_post_meta($post->ID, 'status', true) == 'contract_transaction_sent') {
+                    echo 'testx';
                     $contract_transaction = get_post_meta($post->ID, 'nft_contract_transaction_hash', true);
+                    echo $contract_transaction;
                     $transaction = Tatum_Connector::get_ethereum_transaction($contract_transaction, $post->post_title);
                     if (isset($transaction['contractAddress'])) {
                         update_post_meta($post->ID, 'nft_contract_address', $transaction['contractAddress']);
-                        $post_to_update = array(
-                            'ID' => $post->ID,
-                            'post_status' => 'nft_contract_address_obtained',
-                        );
-                        wp_update_post($post_to_update);
+                        update_post_meta($post->ID, 'status', 'contract_address_obtained');
                     }
                 }
             }
         }
+    }
+
+    public function change_post_columns($defaults) {
+        $defaults['status'] = 'Status';
+        unset($defaults['date']);
+        return $defaults;
+    }
+
+    public function fill_custom_columns($column_name, $post_id) {
+        if ($column_name == 'status') {
+            echo get_post_meta($post_id, 'status', true);
+        }
+    }
+
+    public function save_post($post_ID, $post, $update) {
+        if (!$update) {
+            return;
+        }
+        if (!get_post_meta($post->ID, 'status', true)) {
+            $this->generate_wallet($post);
+        } else if (get_post_meta($post->ID, 'status', true) == 'wallet_generated') {
+            $this->create_smart_contract($post);
+        }
+    }
+
+    public function get_contract_address_obtained_api_keys() {
+        $args = array(
+            'post_type' => 'api_key',
+            'meta_key' => 'status',
+            'meta_value' => 'contract_address_obtained',
+            'post_per_page' => 100, /* add a reasonable max # rows */
+            'no_found_rows' => true, /* don't generate a count as part of query, unless you need it. */
+        );
+        return get_posts($args);
     }
 }
