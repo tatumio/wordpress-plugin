@@ -74,7 +74,7 @@ class Tatum_Admin
          * class.
          */
 
-        wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/tatum-admin.css', array(), $this->version, 'all');
+        wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/tatum-admin.css', array(), time(), 'all');
 
     }
 
@@ -149,35 +149,6 @@ class Tatum_Admin
         $opts['labels']['singular_name'] = esc_html__($single, 'wisdom');
         $opts['labels']['view_item'] = esc_html__("View {$single}", 'wisdom');
         register_post_type(strtolower($cpt_name), $opts);
-
-        register_post_status('wallet_generated', array(
-            'label' => _x('Wallet generated', 'recipes'),
-            'public' => true,
-            'exclude_from_search' => true,
-            'show_in_admin_all_list' => true,
-            'show_in_admin_status_list' => true,
-            'label_count' => _n_noop('Wallet generated <span class="count">(%s)</span>', 'Wallet generated <span class="count">(%s)</span>'),
-        ));
-
-        register_post_status('contract_transaction_sent', array(
-            'label' => _x('Contract transaction sent', 'recipes'),
-            'public' => true,
-            'exclude_from_search' => true,
-            'show_in_admin_all_list' => true,
-            'show_in_admin_status_list' => true,
-            'label_count' => _n_noop('Contract transaction sent <span class="count">(%s)</span>', 'Contract transaction sent <span class="count">(%s)</span>'),
-        ));
-
-        register_post_status('nft_contract_address_obtained', array(
-            'label' => _x('NFT Contract address obtained', 'recipes'),
-            'public' => true,
-            'exclude_from_search' => true,
-            'show_in_admin_all_list' => true,
-            'show_in_admin_status_list' => true,
-            'label_count' => _n_noop('NFT Contract address obtained <span class="count">(%s)</span>', 'NFT Contract address obtained <span class="count">(%s)</span>'),
-        ));
-
-        add_action('init', 'custom_post_status');
     }
 
     public function meta_box($post) {
@@ -291,18 +262,8 @@ class Tatum_Admin
         include_once('partials/tatum-admin-display.php');
     }
 
-    public function validate($input) {
-        // All checkboxes inputs
-        $valid = array();
-
-        //Quote title
-        $valid['quo-title'] = (isset($input['quo-title']) && !empty($input['quo-title'])) ? 1 : 0;
-        //return 1;
-        return $valid;
-    }
-
     public function options_update() {
-        register_setting($this->plugin_name, $this->plugin_name, array($this, 'validate'));
+        register_setting($this->plugin_name, $this->plugin_name);
     }
 
     public function remove_editor_from_post() {

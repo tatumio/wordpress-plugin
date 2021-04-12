@@ -18,13 +18,11 @@
 
         <h2><?php echo esc_html(get_admin_page_title()); ?></h2>
 
-        <form method="post" name="my-rdm-quotes_options" action="options.php">
+        <form method="post" name="tatum_options" action="options.php">
             <?php
             //Grab all options
             $options = get_option($this->plugin_name);
 
-            // Title quote
-            $quo_title = $options['quo-title'];
             ?>
             <?php
             settings_fields($this->plugin_name);
@@ -34,9 +32,9 @@
             <table class="form-table">
                 <tbody>
                 <tr>
-                    <th><label for="api_key">Email Address</label></th>
+                    <th><label for="api_key">Select api key</label></th>
                     <td>
-                        <select name="api_key">
+                        <select name="<?= $this->plugin_name ?>[api_key]" id="<?= $this->plugin_name ?>_api_key">
                             <?php foreach ($this->get_contract_address_obtained_api_keys() as $key): ?>
                                 <option value="<?= $key->post_title ?>"><?= $key->post_title ?></option>
                             <?php endforeach; ?>

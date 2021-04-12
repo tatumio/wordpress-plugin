@@ -172,10 +172,10 @@ class Tatum {
         // Remove editor from post
         $this->loader->add_action('init', $plugin_admin, 'remove_editor_from_post');
 
-//         Change custom post title
+        // Change custom post title
         $this->loader->add_filter('enter_title_here', $plugin_admin, 'change_title');
-//
-//        // Hide post status
+
+        // Hide post status
         $this->loader->add_filter('gettext', $plugin_admin, 'change_publish_button', 10, 2);
 
         // Save post
