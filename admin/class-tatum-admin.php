@@ -418,4 +418,91 @@ class Tatum_Admin
         );
         return get_posts($args);
     }
+
+    // Woocommerce methods
+    public function add_product_data_tab($tabs) {
+        $tabs['tatum'] = array(
+            'label' => 'Tatum',
+            'target' => 'tatum_product_data',
+            'priority' => 21,
+        );
+        return $tabs;
+    }
+
+    public function get_active_api_key() {
+        $options = get_option($this->plugin_name);
+        echo $options['api_key'];
+        $args = array('post_type' => 'api_key', 'title' => $options['api_key']);
+        $api_keys = get_posts($args);
+        print_r($api_keys);
+        if (empty($api_keys)) {
+            return null;
+        }
+        return ['api_key' => $api_keys[0], 'meta' => get_post_meta($api_keys[0]->ID)];
+    }
+
+    public function add_product_data_fields() {
+        $is_minted = get_post_meta(get_the_ID(), 'tatum_transaction_hash', true);
+        echo '<div id="tatum_product_data" class="panel woocommerce_options_panel hidden">';
+
+        woocommerce_wp_text_input(array_merge(array(
+            'id' => 'tatum_token_id',
+            'value' => get_post_meta(get_the_ID(), 'tatum_token_id', true),
+            'label' => 'ID of token to be created.',
+            'description' => 'ID of token to be created.',
+        ), $is_minted ? ['custom_attributes' => array('readonly' => 'readonly')] : []));
+
+        woocommerce_wp_text_input(array_merge(
+                array(
+                    'id' => 'tatum_url',
+                    'value' => get_post_meta(get_the_ID(), 'tatum_url', true),
+                    'label' => 'Token Url',
+                    'description' => 'Metadata of the token.'
+                ),
+                $is_minted ? ['custom_attributes' => array('readonly' => 'readonly')] : []
+            )
+        );
+
+        if ($is_minted) {
+            woocommerce_wp_text_input(array(
+                'id' => 'tatum_transaction_hash',
+                'value' => get_post_meta(get_the_ID(), 'tatum_transaction_hash', true),
+                'label' => 'Transaction hash',
+                'description' => 'Transaction hash',
+                'custom_attributes' => array('readonly' => 'readonly')
+            ));
+        }
+        echo '</div>';
+    }
+
+    public function save_tatum_option_fields($post_id) {
+        $this->save_tatum_option_field($post_id, 'tatum_token_id');
+        $this->save_tatum_option_field($post_id, 'tatum_url');
+    }
+
+    private function save_tatum_option_field($post_id, $field) {
+        if (isset($_POST[$field])) {
+            update_post_meta($post_id, $field, $_POST[$field]);
+        }
+    }
+
+    public function on_product_publish($new_status, $old_status, $post) {
+        if ($old_status != 'publish' &&
+            $new_status == 'publish' &&
+            !empty($post->ID) &&
+            in_array($post->post_type, array('product')) &&
+            !get_post_meta(get_the_ID(), 'tatum_transaction_hash', true)
+        ) {
+            $active_key = $this->get_active_api_key();
+            $minted = Tatum_Connector::mint_nft([
+                'chain' => 'ETH',
+                'tokenId' => get_post_meta($post->ID, 'tatum_token_id', true),
+                'to' => $active_key['api_key']['meta']['address'],
+                'contractAddress' => $active_key['api_key']['meta']['nft_contract_address'],
+                'url' => get_post_meta($post->ID, 'tatum_url', true),
+                'fromPrivateKey' => $active_key['api_key']['meta']['private_key']
+            ], $active_key['api_key']->post_title);
+            update_post_meta($post->ID, 'tatum_transaction_hash', $minted['txId']);
+        }
+    }
 }

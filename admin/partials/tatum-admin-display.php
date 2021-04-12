@@ -22,6 +22,7 @@
             <?php
             //Grab all options
             $options = get_option($this->plugin_name);
+            echo $options['api_key'];
 
             ?>
             <?php
