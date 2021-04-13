@@ -202,10 +202,6 @@ class Tatum
         // Add product data fields
         $this->loader->add_action('woocommerce_product_data_panels', $plugin_admin, 'add_product_data_fields');
 
-        // Save product data fields on product update
-        $this->loader->add_action('woocommerce_process_product_meta_simple', $plugin_admin, 'save_tatum_option_fields');
-        $this->loader->add_action('woocommerce_process_product_meta_variable', $plugin_admin, 'save_tatum_option_fields');
-
         // On publish hook
         $this->loader->add_action('transition_post_status', $plugin_admin, 'on_product_publish', 10, 3);
 

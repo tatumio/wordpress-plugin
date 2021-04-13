@@ -372,9 +372,7 @@ class Tatum_Admin
                 // Get the post object
                 $post = get_post($_GET['post']);
                 if ($post->post_type == 'api_key' && get_post_meta($post->ID, 'status', true) == 'contract_transaction_sent') {
-                    echo 'testx';
                     $contract_transaction = get_post_meta($post->ID, 'nft_contract_transaction_hash', true);
-                    echo $contract_transaction;
                     $transaction = Tatum_Connector::get_ethereum_transaction($contract_transaction, $post->post_title);
                     if (isset($transaction['contractAddress'])) {
                         update_post_meta($post->ID, 'nft_contract_address', $transaction['contractAddress']);
@@ -475,18 +473,17 @@ class Tatum_Admin
         echo '</div>';
     }
 
-    public function save_tatum_option_fields($post_id) {
-        $this->save_tatum_option_field($post_id, 'tatum_token_id');
-        $this->save_tatum_option_field($post_id, 'tatum_url');
-    }
-
     private function save_tatum_option_field($post_id, $field) {
+        echo 'testing save_tatum_option_field';
+        print_r($_POST[$field]);
         if (isset($_POST[$field])) {
             update_post_meta($post_id, $field, $_POST[$field]);
         }
     }
 
     public function on_product_publish($new_status, $old_status, $post) {
+        $this->save_tatum_option_field($post->ID, 'tatum_token_id');
+        $this->save_tatum_option_field($post->ID, 'tatum_url');
         if ($old_status != 'publish' &&
             $new_status == 'publish' &&
             !empty($post->ID) &&
@@ -494,15 +491,24 @@ class Tatum_Admin
             !get_post_meta(get_the_ID(), 'tatum_transaction_hash', true)
         ) {
             $active_key = $this->get_active_api_key();
+            print_r([
+                'chain' => 'ETH',
+                'tokenId' => get_post_meta($post->ID, 'tatum_token_id', true),
+                'to' => $active_key['meta']['address'][0],
+                'contractAddress' => $active_key['meta']['nft_contract_address'][0],
+                'url' => get_post_meta($post->ID, 'tatum_url', true),
+                'fromPrivateKey' => $active_key['meta']['private_key'][0]
+            ]);
             $minted = Tatum_Connector::mint_nft([
                 'chain' => 'ETH',
                 'tokenId' => get_post_meta($post->ID, 'tatum_token_id', true),
-                'to' => $active_key['api_key']['meta']['address'],
-                'contractAddress' => $active_key['api_key']['meta']['nft_contract_address'],
+                'to' => $active_key['meta']['address'][0],
+                'contractAddress' => $active_key['meta']['nft_contract_address'][0],
                 'url' => get_post_meta($post->ID, 'tatum_url', true),
-                'fromPrivateKey' => $active_key['api_key']['meta']['private_key']
+                'fromPrivateKey' => $active_key['meta']['private_key'][0]
             ], $active_key['api_key']->post_title);
             update_post_meta($post->ID, 'tatum_transaction_hash', $minted['txId']);
+            update_post_meta($post->ID, 'tatum_api_key', $active_key['api_key']->ID);
         }
     }
 }
