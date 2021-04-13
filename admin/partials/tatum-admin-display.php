@@ -45,6 +45,15 @@
                         </select>
                     </td>
                 </tr>
+                <tbody>
+                <tr>
+                    <th><label for="automatic_minting">Automatic product minting</label></th>
+                    <td>
+                        <input type="checkbox" name="<?= $this->plugin_name ?>[automatic_minting]"
+                               id="<?= $this->plugin_name ?>_automatic_minting"
+                            <?= isset($options['automatic_minting']) ? 'checked' : '' ?>/>
+                    </td>
+                </tr>
                 </tbody>
             </table>
             <!-- Optional title for quotes list -->
