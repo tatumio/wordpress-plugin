@@ -22,7 +22,7 @@
             <?php
             //Grab all options
             $options = get_option($this->plugin_name);
-
+            $active_api_key = $this->get_active_api_key();
             ?>
             <?php
             settings_fields($this->plugin_name);
@@ -36,7 +36,11 @@
                     <td>
                         <select name="<?= $this->plugin_name ?>[api_key]" id="<?= $this->plugin_name ?>_api_key">
                             <?php foreach ($this->get_contract_address_obtained_api_keys() as $key): ?>
-                                <option value="<?= $key->post_title ?>"><?= $key->post_title ?></option>
+                                <option value="<?= $key->post_title ?>"
+                                    <?= $key->ID == $active_api_key['api_key']->ID ? 'selected' : '' ?>
+                                >
+                                    <?= $key->post_title ?>
+                                </option>
                             <?php endforeach; ?>
                         </select>
                     </td>

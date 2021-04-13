@@ -407,14 +407,13 @@ class Tatum_Admin
     }
 
     public function get_contract_address_obtained_api_keys() {
-        $args = array(
+        return get_posts([
             'post_type' => 'api_key',
             'meta_key' => 'status',
             'meta_value' => 'contract_address_obtained',
             'post_per_page' => 100, /* add a reasonable max # rows */
             'no_found_rows' => true, /* don't generate a count as part of query, unless you need it. */
-        );
-        return get_posts($args);
+        ]);
     }
 
     // Woocommerce methods
@@ -429,10 +428,8 @@ class Tatum_Admin
 
     public function get_active_api_key() {
         $options = get_option($this->plugin_name);
-        echo $options['api_key'];
         $args = array('post_type' => 'api_key', 'title' => $options['api_key']);
         $api_keys = get_posts($args);
-        print_r($api_keys);
         if (empty($api_keys)) {
             return null;
         }
@@ -474,8 +471,6 @@ class Tatum_Admin
     }
 
     private function save_tatum_option_field($post_id, $field) {
-        echo 'testing save_tatum_option_field';
-        print_r($_POST[$field]);
         if (isset($_POST[$field])) {
             update_post_meta($post_id, $field, $_POST[$field]);
         }
@@ -491,14 +486,6 @@ class Tatum_Admin
             !get_post_meta(get_the_ID(), 'tatum_transaction_hash', true)
         ) {
             $active_key = $this->get_active_api_key();
-            print_r([
-                'chain' => 'ETH',
-                'tokenId' => get_post_meta($post->ID, 'tatum_token_id', true),
-                'to' => $active_key['meta']['address'][0],
-                'contractAddress' => $active_key['meta']['nft_contract_address'][0],
-                'url' => get_post_meta($post->ID, 'tatum_url', true),
-                'fromPrivateKey' => $active_key['meta']['private_key'][0]
-            ]);
             $minted = Tatum_Connector::mint_nft([
                 'chain' => 'ETH',
                 'tokenId' => get_post_meta($post->ID, 'tatum_token_id', true),
