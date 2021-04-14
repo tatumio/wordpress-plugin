@@ -101,7 +101,7 @@ class Tatum_Public
 
     }
 
-    public function woocommerce_add_custom_address_checkout_field($checkout) {
+    public function woocommerce_add_address_checkout($checkout) {
         echo '<div id="custom_checkout_field">';
 
         woocommerce_form_field('recipient_blockchain_address', array(
@@ -118,9 +118,23 @@ class Tatum_Public
         echo '</div>';
     }
 
+    public function woocommerce_validate_address_checkout() {
+        if ($_POST['recipient_blockchain_address'] && substr($_POST['recipient_blockchain_address'], 0, 2) !== "0x")
+            wc_add_notice(__('Please enter valid format of your ETH address.'), 'error');
+    }
+
+    public function woocommerce_save_address_checkout($order_id) {
+        if (!empty($_POST['recipient_blockchain_address'])) {
+            update_post_meta($order_id, 'recipient_blockchain_address', sanitize_text_field($_POST['recipient_blockchain_address']));
+        }
+    }
+
+    public function woocommerce_display_address_on_admin_order_page($order) {
+        echo '<p><strong>' . __('Recipient Address') . ':</strong> ' . get_post_meta($order->get_id(), 'recipient_blockchain_address', true) . '</p>';
+    }
+
     public function woocommerce_order_set_to_processing($order_id) {
-        $order = new WC_Order( $order_id );
-        print_r($order);
+        print_r(get_post_meta( $order_id, 'recipient_blockchain_address', true ));
         exit();
     }
 
