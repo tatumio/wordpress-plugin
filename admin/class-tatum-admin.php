@@ -121,7 +121,7 @@ class Tatum_Admin
         $opts['has_archive'] = FALSE;
         $opts['hierarchical'] = FALSE;
         $opts['map_meta_cap'] = TRUE;
-        $opts['menu_icon'] = 'dashicons-businessman';
+        $opts['menu_icon'] = 'data:image/svg+xml;base64,' . base64_encode('<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><defs><style>.cls-1{fill:#9da1a7;}</style></defs><title>icon</title><path class="cls-1" d="M84.89,60.42H57.22V111.2H84.89Z"/><path class="cls-1" d="M120.44,22.61H69.62V48h50.82Z"/><path class="cls-1" d="M57.22,35H6.44V60.42H57.22Z"/></svg>');
         $opts['menu_position'] = 25;
         $opts['public'] = FALSE;
         $opts['publicly_querable'] = FALSE;
