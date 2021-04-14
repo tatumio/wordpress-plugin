@@ -221,6 +221,9 @@ class Tatum
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
 
+        // Add address checkout field
+        $this->loader->add_action('woocommerce_before_checkout_billing_form', $plugin_public, 'woocommerce_add_custom_address_checkout_field');
+        $this->loader->add_action('woocommerce_order_status_processing', $plugin_public, 'woocommerce_order_set_to_processing');
     }
 
     /**
