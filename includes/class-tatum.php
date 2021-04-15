@@ -209,6 +209,12 @@ class Tatum
         // On publish hook
         $this->loader->add_action('transition_post_status', $plugin_admin, 'on_product_publish', 10, 3);
 
+        // Add column header with transaction hash to order items table
+        $this->loader->add_action('woocommerce_admin_order_item_headers', $plugin_admin, 'woocommerce_add_transaction_header_column', 10, 1);
+
+        // Add column data with transaction hash to order items table
+        $this->loader->add_action('woocommerce_admin_order_item_values', $plugin_admin, 'woocommerce_add_transaction_data_column', 10, 3);
+
     }
 
     /**

@@ -510,4 +510,20 @@ class Tatum_Admin
             update_post_meta($post->ID, 'tatum_api_key', $active_key['api_key']->ID);
         }
     }
+
+    public function woocommerce_add_transaction_header_column($order) {
+        ?>
+        <th class="line_transfer_hash sortable" data-sort="your-sort-option">
+            Transaction hash
+        </th>
+        <?php
+    }
+
+    public function woocommerce_add_transaction_data_column($product, $item, $item_id) {
+        ?>
+        <td class="line_transfer_hash">
+            <?= get_post_meta($product->get_id(), 'tatum_transaction_hash', true); ?>
+        </td>
+        <?php
+    }
 }
