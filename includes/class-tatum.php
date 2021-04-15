@@ -123,6 +123,10 @@ class Tatum
          */
         require_once plugin_dir_path(dirname(__FILE__)) . 'public/class-tatum-public.php';
 
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-tatum-connector.php';
+
+        require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-tatum-address-validator.php';
+
         $this->loader = new Tatum_Loader();
 
     }

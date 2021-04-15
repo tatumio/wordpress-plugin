@@ -1,0 +1,5 @@
+{
+    "require": {
+        "greensea/keccak": "^1.0"
+    }
+}

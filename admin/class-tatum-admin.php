@@ -1,5 +1,4 @@
 <?php
-require_once 'class-tatum-connector.php';
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -438,6 +437,7 @@ class Tatum_Admin
 
     public function add_product_data_fields() {
         $is_minted = get_post_meta(get_the_ID(), 'tatum_transaction_hash', true);
+        $transfer_hash = get_post_meta(get_the_ID(), 'tatum_transfer_hash', true);
         echo '<div id="tatum_product_data" class="panel woocommerce_options_panel hidden">';
 
         woocommerce_wp_text_input(array_merge(array(
@@ -466,7 +466,19 @@ class Tatum_Admin
                 'description' => 'Transaction hash',
                 'custom_attributes' => array('readonly' => 'readonly')
             ));
+
+            if ($transfer_hash) {
+                woocommerce_wp_text_input(array(
+                    'id' => 'tatum_transfer_hash',
+                    'value' => $transfer_hash,
+                    'label' => 'Transfer hash',
+                    'description' => 'Transfer hash',
+                    'custom_attributes' => array('readonly' => 'readonly')
+                ));
+            }
         }
+
+
         echo '</div>';
     }
 

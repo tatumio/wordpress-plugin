@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The public-facing functionality of the plugin.
  *
@@ -119,8 +118,10 @@ class Tatum_Public
     }
 
     public function woocommerce_validate_address_checkout() {
-        if ($_POST['recipient_blockchain_address'] && substr($_POST['recipient_blockchain_address'], 0, 2) !== "0x")
+        $tatum_address_validator = new Tatum_Address_Validator();
+        if (isset($_POST['recipient_blockchain_address']) && !$tatum_address_validator->isETHAddress($_POST['recipient_blockchain_address'])) {
             wc_add_notice(__('Please enter valid format of your ETH address.'), 'error');
+        }
     }
 
     public function woocommerce_save_address_checkout($order_id) {
@@ -134,8 +135,25 @@ class Tatum_Public
     }
 
     public function woocommerce_order_set_to_processing($order_id) {
-        print_r(get_post_meta( $order_id, 'recipient_blockchain_address', true ));
-        exit();
+        $order = new WC_Order($order_id);
+        foreach ($order->get_items() as $item_id => $item) {
+            $product_id = $item->get_product_id();
+            $mint_hash = get_post_meta($product_id, 'tatum_transaction_hash', true);
+            $tatum_api_key_id = get_post_meta($product_id, 'tatum_api_key', true);
+            $api_key = get_post($tatum_api_key_id);
+            $contract_address = get_post_meta($tatum_api_key_id, 'nft_contract_address', true);
+            $private_key = get_post_meta($tatum_api_key_id, 'private_key', true);
+            if ($mint_hash && $api_key) {
+                $response = Tatum_Connector::transfer_nft_token([
+                    'to' => get_post_meta($order_id, 'recipient_blockchain_address', true),
+                    'chain' => 'ETH',
+                    'tokenId' => get_post_meta($product_id, 'tatum_token_id', true),
+                    'contractAddress' => $contract_address,
+                    'fromPrivateKey' => $private_key
+                ], $api_key->post_title);
+                update_post_meta($product_id, 'tatum_transfer_hash', $response['txId']);
+            }
+        }
     }
 
 }
