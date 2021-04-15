@@ -168,7 +168,7 @@ class Tatum
         $plugin_basename = plugin_basename(plugin_dir_path(__DIR__) . $this->plugin_name . '.php');
 
         // Add custom post type
-        $this->loader->add_action('init', $plugin_admin, 'new_cpt_rdm_quote');
+        $this->loader->add_action('init', $plugin_admin, 'new_api_key_post_type');
 
         $this->loader->add_filter('plugin_action_links_' . $plugin_basename, $plugin_admin, 'add_action_links');
 

@@ -101,13 +101,13 @@ class Tatum_Admin
     }
 
     /**
-     * Creates a new custom post type
+     * Creates a new api key post type
      *
      * @since 1.0.0
      * @access public
      * @uses register_post_type()
      */
-    public function new_cpt_rdm_quote() {
+    public function new_api_key_post_type() {
         $cap_type = 'post';
         $plural = 'Api keys';
         $single = 'Api key';
@@ -491,11 +491,12 @@ class Tatum_Admin
     public function on_product_publish($new_status, $old_status, $post) {
         $this->save_tatum_option_field($post->ID, 'tatum_token_id');
         $this->save_tatum_option_field($post->ID, 'tatum_url');
-        if ($old_status != 'publish' &&
-            $new_status == 'publish' &&
+        if ($new_status == 'publish' &&
             !empty($post->ID) &&
             in_array($post->post_type, array('product')) &&
-            !get_post_meta(get_the_ID(), 'tatum_transaction_hash', true)
+            !get_post_meta(get_the_ID(), 'tatum_transaction_hash', true) &&
+            !empty($_POST['tatum_token_id']) &&
+            !empty($_POST['tatum_url'])
         ) {
             $active_key = $this->get_active_api_key();
             $minted = Tatum_Connector::mint_nft([
