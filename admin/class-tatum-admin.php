@@ -1,4 +1,5 @@
 <?php
+// TODO: disable deleting api keys
 /**
  * The admin-specific functionality of the plugin.
  *
@@ -291,6 +292,7 @@ class Tatum_Admin
             update_post_meta($post->ID, 'status', 'wallet_generated');
 
             add_filter('redirect_post_location', array($this, 'add_notice_query_var'), 99);
+
         } catch (Exception $error) {
             // TODO: handle error
             print_r($error);
@@ -300,13 +302,13 @@ class Tatum_Admin
 
     public function create_smart_contract($post) {
         try {
-            $nft_contract_name = $_POST['nft_contract_name'];
-            $nft_contract_symbol = $_POST['nft_contract_symbol'];
-            if (empty($nft_contract_name) || empty($nft_contract_symbol)) {
+            if (!isset($_POST['nft_contract_name']) || !isset($_POST['nft_contract_symbol'])) {
                 // TODO: show error notification
                 echo 'contract name and symbol must be specified';
                 exit();
             }
+            $nft_contract_name = $_POST['nft_contract_name'];
+            $nft_contract_symbol = $_POST['nft_contract_symbol'];
             $address = get_post_meta($post->ID, 'address', true);
             $private_key = get_post_meta($post->ID, 'private_key', true);
             update_post_meta($post->ID, 'nft_contract_name', $nft_contract_name);
@@ -376,6 +378,7 @@ class Tatum_Admin
                     if (isset($transaction['contractAddress'])) {
                         update_post_meta($post->ID, 'nft_contract_address', $transaction['contractAddress']);
                         update_post_meta($post->ID, 'status', 'contract_address_obtained');
+                        update_post_meta($post->ID, 'automatic_minting_index', 0);
                     }
                 }
             }
@@ -427,12 +430,20 @@ class Tatum_Admin
 
     public function get_active_api_key() {
         $options = get_option($this->plugin_name);
-        $args = array('post_type' => 'api_key', 'title' => $options['api_key']);
+        $api_key = $this->get_api_key_by_title($options['api_key']);
+        if ($api_key) {
+            return ['api_key' => $api_key, 'meta' => get_post_meta($api_key->ID)];
+        }
+        return null;
+    }
+
+    public function get_api_key_by_title($title) {
+        $args = array('post_type' => 'api_key', 'title' => $title);
         $api_keys = get_posts($args);
         if (empty($api_keys)) {
             return null;
         }
-        return ['api_key' => $api_keys[0], 'meta' => get_post_meta($api_keys[0]->ID)];
+        return $api_keys[0];
     }
 
     public function add_product_data_fields() {
@@ -451,8 +462,8 @@ class Tatum_Admin
                 array(
                     'id' => 'tatum_url',
                     'value' => get_post_meta(get_the_ID(), 'tatum_url', true),
-                    'label' => 'Token Url',
-                    'description' => 'Metadata of the token.'
+                    'label' => 'URL Metadata of the token',
+                    'description' => 'URL Metadata of the token.'
                 ),
                 $is_minted ? ['custom_attributes' => array('readonly' => 'readonly')] : []
             )
@@ -489,22 +500,37 @@ class Tatum_Admin
     }
 
     public function on_product_publish($new_status, $old_status, $post) {
-        $this->save_tatum_option_field($post->ID, 'tatum_token_id');
-        $this->save_tatum_option_field($post->ID, 'tatum_url');
-        if ($new_status == 'publish' &&
-            !empty($post->ID) &&
+        $active_key = $this->get_active_api_key();
+        if ($new_status == 'publish' && !empty($post->ID) &&
             in_array($post->post_type, array('product')) &&
             !get_post_meta(get_the_ID(), 'tatum_transaction_hash', true) &&
-            !empty($_POST['tatum_token_id']) &&
-            !empty($_POST['tatum_url'])
-        ) {
+            $active_key) {
+            $options = get_option($this->plugin_name);
+            if ($options['automatic_minting']) {
+                $options = get_option($this->plugin_name);
+                $this->mint_token($post, $new_status, $active_key['meta']['automatic_minting_index'], $options['metadata_url']);
+
+                // increment minting index
+                update_post_meta($active_key['api_key']->ID, 'automatic_minting_index', $active_key['meta']['automatic_minting_index'] + 1);
+            } else {
+                $this->save_tatum_option_field($post->ID, 'tatum_token_id');
+                $this->save_tatum_option_field($post->ID, 'tatum_url');
+                $tatum_token_id = get_post_meta($post->ID, 'tatum_token_id', true);
+                $tatum_url = get_post_meta($post->ID, 'tatum_url', true);
+                $this->mint_token($post, $new_status, $tatum_token_id, $tatum_url);
+            }
+        }
+    }
+
+    public function mint_token($post, $new_status, $tatum_token_id, $tatum_url) {
+        if (!empty($tatum_token_id) && !empty($tatum_url)) {
             $active_key = $this->get_active_api_key();
             $minted = Tatum_Connector::mint_nft([
                 'chain' => 'ETH',
-                'tokenId' => get_post_meta($post->ID, 'tatum_token_id', true),
+                'tokenId' => $tatum_token_id,
                 'to' => $active_key['meta']['address'][0],
                 'contractAddress' => $active_key['meta']['nft_contract_address'][0],
-                'url' => get_post_meta($post->ID, 'tatum_url', true),
+                'url' => $tatum_url,
                 'fromPrivateKey' => $active_key['meta']['private_key'][0]
             ], $active_key['api_key']->post_title);
             update_post_meta($post->ID, 'tatum_transaction_hash', $minted['txId']);

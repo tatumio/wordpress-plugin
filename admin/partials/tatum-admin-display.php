@@ -45,7 +45,6 @@
                         </select>
                     </td>
                 </tr>
-                <tbody>
                 <tr>
                     <th><label for="automatic_minting">Automatic product minting</label></th>
                     <td>
@@ -54,7 +53,14 @@
                             <?= isset($options['automatic_minting']) ? 'checked' : '' ?>/>
                     </td>
                 </tr>
-                </tbody>
+                <tr>
+                    <th><label for="url">URL of metadata token</label></th>
+                    <td>
+                        <input type="text" name="<?= $this->plugin_name ?>[metadata_url]"
+                               id="<?= $this->plugin_name ?>_metadata_url" value="<?= isset($options['metadata_url']) ? $options['metadata_url'] : '' ?>"/>
+                        <p class="description">If you checked automatic product minting, please provide URL of metadata which will be set to each token on minting.</p>
+                    </td>
+                </tr>
             </table>
             <!-- Optional title for quotes list -->
 
