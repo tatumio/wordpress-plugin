@@ -181,7 +181,7 @@ class Tatum_Admin {
 
 		?>
         <table class="form-table">
-			<?php $this->render_status($post); ?>
+			<?php $this->render_status( $post ); ?>
 			<?php $this->render_meta_input( $post, 'mnemonic', 'Mnemonic', true ); ?>
 			<?php $this->render_meta_input( $post, 'xpub', 'Xpub', true ); ?>
 			<?php $this->render_meta_input( $post, 'address', 'Address', true ); ?>
@@ -233,13 +233,13 @@ class Tatum_Admin {
 		<?php
 	}
 
-	public function render_status(WP_Post $post) {
+	public function render_status( WP_Post $post ) {
 		$status = $this->format_api_key_status( get_post_meta( $post->ID, 'status', true ) );
 		?>
         <tr>
             <th><label>Status</label></th>
             <td>
-                <?= $status ?>
+				<?= $status ?>
             </td>
         </tr>
 		<?php
@@ -299,6 +299,11 @@ class Tatum_Admin {
 		remove_post_type_support( 'api_key', 'editor' );
 	}
 
+	public function post_published( $messages ) {
+		unset( $messages['api_key'][6] );
+		return $messages;
+	}
+
 	public function change_title( $title ): string {
 		$screen = get_current_screen();
 		if ( $screen->post_type == 'api_key' ) {
@@ -311,7 +316,7 @@ class Tatum_Admin {
 	public function generate_wallet( $post ) {
 		try {
 			$response = Tatum_Connector::get_api_version( $post->post_title );
-			$this->admin_notice( 'success', 'Your api key was successfully set. You are using Tatum version ' . $response['version'] . '. Now you can generate your wallet.' );
+			$this->add_flash_notice( 'Your API key was added and your wallet was generated. Now you should send funds to the address and deploy NFT contract.', "success" );
 			$response = Tatum_Connector::generate_ethereum_wallet( $post->post_title );
 			update_post_meta( $post->ID, 'mnemonic', $response['mnemonic'] );
 			update_post_meta( $post->ID, 'xpub', $response['xpub'] );
@@ -324,12 +329,8 @@ class Tatum_Admin {
 			update_post_meta( $post->ID, 'private_key', $response['key'] );
 			update_post_meta( $post->ID, 'status', 'wallet_generated' );
 
-			add_filter( 'redirect_post_location', array( $this, 'add_notice_query_var' ), 99 );
-
 		} catch ( Exception $error ) {
-			// TODO: handle error
-			print_r( $error );
-			exit();
+			$this->add_flash_notice( 'Cannot add the entered API key, please check that you are submitted a valid API key.', "error" );
 		}
 	}
 
@@ -369,23 +370,6 @@ class Tatum_Admin {
 		}
 	}
 
-	public function add_notice_query_var( $location ) {
-		remove_filter( 'redirect_post_location', array( $this, 'add_notice_query_var' ), 99 );
-
-		return add_query_arg( array( 'YOUR_QUERY_VAR' => 'ID' ), $location );
-	}
-
-	public function admin_notices() {
-		if ( ! isset( $_GET['YOUR_QUERY_VAR'] ) ) {
-			return;
-		}
-		?>
-        <div class="updated">
-            <p><?php esc_html_e( 'YOUR MESSAGE', 'text-domain' ); ?></p>
-        </div>
-		<?php
-	}
-
 	public function change_publish_button( $translation, $text ) {
 		if ( 'api_key' == get_post_type() ) {
 			if ( $text == 'Publish' || $text == 'Update' ) {
@@ -397,10 +381,9 @@ class Tatum_Admin {
 
 	}
 
-	public function admin_notice( $type, $message ) { ?>
-    <div class="notice notice-<?php echo $type; ?> is-dismissible">
-        <p> <?php echo $message ?> </p>
-        </div><?php
+	// Just keep this function to run
+	// $this->loader->add_action('admin_notices', $plugin_admin, 'display_flash_notices'); in class-tatum.php
+	public function admin_notices() {
 	}
 
 	public function obtain_contract_address() {
@@ -542,6 +525,57 @@ class Tatum_Admin {
 
 
 		echo '</div>';
+	}
+
+	/**
+	 * Add a flash notice to {prefix}options table until a full page refresh is done
+	 *
+	 * @param string $notice our notice message
+	 * @param string $type This can be "info", "warning", "error" or "success", "warning" as default
+	 * @param boolean $dismissible set this to TRUE to add is-dismissible functionality to your notice
+	 *
+	 * @return void
+	 */
+
+	public function add_flash_notice( $notice = "", $type = "warning", $dismissible = true ) {
+		// Here we return the notices saved on our option, if there are not notices, then an empty array is returned
+		$notices = get_option( "my_flash_notices", array() );
+
+		$dismissible_text = ( $dismissible ) ? "is-dismissible" : "";
+
+		// We add our new notice.
+		array_push( $notices, array(
+			"notice"      => $notice,
+			"type"        => $type,
+			"dismissible" => $dismissible_text
+		) );
+
+		// Then we update the option with our notices array
+		update_option( "my_flash_notices", $notices );
+	}
+
+	/**
+	 * Function executed when the 'admin_notices' action is called, here we check if there are notices on
+	 * our database and display them, after that, we remove the option to prevent notices being displayed forever.
+	 * @return void
+	 */
+
+	public function display_flash_notices() {
+		$notices = get_option( "my_flash_notices", array() );
+
+		// Iterate through our notices to be displayed and print them.
+		foreach ( $notices as $notice ) {
+			printf( '<div class="notice notice-%1$s %2$s"><p>%3$s</p></div>',
+				$notice['type'],
+				$notice['dismissible'],
+				$notice['notice']
+			);
+		}
+
+		// Now we reset our options to prevent notices being displayed forever.
+		if ( ! empty( $notices ) ) {
+			delete_option( "my_flash_notices", array() );
+		}
 	}
 
 	private function save_tatum_option_field( $post_id, $field ) {

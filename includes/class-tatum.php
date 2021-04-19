@@ -191,10 +191,8 @@ class Tatum
 
         $this->loader->add_action('save_post_api_key', $plugin_admin, 'save_post', 10, 3);
 
-
         // Change post columns
         $this->loader->add_filter('manage_api_key_posts_columns', $plugin_admin, 'change_post_columns', 10, 1);
-
 
         // Fill post columns
         $this->loader->add_action('manage_api_key_posts_custom_column', $plugin_admin, 'fill_custom_columns', 10, 2);
@@ -215,6 +213,11 @@ class Tatum
         // Add column data with transaction hash to order items table
         $this->loader->add_action('woocommerce_admin_order_item_values', $plugin_admin, 'woocommerce_add_transaction_data_column', 10, 3);
 
+	    // We add our display_flash_notices function to the admin_notices
+        $this->loader->add_action('admin_notices', $plugin_admin, 'display_flash_notices');
+
+        // Remove post published message
+	    $this->loader->add_filter('post_updated_messages', $plugin_admin, 'post_published');
     }
 
     /**
