@@ -176,11 +176,12 @@ class Tatum_Admin {
 		}
 	}
 
-	public function render_meta_box( $post ) {
+	public function render_meta_box( WP_Post $post ) {
 		wp_nonce_field( 'tatum_nonce', 'tatum_nonce' );
+
 		?>
         <table class="form-table">
-			<?php $this->render_meta_input( $post, 'status', 'Status', true, 'Draft' ); ?>
+			<?php $this->render_status($post); ?>
 			<?php $this->render_meta_input( $post, 'mnemonic', 'Mnemonic', true ); ?>
 			<?php $this->render_meta_input( $post, 'xpub', 'Xpub', true ); ?>
 			<?php $this->render_meta_input( $post, 'address', 'Address', true ); ?>
@@ -227,6 +228,18 @@ class Tatum_Admin {
                        size="50"
 					<?php echo $readonly ? 'readonly' : ''; ?>
                 />
+            </td>
+        </tr>
+		<?php
+	}
+
+	public function render_status(WP_Post $post) {
+		$status = $this->format_api_key_status( get_post_meta( $post->ID, 'status', true ) );
+		?>
+        <tr>
+            <th><label>Status</label></th>
+            <td>
+                <?= $status ?>
             </td>
         </tr>
 		<?php
@@ -417,8 +430,18 @@ class Tatum_Admin {
 
 	public function fill_custom_columns( $column_name, $post_id ) {
 		if ( $column_name == 'status' ) {
-			echo get_post_meta( $post_id, 'status', true );
+			echo $this->format_api_key_status( get_post_meta( $post_id, 'status', true ) );
 		}
+	}
+
+	public function format_api_key_status( $status ) {
+		$formatted_status = [
+			'contract_address_obtained' => 'NFT Contract address set up! You are ready to mint tokens!',
+			'contract_transaction_sent' => 'NFT Contract sent, waiting for obtaining contract address.',
+			'wallet_generated'          => 'Wallet generated'
+		];
+
+		return $formatted_status[ $status ];
 	}
 
 	public function save_post( $post_ID, $post, $update ) {
@@ -474,7 +497,7 @@ class Tatum_Admin {
 	}
 
 	public function add_product_data_fields() {
-		$options = get_option( $this->plugin_name );
+		$options       = get_option( $this->plugin_name );
 		$is_minted     = get_post_meta( get_the_ID(), 'tatum_transaction_hash', true );
 		$transfer_hash = get_post_meta( get_the_ID(), 'tatum_transfer_hash', true );
 		echo '<div id="tatum_product_data" class="panel woocommerce_options_panel hidden">';
