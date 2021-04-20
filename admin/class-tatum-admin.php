@@ -300,7 +300,21 @@ class Tatum_Admin {
 	}
 
 	public function post_published( $messages ) {
-		unset( $messages['api_key'][6] );
+		$messages['api_key'] = array(
+			0  => null,
+			1  => null,
+			2  => null,
+			3  => null,
+			4  => null,
+			5  => null,
+			6  => null,
+			7  => null,
+			8  => null,
+			9  => null,
+			10 => null,
+			11 => null,
+		);
+
 		return $messages;
 	}
 
@@ -337,23 +351,23 @@ class Tatum_Admin {
 	public function create_smart_contract( $post ) {
 		try {
 			if ( ! isset( $_POST['nft_contract_name'] ) || ! isset( $_POST['nft_contract_symbol'] ) ) {
-				// TODO: show error notification
-				echo 'contract name and symbol must be specified';
-				exit();
+				$this->add_flash_notice( 'Contract name and symbol must be specified.', "error" );
+
+				return;
 			}
+
 			$nft_contract_name   = $_POST['nft_contract_name'];
 			$nft_contract_symbol = $_POST['nft_contract_symbol'];
 			$address             = get_post_meta( $post->ID, 'address', true );
 			$private_key         = get_post_meta( $post->ID, 'private_key', true );
 			update_post_meta( $post->ID, 'nft_contract_name', $nft_contract_name );
 			update_post_meta( $post->ID, 'nft_contract_symbol', $nft_contract_symbol );
-
 			$balance = Tatum_Connector::get_ethereum_balance( $address, $post->post_title );
 			if ( $balance['balance'] == 0 ) {
-				// TODO: show error notification
-				echo 'balance is zero';
-				exit();
+				$this->add_flash_notice( 'Your balance on address should not be zero.', "error" );
+				return;
 			}
+
 			$response = Tatum_Connector::deploy_nft_smart_contract( [
 				'name'           => $nft_contract_name,
 				'symbol'         => $nft_contract_symbol,
@@ -362,11 +376,8 @@ class Tatum_Admin {
 			], $post->post_title );
 			update_post_meta( $post->ID, 'nft_contract_transaction_hash', $response['txId'] );
 			update_post_meta( $post->ID, 'status', 'contract_transaction_sent' );
-			// TODO: add success notification
 		} catch ( Exception $error ) {
-			// TODO: handle error
-			print_r( $error );
-			exit();
+			$this->add_flash_notice( 'There was a problem with deploying your smart contract, please check if you have enough balance.', "error" );
 		}
 	}
 
@@ -391,13 +402,22 @@ class Tatum_Admin {
 			if ( ! empty( $_GET['post'] ) ) {
 				// Get the post object
 				$post = get_post( $_GET['post'] );
-				if ( $post->post_type == 'api_key' && get_post_meta( $post->ID, 'status', true ) == 'contract_transaction_sent' ) {
-					$contract_transaction = get_post_meta( $post->ID, 'nft_contract_transaction_hash', true );
-					$transaction          = Tatum_Connector::get_ethereum_transaction( $contract_transaction, $post->post_title );
-					if ( isset( $transaction['contractAddress'] ) ) {
-						update_post_meta( $post->ID, 'nft_contract_address', $transaction['contractAddress'] );
-						update_post_meta( $post->ID, 'status', 'contract_address_obtained' );
-						update_post_meta( $post->ID, 'automatic_minting_index', 0 );
+				if ( $post->post_type == 'api_key' ) {
+					$status = get_post_meta( $post->ID, 'status', true );
+					if ( $status == 'contract_transaction_sent' ) {
+						$contract_transaction = get_post_meta( $post->ID, 'nft_contract_transaction_hash', true );
+						$transaction          = Tatum_Connector::get_ethereum_transaction( $contract_transaction, $post->post_title );
+						if ( isset( $transaction['contractAddress'] ) ) {
+							update_post_meta( $post->ID, 'nft_contract_address', $transaction['contractAddress'] );
+							update_post_meta( $post->ID, 'status', 'contract_address_obtained' );
+							update_post_meta( $post->ID, 'automatic_minting_index', 0 );
+						} else {
+							$txId = get_post_meta( $post->ID, 'nft_contract_transaction_hash', true );
+							$this->add_flash_notice( 'Your contract was deployed with transaction ' . $txId . '. Wait please till transaction will be added to the block to obtain the contract address. To see if the contract address is obtained refresh page multiple times.', "success" );
+						}
+					}
+					if ( $status == 'contract_address_obtained' ) {
+						$this->add_flash_notice( '🎉 Your contract address is obtained and you are ready to mint your tokens!', "success" );
 					}
 				}
 			}
@@ -418,6 +438,9 @@ class Tatum_Admin {
 	}
 
 	public function format_api_key_status( $status ) {
+		if ( ! $status ) {
+			return 'Api key not submitted';
+		}
 		$formatted_status = [
 			'contract_address_obtained' => 'NFT Contract address set up! You are ready to mint tokens!',
 			'contract_transaction_sent' => 'NFT Contract sent, waiting for obtaining contract address.',
@@ -614,15 +637,7 @@ class Tatum_Admin {
 
 		if ( ! empty( $tatum_token_id ) && ! empty( $tatum_url ) ) {
 			$active_key = $this->get_active_api_key();
-			print_r( [
-				'chain'           => 'ETH',
-				'tokenId'         => $tatum_token_id,
-				'to'              => $active_key['meta']['address'][0],
-				'contractAddress' => $active_key['meta']['nft_contract_address'][0],
-				'url'             => $tatum_url,
-				'fromPrivateKey'  => $active_key['meta']['private_key'][0]
-			] );
-			$minted = Tatum_Connector::mint_nft( [
+			$minted     = Tatum_Connector::mint_nft( [
 				'chain'           => 'ETH',
 				'tokenId'         => $tatum_token_id,
 				'to'              => $active_key['meta']['address'][0],
