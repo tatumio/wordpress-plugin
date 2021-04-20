@@ -48,11 +48,14 @@ class Tatum_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function __construct( $plugin_name, $version ) {
 
+	private Tatum_Connector $tatum_connector;
+
+	public function __construct( $plugin_name, $version ) {
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
-
+		$api_key = $this->get_active_api_key();
+		$this->tatum_connector = new Tatum_Connector($api_key['api_key']->post_title);
 	}
 
 	/**
@@ -248,7 +251,7 @@ class Tatum_Admin {
 
 	public function render_balance( $post ) {
 		$address = get_post_meta( $post->ID, 'address', true );
-		$balance = Tatum_Connector::get_ethereum_balance( $address, $post->post_title );
+		$balance = $this->tatum_connector->get_balance($address);
 		$this->render_input( 'balance', $balance['balance'] === '0' ? '0.0' : $balance['balance'], 'Balance', true );
 	}
 
