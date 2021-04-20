@@ -31,29 +31,19 @@
 
 
     $(document).ready(function () {
-        // function get_status_name(post_status) {
-        //     switch (post_status) {
-        //         case 'wallet_generated':
-        //             return 'Wallet generated';
-        //         case 'contract_transaction_sent':
-        //             return 'Contract transaction sent';
-        //         default:
-        //             return post_status
-        //     }
-        // }
-        //
-        // const post_type = $("#post_type").val()
-        // const post_status = $("#original_post_status").val()
-        // const formatted_post_status = get_status_name(post_status)
-        //
-        // if (post_type === 'rdm-quote' && post_status === 'wallet_generated') {
-        //     $('#title').prop('disabled', true);
-        // }
-        //
-        //
-        // $("#post_status").append(`<option value="${post_status}" selected>${formatted_post_status}</option>`);
-        // $("#post-status-display").append(formatted_post_status);
-        // $(".edit-post-status").css('display', 'none');
+        const post_type = $("#post_type").val()
+        const status = $("#api_key_status").text()
 
+        if (post_type === 'api_key') {
+            $("#misc-publishing-actions").css('display', 'none');
+            $("#delete-action").css('display', 'none');
+            $("#minor-publishing-actions").css('display', 'none');
+            $("#publishing-action").css('text-align', 'center');
+            $("#publishing-action").css('float', 'unset');
+
+            if (['wallet_generated', 'contract_transaction_sent', 'contract_address_obtained'].includes(status)) {
+                $('#title').prop('disabled', true);
+            }
+        }
     });
 })(jQuery);

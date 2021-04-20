@@ -135,7 +135,6 @@ class Tatum_Admin {
 		$opts['capabilities']         = [
 			'edit_post',
 			'read_post',
-			'delete_post',
 			'edit_posts',
 			'edit_others_posts',
 			'read_private_posts'
@@ -234,12 +233,14 @@ class Tatum_Admin {
 	}
 
 	public function render_status( WP_Post $post ) {
-		$status = $this->format_api_key_status( get_post_meta( $post->ID, 'status', true ) );
+	    $status = get_post_meta( $post->ID, 'status', true );
+		$status_formatted = $this->format_api_key_status( $status );
 		?>
         <tr>
+            <span id="api_key_status" style="display: none"><?= $status ?></span>
             <th><label>Status</label></th>
             <td>
-				<?= $status ?>
+				<?= $status_formatted ?>
             </td>
         </tr>
 		<?php
@@ -352,7 +353,6 @@ class Tatum_Admin {
 		try {
 			if ( ! isset( $_POST['nft_contract_name'] ) || ! isset( $_POST['nft_contract_symbol'] ) ) {
 				$this->add_flash_notice( 'Contract name and symbol must be specified.', "error" );
-
 				return;
 			}
 
@@ -365,6 +365,7 @@ class Tatum_Admin {
 			$balance = Tatum_Connector::get_ethereum_balance( $address, $post->post_title );
 			if ( $balance['balance'] == 0 ) {
 				$this->add_flash_notice( 'Your balance on address should not be zero.', "error" );
+
 				return;
 			}
 
@@ -665,5 +666,14 @@ class Tatum_Admin {
 			<?= get_post_meta( $product->get_id(), 'tatum_transaction_hash', true ); ?>
         </td>
 		<?php
+	}
+
+	public function remove_row_actions_post( $actions, $post ) {
+		if ( $post->post_type === 'api_key' ) {
+			unset( $actions['clone'] );
+			unset( $actions['trash'] );
+		}
+
+		return $actions;
 	}
 }

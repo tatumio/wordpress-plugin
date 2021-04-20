@@ -218,6 +218,9 @@ class Tatum
 
         // Remove post published message
 	    $this->loader->add_filter('post_updated_messages', $plugin_admin, 'post_published');
+
+        // Remove api key delete option
+	    $this->loader->add_filter('post_row_actions', $plugin_admin, 'remove_row_actions_post', 10, 2);
     }
 
     /**
