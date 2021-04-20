@@ -65,13 +65,25 @@ class Tatum_Connector
         return self::get('/v3/ethereum/wallet', $api_key);
     }
 
+	public static function generate_celo_wallet( $api_key ) {
+		return self::get('/v3/celo/wallet', $api_key);
+    }
+
     public static function generate_ethereum_account($xpub, $index, $api_key) {
         return self::get('/v3/ethereum/address/'. $xpub . '/'.$index, $api_key);
+    }
+
+	public static function generate_celo_account( $xpub, $index, $api_key ) {
+		return self::get('/v3/celo/address/'. $xpub . '/'.$index, $api_key);
     }
 
     public static function generate_ethereum_private_key($body, $api_key) {
         return self::post('/v3/ethereum/wallet/priv/', $body, $api_key);
     }
+
+	public static function generate_celo_private_key($body, $api_key) {
+		return self::post('/v3/celo/wallet/priv/', $body, $api_key);
+	}
 
     public static function deploy_nft_smart_contract($body, $api_key) {
         return self::post('/v3/nft/deploy', $body, $api_key);

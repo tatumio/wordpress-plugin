@@ -1,5 +1,5 @@
 <?php
-// TODO: disable deleting api keys
+// TODO: add notification when you have small amount of ETH/BSC/CELO
 /**
  * The admin-specific functionality of the plugin.
  *
