@@ -52,11 +52,13 @@ class Tatum_Admin {
 	private Tatum_Connector $tatum_connector;
 
 	public function __construct( $plugin_name, $version ) {
-		$this->plugin_name = $plugin_name;
-		$this->version     = $version;
-		$api_key = $this->get_active_api_key();
-		$this->tatum_connector = new Tatum_Connector($api_key['api_key']->post_title);
+		$this->plugin_name     = $plugin_name;
+		$this->version         = $version;
+		$api_key               = $this->get_active_api_key();
+		$this->tatum_connector = new Tatum_Connector( $api_key['api_key']->post_title );
 	}
+
+	private array $chains = [ 'eth' => 'ETH', 'celo' => 'CELO', 'bsc' => 'BSC' ];
 
 	/**
 	 * Register the stylesheets for the admin area.
@@ -161,6 +163,7 @@ class Tatum_Admin {
 	}
 
 	public function meta_box( $post ) {
+		add_meta_box( 'tatum_chain', 'Chain', array( $this, 'render_meta_chain' ) );
 		if ( in_array( get_post_meta( $post->ID, 'status', true ), [
 			'wallet_generated',
 			'contract_transaction_sent',
@@ -176,6 +179,17 @@ class Tatum_Admin {
 		] ) ) {
 			add_meta_box( 'tatum_nft_meta', 'NFT settings', array( $this, 'render_meta_box_nft' ) );
 		}
+	}
+
+	public function render_meta_chain( WP_Post $post ) {
+		wp_nonce_field( 'tatum_nonce', 'tatum_nonce' );
+		$chain    = $value = get_post_meta( $post->ID, 'chain', true );
+		$selected = $chain ? $this->chains[ $chain ] : null
+		?>
+        <table class="form-table">
+			<?php $this->render_select_input( 'chain', $this->chains, 'Chain', $selected, $selected ); ?>
+        </table>
+		<?php
 	}
 
 	public function render_meta_box( WP_Post $post ) {
@@ -215,10 +229,10 @@ class Tatum_Admin {
 		if ( ! $value ) {
 			$value = $default;
 		}
-		$this->render_input( $name, $value, $label, $readonly );
+		$this->render_text_input( $name, $value, $label, $readonly );
 	}
 
-	public function render_input( $name, $value, $label, $readonly = false ) {
+	public function render_text_input( $name, $value, $label, $readonly = false ) {
 		?>
         <tr>
             <th><label for="<?php echo $name; ?>"><?php echo $label; ?></label></th>
@@ -235,8 +249,23 @@ class Tatum_Admin {
 		<?php
 	}
 
+	public function render_select_input( $name, $options, $label, $selected = null, $readonly = false ) {
+		?>
+        <tr>
+            <th><label for="<?php echo $name; ?>"><?php echo $label; ?></label></th>
+            <td>
+                <select id="<?= $name; ?>" name="<?= $name; ?>" <?php echo $readonly ? 'disabled' : ''; ?>>
+					<?php foreach ( $options as $key => $value ): ?>
+                        <option value="<?= $key; ?>" <?php echo $selected === $key ? 'selected' : ''; ?> ><?= $value; ?></option>
+					<?php endforeach; ?>
+                </select>
+            </td>
+        </tr>
+		<?php
+	}
+
 	public function render_status( WP_Post $post ) {
-	    $status = get_post_meta( $post->ID, 'status', true );
+		$status           = get_post_meta( $post->ID, 'status', true );
 		$status_formatted = $this->format_api_key_status( $status );
 		?>
         <tr>
@@ -251,8 +280,8 @@ class Tatum_Admin {
 
 	public function render_balance( $post ) {
 		$address = get_post_meta( $post->ID, 'address', true );
-		$balance = $this->tatum_connector->get_balance($address);
-		$this->render_input( 'balance', $balance['balance'] === '0' ? '0.0' : $balance['balance'], 'Balance', true );
+		$balance = $this->tatum_connector->get_balance( $address );
+		$this->render_text_input( 'balance', $balance['balance'] === '0' ? '0.0' : $balance['balance'], 'Balance', true );
 	}
 
 	/**
@@ -356,6 +385,7 @@ class Tatum_Admin {
 		try {
 			if ( ! isset( $_POST['nft_contract_name'] ) || ! isset( $_POST['nft_contract_symbol'] ) ) {
 				$this->add_flash_notice( 'Contract name and symbol must be specified.', "error" );
+
 				return;
 			}
 

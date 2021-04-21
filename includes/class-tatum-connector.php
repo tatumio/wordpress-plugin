@@ -103,8 +103,8 @@ class Tatum_Connector {
 		return self::get( '/v3/ethereum/account/balance/' . $address, $api_key );
 	}
 
-	public function get_balance( $address ) {
-		return self::get( '/v3/ethereum/account/balance/' . $address, $this->api_key );
+	public function get_balance( $address, $api_key = null ) {
+		return self::get( '/v3/ethereum/account/balance/' . $address, $api_key ?? $this->api_key );
 	}
 
 	public static function get_celo_balance( $address, $api_key ) {
