@@ -362,6 +362,9 @@ class Tatum_Admin {
 
 	public function generate_wallet( $post ) {
 		try {
+			if ( isset( $_POST['chain'] ) ) {
+				update_post_meta( $post->ID, 'chain', $_POST['chain'] );
+			}
 			$response = Tatum_Connector::get_api_version( $post->post_title );
 			$this->add_flash_notice( 'Your API key was added and your wallet was generated. Now you should send funds to the address and deploy NFT contract.', "success" );
 			$response = Tatum_Connector::generate_ethereum_wallet( $post->post_title );
