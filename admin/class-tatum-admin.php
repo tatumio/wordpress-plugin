@@ -49,16 +49,12 @@ class Tatum_Admin {
 	 * @since    1.0.0
 	 */
 
-	private Tatum_Connector $tatum_connector;
-
 	public function __construct( $plugin_name, $version ) {
-		$this->plugin_name     = $plugin_name;
-		$this->version         = $version;
-		$api_key               = $this->get_active_api_key();
-		$this->tatum_connector = new Tatum_Connector( $api_key['api_key']->post_title );
+		$this->plugin_name = $plugin_name;
+		$this->version     = $version;
 	}
 
-	private array $chains = [ 'eth' => 'ETH', 'celo' => 'CELO', 'bsc' => 'BSC' ];
+	private array $chains = [ 'ETH' => 'ETH', 'CELO' => 'CELO', 'BSC' => 'BSC' ];
 
 	/**
 	 * Register the stylesheets for the admin area.
@@ -163,13 +159,13 @@ class Tatum_Admin {
 	}
 
 	public function meta_box( $post ) {
-		add_meta_box( 'tatum_chain', 'Chain', array( $this, 'render_meta_chain' ) );
+		add_meta_box( 'tatum_chain', 'Chain', array( $this, 'render_meta_chain' ), null, 'advanced', 'high');
 		if ( in_array( get_post_meta( $post->ID, 'status', true ), [
 			'wallet_generated',
 			'contract_transaction_sent',
 			'contract_address_obtained'
 		] ) ) {
-			add_meta_box( 'tatum_meta', 'Wallet settings', array( $this, 'render_meta_box' ) );
+			add_meta_box( 'tatum_meta', 'Wallet settings', array( $this, 'render_meta_box' ), null, 'advanced', 'low' );
 		}
 
 		if ( in_array( get_post_meta( $post->ID, 'status', true ), [
@@ -177,7 +173,7 @@ class Tatum_Admin {
 			'contract_transaction_sent',
 			'contract_address_obtained'
 		] ) ) {
-			add_meta_box( 'tatum_nft_meta', 'NFT settings', array( $this, 'render_meta_box_nft' ) );
+			add_meta_box( 'tatum_nft_meta', 'NFT settings', array( $this, 'render_meta_box_nft' ), null, 'advanced', 'low' );
 		}
 	}
 
@@ -280,8 +276,21 @@ class Tatum_Admin {
 
 	public function render_balance( $post ) {
 		$address = get_post_meta( $post->ID, 'address', true );
-		$balance = $this->tatum_connector->get_balance( $address );
-		$this->render_text_input( 'balance', $balance['balance'] === '0' ? '0.0' : $balance['balance'], 'Balance', true );
+		$chain   = get_post_meta( $post->ID, 'chain', true );
+		$balance = $this->get_address_balance( $chain, $address, $post->post_title );
+
+		$this->render_text_input( 'balance', $balance === '0' ? '0.0' : $balance, 'Balance', true );
+	}
+
+	private function get_address_balance( $chain, $address, $api_key ) {
+		$balance = Tatum_Connector::get_balance( $chain, $address, $api_key );
+
+		if ( $chain === 'CELO' ) {
+			return $balance['celo'];
+		} else {
+			return $balance['balance'];
+		}
+
 	}
 
 	/**
@@ -362,23 +371,28 @@ class Tatum_Admin {
 
 	public function generate_wallet( $post ) {
 		try {
-			if ( isset( $_POST['chain'] ) ) {
-				update_post_meta( $post->ID, 'chain', $_POST['chain'] );
+			$existing_posts = $this->get_api_keys_by_title( $post->post_title );
+			if ( count( $existing_posts )  > 1) {
+				return $this->add_flash_notice( 'API key already exists.', "error" );
 			}
-			$response = Tatum_Connector::get_api_version( $post->post_title );
-			$this->add_flash_notice( 'Your API key was added and your wallet was generated. Now you should send funds to the address and deploy NFT contract.', "success" );
-			$response = Tatum_Connector::generate_ethereum_wallet( $post->post_title );
-			update_post_meta( $post->ID, 'mnemonic', $response['mnemonic'] );
-			update_post_meta( $post->ID, 'xpub', $response['xpub'] );
-			$response = Tatum_Connector::generate_ethereum_account( $response['xpub'], 1, $post->post_title );
-			update_post_meta( $post->ID, 'address', $response['address'] );
-			$response = Tatum_Connector::generate_ethereum_private_key( [
-				'index'    => 1,
-				'mnemonic' => get_post_meta( $post->ID, 'mnemonic', true )
-			], $post->post_title );
-			update_post_meta( $post->ID, 'private_key', $response['key'] );
-			update_post_meta( $post->ID, 'status', 'wallet_generated' );
 
+			if ( isset( $_POST['chain'] ) ) {
+				Tatum_Connector::get_api_version( $post->post_title );
+				$chain = $_POST['chain'];
+				update_post_meta( $post->ID, 'chain', $chain );
+				$response = Tatum_Connector::generate_wallet( $chain, $post->post_title );
+				update_post_meta( $post->ID, 'mnemonic', $response['mnemonic'] );
+				update_post_meta( $post->ID, 'xpub', $response['xpub'] );
+				$response = Tatum_Connector::generate_account( $chain, $response['xpub'], 1, $post->post_title );
+				update_post_meta( $post->ID, 'address', $response['address'] );
+				$response = Tatum_Connector::generate_private_key( $chain, [
+					'index'    => 1,
+					'mnemonic' => get_post_meta( $post->ID, 'mnemonic', true )
+				], $post->post_title );
+				update_post_meta( $post->ID, 'private_key', $response['key'] );
+				update_post_meta( $post->ID, 'status', 'wallet_generated' );
+				$this->add_flash_notice( 'Your API key was added and your wallet was generated. Now you should send funds to the address and deploy NFT contract.', "success" );
+			}
 		} catch ( Exception $error ) {
 			$this->add_flash_notice( 'Cannot add the entered API key, please check that you are submitted a valid API key.', "error" );
 		}
@@ -396,24 +410,32 @@ class Tatum_Admin {
 			$nft_contract_symbol = $_POST['nft_contract_symbol'];
 			$address             = get_post_meta( $post->ID, 'address', true );
 			$private_key         = get_post_meta( $post->ID, 'private_key', true );
+			$chain               = get_post_meta( $post->ID, 'chain', true );
 			update_post_meta( $post->ID, 'nft_contract_name', $nft_contract_name );
 			update_post_meta( $post->ID, 'nft_contract_symbol', $nft_contract_symbol );
-			$balance = Tatum_Connector::get_ethereum_balance( $address, $post->post_title );
-			if ( $balance['balance'] == 0 ) {
+
+			$balance = $this->get_address_balance( $chain, $address, $post->post_title );
+			if ( $balance == 0 ) {
 				$this->add_flash_notice( 'Your balance on address should not be zero.', "error" );
 
 				return;
 			}
 
-			$response = Tatum_Connector::deploy_nft_smart_contract( [
+			$deploy_body = [
 				'name'           => $nft_contract_name,
 				'symbol'         => $nft_contract_symbol,
 				'fromPrivateKey' => $private_key,
-				'chain'          => 'ETH'
-			], $post->post_title );
+				'chain'          => $chain
+			];
+			if ( $chain === 'CELO' ) {
+				$deploy_body['feeCurrency'] = 'CELO';
+			}
+			$response = Tatum_Connector::deploy_nft_smart_contract( $deploy_body, $post->post_title );
 			update_post_meta( $post->ID, 'nft_contract_transaction_hash', $response['txId'] );
 			update_post_meta( $post->ID, 'status', 'contract_transaction_sent' );
 		} catch ( Exception $error ) {
+			print_r( $error );
+			exit();
 			$this->add_flash_notice( 'There was a problem with deploying your smart contract, please check if you have enough balance.', "error" );
 		}
 	}
@@ -443,7 +465,8 @@ class Tatum_Admin {
 					$status = get_post_meta( $post->ID, 'status', true );
 					if ( $status == 'contract_transaction_sent' ) {
 						$contract_transaction = get_post_meta( $post->ID, 'nft_contract_transaction_hash', true );
-						$transaction          = Tatum_Connector::get_ethereum_transaction( $contract_transaction, $post->post_title );
+						$chain                = get_post_meta( $post->ID, 'chain', true );
+						$transaction          = Tatum_Connector::get_transaction( $chain, $contract_transaction, $post->post_title );
 						if ( isset( $transaction['contractAddress'] ) ) {
 							update_post_meta( $post->ID, 'nft_contract_address', $transaction['contractAddress'] );
 							update_post_meta( $post->ID, 'status', 'contract_address_obtained' );
@@ -529,9 +552,14 @@ class Tatum_Admin {
 		return null;
 	}
 
+	public function get_api_keys_by_title( $title ) {
+		$args = array( 'post_type' => 'api_key', 'title' => $title );
+
+		return get_posts( $args );
+	}
+
 	public function get_api_key_by_title( $title ) {
-		$args     = array( 'post_type' => 'api_key', 'title' => $title );
-		$api_keys = get_posts( $args );
+		$api_keys = $this->get_api_keys_by_title($title);
 		if ( empty( $api_keys ) ) {
 			return null;
 		}
@@ -675,7 +703,7 @@ class Tatum_Admin {
 		if ( ! empty( $tatum_token_id ) && ! empty( $tatum_url ) ) {
 			$active_key = $this->get_active_api_key();
 			$minted     = Tatum_Connector::mint_nft( [
-				'chain'           => 'ETH',
+				'chain'           => $active_key['meta']['chain'][0],
 				'tokenId'         => $tatum_token_id,
 				'to'              => $active_key['meta']['address'][0],
 				'contractAddress' => $active_key['meta']['nft_contract_address'][0],

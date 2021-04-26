@@ -3,16 +3,7 @@
 class Tatum_Connector {
 	const TATUM_URL = 'https://api-eu1.tatum.io';
 
-	private string $api_key;
-
-	/**
-	 * Tatum_Connector constructor.
-	 *
-	 * @param $api_key
-	 */
-	public function __construct( $api_key ) {
-		$this->api_key = $api_key;
-	}
+	const BLOCKCHAIN_URL_MAPPING = [ 'ETH' => 'ethereum', 'CELO' => 'celo', 'BSC' => 'bsc' ];
 
 	private static function get( $url, $api_key ) {
 		$ch = curl_init( self::TATUM_URL . $url );
@@ -67,28 +58,16 @@ class Tatum_Connector {
 		return self::get( '/v3/tatum/version', $api_key );
 	}
 
-	public static function generate_ethereum_wallet( $api_key ) {
-		return self::get( '/v3/ethereum/wallet', $api_key );
+	public static function generate_wallet( $chain, $api_key ) {
+		return self::get( '/v3/' . self::BLOCKCHAIN_URL_MAPPING[ $chain ] . '/wallet', $api_key );
 	}
 
-	public static function generate_celo_wallet( $api_key ) {
-		return self::get( '/v3/celo/wallet', $api_key );
+	public static function generate_account( $chain, $xpub, $index, $api_key ) {
+		return self::get( '/v3/' . self::BLOCKCHAIN_URL_MAPPING[ $chain ] . '/address/' . $xpub . '/' . $index, $api_key );
 	}
 
-	public static function generate_ethereum_account( $xpub, $index, $api_key ) {
-		return self::get( '/v3/ethereum/address/' . $xpub . '/' . $index, $api_key );
-	}
-
-	public static function generate_celo_account( $xpub, $index, $api_key ) {
-		return self::get( '/v3/celo/address/' . $xpub . '/' . $index, $api_key );
-	}
-
-	public static function generate_ethereum_private_key( $body, $api_key ) {
-		return self::post( '/v3/ethereum/wallet/priv/', $body, $api_key );
-	}
-
-	public static function generate_celo_private_key( $body, $api_key ) {
-		return self::post( '/v3/celo/wallet/priv/', $body, $api_key );
+	public static function generate_private_key( $chain, $body, $api_key ) {
+		return self::post( '/v3/' . self::BLOCKCHAIN_URL_MAPPING[ $chain ] . '/wallet/priv/', $body, $api_key );
 	}
 
 	public static function deploy_nft_smart_contract( $body, $api_key ) {
@@ -99,24 +78,12 @@ class Tatum_Connector {
 		return self::post( '/v3/nft/mint', $body, $api_key );
 	}
 
-	public static function get_ethereum_balance( $address, $api_key ) {
-		return self::get( '/v3/ethereum/account/balance/' . $address, $api_key );
+	public static function get_balance( $chain, $address, $api_key ) {
+		return self::get( '/v3/' . self::BLOCKCHAIN_URL_MAPPING[ $chain ] . '/account/balance/' . $address, $api_key );
 	}
 
-	public function get_balance( $address, $api_key = null ) {
-		return self::get( '/v3/ethereum/account/balance/' . $address, $api_key ?? $this->api_key );
-	}
-
-	public static function get_celo_balance( $address, $api_key ) {
-		return self::get( '/v3/celo/account/balance/' . $address, $api_key );
-	}
-
-	public static function get_ethereum_transaction( $hash, $api_key ) {
-		return self::get( '/v3/ethereum/transaction/' . $hash, $api_key );
-	}
-
-	public static function get_celo_transaction( $hash, $api_key ) {
-		return self::get( '/v3/celo/transaction/' . $hash, $api_key );
+	public static function get_transaction( $chain, $hash, $api_key ) {
+		return self::get( '/v3/' . self::BLOCKCHAIN_URL_MAPPING[ $chain ] . '/transaction/' . $hash, $api_key );
 	}
 
 	public static function transfer_nft_token( $body, $api_key ) {
