@@ -100,7 +100,13 @@ class Tatum_Public
 
     }
 
-    public function woocommerce_add_address_checkout($checkout) {
+    public function woocommerce_add_address_checkout(WC_Checkout $checkout) {
+	    foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
+		    $pdt_id = $cart_item['product_id'];
+		    echo $pdt_id;
+		    echo get_post_meta($pdt_id, 'tatum_api_key', true);
+		    print_r(get_post(get_post_meta($pdt_id, 'tatum_api_key', true)));
+	    }
         echo '<div id="custom_checkout_field">';
 
         woocommerce_form_field('recipient_blockchain_address', array(
@@ -143,14 +149,19 @@ class Tatum_Public
             $api_key = get_post($tatum_api_key_id);
             $contract_address = get_post_meta($tatum_api_key_id, 'nft_contract_address', true);
             $private_key = get_post_meta($tatum_api_key_id, 'private_key', true);
+	        $chain = get_post_meta($tatum_api_key_id, 'chain', true);
             if ($mint_hash && $api_key) {
-                $response = Tatum_Connector::transfer_nft_token([
-                    'to' => get_post_meta($order_id, 'recipient_blockchain_address', true),
-                    'chain' => 'ETH',
-                    'tokenId' => get_post_meta($product_id, 'tatum_token_id', true),
-                    'contractAddress' => $contract_address,
-                    'fromPrivateKey' => $private_key
-                ], $api_key->post_title);
+            	$transfer_body = [
+		            'to' => get_post_meta($order_id, 'recipient_blockchain_address', true),
+		            'chain' => $chain,
+		            'tokenId' => get_post_meta($product_id, 'tatum_token_id', true),
+		            'contractAddress' => $contract_address,
+		            'fromPrivateKey' => $private_key
+	            ];
+	            if ( $chain === 'CELO' ) {
+		            $transfer_body['feeCurrency'] = 'CELO';
+	            }
+                $response = Tatum_Connector::transfer_nft_token($transfer_body, $api_key->post_title);
                 update_post_meta($product_id, 'tatum_transfer_hash', $response['txId']);
             }
         }

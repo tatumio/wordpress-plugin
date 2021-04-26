@@ -34,7 +34,7 @@
         const post_type = $("#post_type").val()
         const status = $("#api_key_status").text()
 
-        if (post_type === 'api_key') {
+        if (post_type === 'tatum_api_key') {
             $("#misc-publishing-actions").css('display', 'none');
             $("#delete-action").css('display', 'none');
             $("#minor-publishing-actions").css('display', 'none');

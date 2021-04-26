@@ -35,19 +35,15 @@
                     <th><label for="api_key">Select api key</label></th>
                     <td>
                         <select name="<?= $this->plugin_name ?>[api_key]" id="<?= $this->plugin_name ?>_api_key">
+							<?php if ( ! isset( $active_api_key ) ) : ?>
+                                <option value="select" selected>Select API key</option>
+							<?php endif; ?>
 							<?php foreach ( $this->get_contract_address_obtained_api_keys() as $key ): ?>
-								<?php if ( ! isset( $active_api_key ) ) : ?>
-                                    <option value="select" selected>Select API key</option>
-								<?php endif; ?>
+
                                 <option value="<?= $key->post_title ?>"
-									<?= isset( $active_api_key ) && $key->ID == $active_api_key['api_key']->ID ? 'selected' : '' ?>
+									<?= isset( $active_api_key ) && $key->ID == $active_api_key['tatum_api_key']->ID ? 'selected' : '' ?>
                                 >
-									<?= $key->post_title ?> (<?php
-									$api_key      = $this->get_api_key_by_title( $key->post_title );
-									$api_key_meta = get_post_meta( $api_key->ID );
-									echo $api_key_meta['address'][0];
-									?>
-                                    )
+									<?= $key->post_title ?>
                                 </option>
 							<?php endforeach; ?>
                         </select>

@@ -114,7 +114,7 @@ class Tatum_Admin {
 		$plural                       = 'Api keys';
 		$single                       = 'Api key';
 		$menu_name                    = 'Tatum';
-		$cpt_name                     = 'api_key';
+		$cpt_name                     = 'tatum_api_key';
 		$opts['can_export']           = true;
 		$opts['capability_type']      = $cap_type;
 		$opts['description']          = '';
@@ -159,7 +159,7 @@ class Tatum_Admin {
 	}
 
 	public function meta_box( $post ) {
-		add_meta_box( 'tatum_chain', 'Chain', array( $this, 'render_meta_chain' ), null, 'advanced', 'high');
+		add_meta_box( 'tatum_chain', 'Chain', array( $this, 'render_meta_chain' ), null, 'advanced', 'high' );
 		if ( in_array( get_post_meta( $post->ID, 'status', true ), [
 			'wallet_generated',
 			'contract_transaction_sent',
@@ -173,7 +173,10 @@ class Tatum_Admin {
 			'contract_transaction_sent',
 			'contract_address_obtained'
 		] ) ) {
-			add_meta_box( 'tatum_nft_meta', 'NFT settings', array( $this, 'render_meta_box_nft' ), null, 'advanced', 'low' );
+			add_meta_box( 'tatum_nft_meta', 'NFT settings', array(
+				$this,
+				'render_meta_box_nft'
+			), null, 'advanced', 'low' );
 		}
 	}
 
@@ -301,7 +304,7 @@ class Tatum_Admin {
 
 	public function add_plugin_admin_menu() {
 		add_submenu_page(
-			'edit.php?post_type=api_key',
+			'edit.php?post_type=tatum_api_key',
 			__( 'General settings', 'tatum' ),
 			__( 'General settings', 'tatum' ),
 			'manage_options',
@@ -338,11 +341,11 @@ class Tatum_Admin {
 	}
 
 	public function remove_editor_from_post() {
-		remove_post_type_support( 'api_key', 'editor' );
+		remove_post_type_support( 'tatum_api_key', 'editor' );
 	}
 
 	public function post_published( $messages ) {
-		$messages['api_key'] = array(
+		$messages['tatum_api_key'] = array(
 			0  => null,
 			1  => null,
 			2  => null,
@@ -362,7 +365,7 @@ class Tatum_Admin {
 
 	public function change_title( $title ): string {
 		$screen = get_current_screen();
-		if ( $screen->post_type == 'api_key' ) {
+		if ( $screen->post_type == 'tatum_api_key' ) {
 			$title = 'Enter Api key';
 		}
 
@@ -372,7 +375,7 @@ class Tatum_Admin {
 	public function generate_wallet( $post ) {
 		try {
 			$existing_posts = $this->get_api_keys_by_title( $post->post_title );
-			if ( count( $existing_posts )  > 1) {
+			if ( count( $existing_posts ) > 1 ) {
 				return $this->add_flash_notice( 'API key already exists.', "error" );
 			}
 
@@ -434,14 +437,12 @@ class Tatum_Admin {
 			update_post_meta( $post->ID, 'nft_contract_transaction_hash', $response['txId'] );
 			update_post_meta( $post->ID, 'status', 'contract_transaction_sent' );
 		} catch ( Exception $error ) {
-			print_r( $error );
-			exit();
 			$this->add_flash_notice( 'There was a problem with deploying your smart contract, please check if you have enough balance.', "error" );
 		}
 	}
 
 	public function change_publish_button( $translation, $text ) {
-		if ( 'api_key' == get_post_type() ) {
+		if ( 'tatum_api_key' == get_post_type() ) {
 			if ( $text == 'Publish' || $text == 'Update' ) {
 				return 'Save';
 			}
@@ -461,7 +462,7 @@ class Tatum_Admin {
 			if ( ! empty( $_GET['post'] ) ) {
 				// Get the post object
 				$post = get_post( $_GET['post'] );
-				if ( $post->post_type == 'api_key' ) {
+				if ( $post->post_type == 'tatum_api_key' ) {
 					$status = get_post_meta( $post->ID, 'status', true );
 					if ( $status == 'contract_transaction_sent' ) {
 						$contract_transaction = get_post_meta( $post->ID, 'nft_contract_transaction_hash', true );
@@ -523,7 +524,7 @@ class Tatum_Admin {
 
 	public function get_contract_address_obtained_api_keys() {
 		return get_posts( [
-			'post_type'     => 'api_key',
+			'post_type'     => 'tatum_api_key',
 			'meta_key'      => 'status',
 			'meta_value'    => 'contract_address_obtained',
 			'post_per_page' => 100, /* add a reasonable max # rows */
@@ -544,22 +545,24 @@ class Tatum_Admin {
 
 	public function get_active_api_key() {
 		$options = get_option( $this->plugin_name );
-		$api_key = $this->get_api_key_by_title( $options['api_key'] );
-		if ( $api_key ) {
-			return [ 'api_key' => $api_key, 'meta' => get_post_meta( $api_key->ID ) ];
+		if ( $options && isset( $options['api_key'] ) ) {
+			$api_key = $this->get_api_key_by_title( $options['api_key'] );
+			if ( $api_key ) {
+				return [ 'tatum_api_key' => $api_key, 'meta' => get_post_meta( $api_key->ID ) ];
+			}
 		}
 
 		return null;
 	}
 
 	public function get_api_keys_by_title( $title ) {
-		$args = array( 'post_type' => 'api_key', 'title' => $title );
+		$args = array( 'post_type' => 'tatum_api_key', 'title' => $title );
 
 		return get_posts( $args );
 	}
 
 	public function get_api_key_by_title( $title ) {
-		$api_keys = $this->get_api_keys_by_title($title);
+		$api_keys = $this->get_api_keys_by_title( $title );
 		if ( empty( $api_keys ) ) {
 			return null;
 		}
@@ -686,7 +689,7 @@ class Tatum_Admin {
 				// increment minting index
 				update_post_meta( $post->ID, 'tatum_token_id', $active_key['meta']['automatic_minting_index'][0] );
 				update_post_meta( $post->ID, 'tatum_url', $options['metadata_url'] );
-				update_post_meta( $active_key['api_key']->ID, 'automatic_minting_index', $active_key['meta']['automatic_minting_index'][0] + 1 );
+				update_post_meta( $active_key['tatum_api_key']->ID, 'automatic_minting_index', $active_key['meta']['automatic_minting_index'][0] + 1 );
 
 			} else {
 				$this->save_tatum_option_field( $post->ID, 'tatum_token_id' );
@@ -702,17 +705,21 @@ class Tatum_Admin {
 
 		if ( ! empty( $tatum_token_id ) && ! empty( $tatum_url ) ) {
 			$active_key = $this->get_active_api_key();
-			$minted     = Tatum_Connector::mint_nft( [
+			$mint_body  = [
 				'chain'           => $active_key['meta']['chain'][0],
 				'tokenId'         => $tatum_token_id,
 				'to'              => $active_key['meta']['address'][0],
 				'contractAddress' => $active_key['meta']['nft_contract_address'][0],
 				'url'             => $tatum_url,
 				'fromPrivateKey'  => $active_key['meta']['private_key'][0]
-			], $active_key['api_key']->post_title );
+			];
+			if ( $active_key['meta']['chain'][0] === 'CELO' ) {
+				$mint_body['feeCurrency'] = 'CELO';
+			}
+			$minted = Tatum_Connector::mint_nft( $mint_body, $active_key['tatum_api_key']->post_title );
 
 			update_post_meta( $post->ID, 'tatum_transaction_hash', $minted['txId'] );
-			update_post_meta( $post->ID, 'tatum_api_key', $active_key['api_key']->ID );
+			update_post_meta( $post->ID, 'tatum_api_key', $active_key['tatum_api_key']->ID );
 		}
 	}
 
@@ -733,7 +740,7 @@ class Tatum_Admin {
 	}
 
 	public function remove_row_actions_post( $actions, $post ) {
-		if ( $post->post_type === 'api_key' ) {
+		if ( $post->post_type === 'tatum_api_key' ) {
 			unset( $actions['clone'] );
 			unset( $actions['trash'] );
 		}

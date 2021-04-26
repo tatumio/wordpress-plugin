@@ -30,7 +30,11 @@ class Tatum_Deactivator {
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
-
+		$api_keys = get_posts( array( 'post_type' => 'tatum_api_key' ) );
+		foreach ( $api_keys as $api_key ) {
+			wp_delete_post( $api_key->ID, true );
+		}
+		delete_option('tatum');
 	}
 
 }

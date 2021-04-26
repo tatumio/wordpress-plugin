@@ -189,13 +189,13 @@ class Tatum
         // obtain contract address
         $this->loader->add_action('load-post.php', $plugin_admin, 'obtain_contract_address');
 
-        $this->loader->add_action('save_post_api_key', $plugin_admin, 'save_post', 10, 3);
+        $this->loader->add_action('save_post_tatum_api_key', $plugin_admin, 'save_post', 10, 3);
 
         // Change post columns
-        $this->loader->add_filter('manage_api_key_posts_columns', $plugin_admin, 'change_post_columns', 10, 1);
+        $this->loader->add_filter('manage_tatum_api_key_posts_columns', $plugin_admin, 'change_post_columns', 10, 1);
 
         // Fill post columns
-        $this->loader->add_action('manage_api_key_posts_custom_column', $plugin_admin, 'fill_custom_columns', 10, 2);
+        $this->loader->add_action('manage_tatum_api_key_posts_custom_column', $plugin_admin, 'fill_custom_columns', 10, 2);
 
         // Woocommerce hooks and filters
         // Add product data tabs
