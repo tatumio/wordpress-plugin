@@ -702,24 +702,31 @@ class Tatum_Admin {
 	}
 
 	public function mint_token( $post, $new_status, $tatum_token_id, $tatum_url ) {
+		try {
 
-		if ( ! empty( $tatum_token_id ) && ! empty( $tatum_url ) ) {
-			$active_key = $this->get_active_api_key();
-			$mint_body  = [
-				'chain'           => $active_key['meta']['chain'][0],
-				'tokenId'         => $tatum_token_id,
-				'to'              => $active_key['meta']['address'][0],
-				'contractAddress' => $active_key['meta']['nft_contract_address'][0],
-				'url'             => $tatum_url,
-				'fromPrivateKey'  => $active_key['meta']['private_key'][0]
-			];
-			if ( $active_key['meta']['chain'][0] === 'CELO' ) {
-				$mint_body['feeCurrency'] = 'CELO';
+			if ( ! empty( $tatum_token_id ) && ! empty( $tatum_url ) ) {
+				$active_key = $this->get_active_api_key();
+				$mint_body  = [
+					'chain'           => $active_key['meta']['chain'][0],
+					'tokenId'         => $tatum_token_id,
+					'to'              => $active_key['meta']['address'][0],
+					'contractAddress' => $active_key['meta']['nft_contract_address'][0],
+					'url'             => $tatum_url,
+					'fromPrivateKey'  => $active_key['meta']['private_key'][0]
+				];
+				if ( $active_key['meta']['chain'][0] === 'CELO' ) {
+					$mint_body['feeCurrency'] = 'CELO';
+				}
+				print_r( $mint_body );
+				$minted = Tatum_Connector::mint_nft( $mint_body, $active_key['tatum_api_key']->post_title );
+
+				update_post_meta( $post->ID, 'tatum_transaction_hash', $minted['txId'] );
+				update_post_meta( $post->ID, 'tatum_api_key', $active_key['tatum_api_key']->ID );
 			}
-			$minted = Tatum_Connector::mint_nft( $mint_body, $active_key['tatum_api_key']->post_title );
-
-			update_post_meta( $post->ID, 'tatum_transaction_hash', $minted['txId'] );
-			update_post_meta( $post->ID, 'tatum_api_key', $active_key['tatum_api_key']->ID );
+		} catch ( Exception $e ) {
+		    // TODO: resolve when minting ETH two tokens in quick succession
+		    print_r($e);
+		    exit();
 		}
 	}
 
