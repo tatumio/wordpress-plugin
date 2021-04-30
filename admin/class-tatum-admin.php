@@ -581,7 +581,7 @@ class Tatum_Admin {
 			'value'       => get_post_meta( get_the_ID(), 'tatum_token_id', true ),
 			'label'       => 'ID of token to be created.',
 			'description' => 'ID of token to be created.',
-		), $is_minted || $options['automatic_minting'] ? [ 'custom_attributes' => array( 'readonly' => 'readonly' ) ] : [] ) );
+		), $is_minted || isset( $options['automatic_minting'] ) && $options['automatic_minting'] == true ? [ 'custom_attributes' => array( 'readonly' => 'readonly' ) ] : [] ) );
 
 		woocommerce_wp_text_input( array_merge(
 				array(
@@ -590,7 +590,7 @@ class Tatum_Admin {
 					'label'       => 'URL Metadata of the token',
 					'description' => 'URL Metadata of the token.'
 				),
-				$is_minted || $options['automatic_minting'] ? [ 'custom_attributes' => array( 'readonly' => 'readonly' ) ] : []
+				$is_minted || isset( $options['automatic_minting'] ) && $options['automatic_minting'] == 'true ' ? [ 'custom_attributes' => array( 'readonly' => 'readonly' ) ] : []
 			)
 		);
 
@@ -682,7 +682,7 @@ class Tatum_Admin {
 		     ! get_post_meta( get_the_ID(), 'tatum_transaction_hash', true ) &&
 		     $active_key ) {
 			$options = get_option( $this->plugin_name );
-			if ( $options['automatic_minting'] ) {
+			if ( isset( $options['automatic_minting'] ) && $options['automatic_minting'] ) {
 				$options = get_option( $this->plugin_name );
 				$this->mint_token( $post, $new_status, $active_key['meta']['automatic_minting_index'][0], $options['metadata_url'] );
 
@@ -698,36 +698,42 @@ class Tatum_Admin {
 
 	public function mint_token( $post, $new_status, $tatum_token_id, $tatum_url ) {
 		try {
-
-			if ( isset( $tatum_token_id ) && isset( $tatum_url ) ) {
-				$active_key = $this->get_active_api_key();
-				$chain      = $active_key['meta']['chain'][0];
-				$address    = $active_key['meta']['address'][0];
-				$nonce      = Tatum_Connector::get_nonce( $chain, $address, $active_key['tatum_api_key']->post_title );
-				$mint_body  = [
-					'chain'           => $chain,
-					'tokenId'         => $tatum_token_id,
-					'to'              => $address,
-					'contractAddress' => $active_key['meta']['nft_contract_address'][0],
-					'url'             => $tatum_url,
-					'fromPrivateKey'  => $active_key['meta']['private_key'][0],
-					'nonce'           => $nonce
-				];
-				if ( $active_key['meta']['chain'][0] === 'CELO' ) {
-					$mint_body['feeCurrency'] = 'CELO';
-				}
-				$minted = Tatum_Connector::mint_nft( $mint_body, $active_key['tatum_api_key']->post_title );
-				if ( isset( $minted['txId'] ) ) {
-					update_post_meta( $post->ID, 'tatum_transaction_hash', $minted['txId'] );
-					update_post_meta( $post->ID, 'tatum_api_key', $active_key['tatum_api_key']->ID );
-					update_post_meta( $post->ID, 'tatum_token_id', $tatum_token_id );
-					update_post_meta( $post->ID, 'tatum_url', $tatum_url );
-					update_post_meta( $active_key['tatum_api_key']->ID, 'automatic_minting_index', $tatum_token_id + 1 );
-
-				} else {
-					$this->add_flash_notice( 'There was some error with minting your NFT token! Please check that you have enough balance on your address.', "error" );
-				}
+			if ( ! isset( $tatum_token_id ) || empty( $tatum_token_id ) || filter_var( $tatum_token_id, FILTER_VALIDATE_INT ) === false ) {
+				return $this->add_flash_notice( 'ID of the token should be valid integer number!', "error" );
 			}
+
+			if ( ! isset( $tatum_url ) || empty( $tatum_url ) || filter_var( $tatum_url, FILTER_VALIDATE_URL ) === false ) {
+				return $this->add_flash_notice( 'URL Metadata of your NFT token should be valid ULR!', "error" );
+			}
+
+			$active_key = $this->get_active_api_key();
+			$chain      = $active_key['meta']['chain'][0];
+			$address    = $active_key['meta']['address'][0];
+			$nonce      = Tatum_Connector::get_nonce( $chain, $address, $active_key['tatum_api_key']->post_title );
+			$mint_body  = [
+				'chain'           => $chain,
+				'tokenId'         => $tatum_token_id,
+				'to'              => $address,
+				'contractAddress' => $active_key['meta']['nft_contract_address'][0],
+				'url'             => $tatum_url,
+				'fromPrivateKey'  => $active_key['meta']['private_key'][0],
+				'nonce'           => $nonce
+			];
+			if ( $active_key['meta']['chain'][0] === 'CELO' ) {
+				$mint_body['feeCurrency'] = 'CELO';
+			}
+			$minted = Tatum_Connector::mint_nft( $mint_body, $active_key['tatum_api_key']->post_title );
+			if ( isset( $minted['txId'] ) ) {
+				update_post_meta( $post->ID, 'tatum_transaction_hash', $minted['txId'] );
+				update_post_meta( $post->ID, 'tatum_api_key', $active_key['tatum_api_key']->ID );
+				update_post_meta( $post->ID, 'tatum_token_id', $tatum_token_id );
+				update_post_meta( $post->ID, 'tatum_url', $tatum_url );
+				update_post_meta( $active_key['tatum_api_key']->ID, 'automatic_minting_index', $tatum_token_id + 1 );
+				$this->add_flash_notice( '🎉 NFT token was minted with transaction id ' . $minted['txId'] . '.', "success" );
+			} else {
+				$this->add_flash_notice( 'There was some error with minting your NFT token! Please check that you have enough balance on your address.', "error" );
+			}
+
 		} catch ( Exception $e ) {
 			$message = json_decode( $e->getMessage(), true );
 			if ( isset( $message['message'] ) && strpos( $message['message'], 'token already minted' ) ) {
