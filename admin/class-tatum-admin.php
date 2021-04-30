@@ -590,7 +590,7 @@ class Tatum_Admin {
 					'label'       => 'URL Metadata of the token',
 					'description' => 'URL Metadata of the token.'
 				),
-				$is_minted || isset( $options['automatic_minting'] ) && $options['automatic_minting'] == 'true ' ? [ 'custom_attributes' => array( 'readonly' => 'readonly' ) ] : []
+				$is_minted || isset( $options['automatic_minting'] ) && $options['automatic_minting'] == true ? [ 'custom_attributes' => array( 'readonly' => 'readonly' ) ] : []
 			)
 		);
 
@@ -698,11 +698,11 @@ class Tatum_Admin {
 
 	public function mint_token( $post, $new_status, $tatum_token_id, $tatum_url ) {
 		try {
-			if ( ! isset( $tatum_token_id ) || empty( $tatum_token_id ) || filter_var( $tatum_token_id, FILTER_VALIDATE_INT ) === false ) {
+			if ( ! isset( $tatum_token_id ) || $tatum_token_id === '' || filter_var( (int) $tatum_token_id, FILTER_VALIDATE_INT ) === false ) {
 				return $this->add_flash_notice( 'ID of the token should be valid integer number!', "error" );
 			}
 
-			if ( ! isset( $tatum_url ) || empty( $tatum_url ) || filter_var( $tatum_url, FILTER_VALIDATE_URL ) === false ) {
+			if ( ! isset( $tatum_url ) || $tatum_url === '' || filter_var( $tatum_url, FILTER_VALIDATE_URL ) === false ) {
 				return $this->add_flash_notice( 'URL Metadata of your NFT token should be valid ULR!', "error" );
 			}
 
