@@ -86,6 +86,10 @@ class Tatum_Connector {
 		return self::get( '/v3/' . self::BLOCKCHAIN_URL_MAPPING[ $chain ] . '/transaction/' . $hash, $api_key );
 	}
 
+	public static function get_nonce( $chain, $address, $api_key ) {
+		return self::get( '/v3/' . self::BLOCKCHAIN_URL_MAPPING[ $chain ] . '/transaction/count/'.$address, $api_key );
+	}
+
 	public static function transfer_nft_token( $body, $api_key ) {
 		return self::post( '/v3/nft/transaction', $body, $api_key );
 	}
