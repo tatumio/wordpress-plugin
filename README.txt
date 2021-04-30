@@ -1,4 +1,4 @@
-=== Plugin Name ===
+=== Tatum ===
 Contributors: (this should be a list of wordpress.org userid's)
 Donate link: https://tatum.io/
 Tags: comments, spam
