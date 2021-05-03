@@ -2,3 +2,10 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
+
+#woocommerce-coupon-data ul.wc-tabs li.tatum_tab a::before,
+#woocommerce-product-data ul.wc-tabs li.tatum_tab a::before,
+.woocommerce ul.wc-tabs li.custom_tab a::before {
+    font-family: Dashicons;
+    content: none;
+}

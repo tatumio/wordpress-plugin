@@ -1,69 +1,59 @@
 === Tatum ===
-Contributors: (this should be a list of wordpress.org userid's)
+Contributors: lukaskotol
 Donate link: https://tatum.io/
-Tags: comments, spam
-Requires at least: 3.0.1
-Tested up to: 3.4
-Stable tag: 4.3
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags: tatum, blockchain, nft, erc721, ethereum, celo, bsc
+Requires at least: 5.5
+Tested up to: 5.7.1
+Stable tag: 1.0.0
+License: MIT
+License URI: https://opensource.org/licenses/MIT
 
-Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.
+Tatum is a free easiest and fastest plugin to work with NFTs without any expertise in blockchain field.
 
 == Description ==
 
-This is the long description.  No limit, and you can use Markdown (as well as in the following sections).
+With Tatum plugin you can easily **create wallet, deploy, mint and sell NFTs!**
+The Tatum plugin depends on Woocommerce plugin and make possible to mint NFT tokens with **ETH, CELO and Binance Smart Chain!**
 
-For backwards compatibility, if this section is missing, the full length of the short description will be used, and
-Markdown parsed.
+With Tatum plugin you can:
 
-A few notes about the sections above:
-
-*   "Contributors" is a comma separated list of wp.org/wp-plugins.org usernames
-*   "Tags" is a comma separated list of tags that apply to the plugin
-*   "Requires at least" is the lowest version that the plugin will work on
-*   "Tested up to" is the highest version that you've *successfully used to test the plugin*. Note that it might work on
-higher versions... this is just the highest one you've verified.
-*   Stable tag should indicate the Subversion "tag" of the latest stable version, or "trunk," if you use `/trunk/` for
-stable.
-
-    Note that the `readme.txt` of the stable tag is the one that is considered the defining one for the plugin, so
-if the `/trunk/readme.txt` file says that the stable tag is `4.3`, then it is `/tags/4.3/readme.txt` that'll be used
-for displaying information about the plugin.  In this situation, the only thing considered from the trunk `readme.txt`
-is the stable tag pointer.  Thus, if you develop in trunk, you can update the trunk `readme.txt` to reflect changes in
-your in-development version, without having that information incorrectly disclosed about the current stable version
-that lacks those changes -- as long as the trunk's `readme.txt` points to the correct stable tag.
-
-    If no stable tag is provided, it is assumed that trunk is stable, but you should specify "trunk" if that's where
-you put the stable version, in order to eliminate any doubt.
+*   Sell NFTs
+*   Generate wallet
+*   Mint NFTs
 
 == Installation ==
 
-This section describes how to install the plugin and get it working.
+This section describes how to install the Tatum plugin and get it working.
 
-e.g.
-
-1. Upload `tatum.php` to the `/wp-content/plugins/` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Place `<?php do_action('plugin_name_hook'); ?>` in your templates
+1. Install Tatum plugin and make sure you have Woocommerce plugin installed.
+2. Create account at [Tatum Dashboard](https://dashboard.tatum.io/login) and obtain API key.
+3. Add new Tatum API key to the Tatum plugin.
+4. Generate wallet.
+5. Fund your wallet with crypto.
+6. Deploy NFT smart contract.
+7. After obtaining NFT smart contract address select your API key in General settings section.
+8. Create Woocommerce product, don't forget to fill the Tatum tab in the product section if you dont selected automatic minting in the General settings. Make sure products have only one quantity because every NFT is unique.
+9. When you will be creating your Woocommerce product, NFT token will be minted, make sure you have enough balance on your address for paying fees.
+10. When your customers will proceed to the checkout, they will enter their blockchain address and if you have enough balance for paying fees, the tokens will be send to them.
 
 == Frequently Asked Questions ==
 
-= A question that someone might have =
+= Can I use the Tatum plugin for selling NFTs? =
 
-An answer to that question.
+Yes, the Tatum plugin is made for selling and minting NFTs without any expertise in blockchain field.
 
-= What about foo bar? =
+= Is plugin free? =
 
-Answer to foo bar dilemma.
+Yes the Tatum plugin is a for free!
 
 == Screenshots ==
-
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
-directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
-(or jpg, jpeg, gif).
-2. This is the second screen shot
+1. Create account at [Tatum Dashboard](https://dashboard.tatum.io/login) and obtain API key.
+2. Add new Tatum API key to the Tatum plugin. This step will also generate the wallet.
+3. Fund your address with crypto. Then fill Contract name and symbol and click on save. This step will deploy your NFT smart contract to the blockchain.
+4. Refresh your page multiple times after NFT smart contract will be deployed. Then you are ready to mint your NFT tokens!
+5. Select your API key in the General settings section of the Tatum plugin. For simplicity we will check also automatic product minting.
+6. Now if we create product, Tatum plugin will mint NFT token.
+7. When customer adds product to the cart and proceed with checkout, it will be asked to enter address where NFT tokens will be send.
 
 == Changelog ==
 
