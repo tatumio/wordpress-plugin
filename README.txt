@@ -3,6 +3,7 @@ Contributors: lukaskotol
 Donate link: https://tatum.io/
 Tags: tatum, blockchain, nft, erc721, ethereum, celo, bsc
 Requires at least: 5.5
+Requires PHP: 7.0
 Tested up to: 5.7.1
 Stable tag: 1.0.0
 License: MIT
@@ -55,3 +56,13 @@ Yes the Tatum plugin is a for free!
 6. Now if we create product, Tatum plugin will mint NFT token.
 7. When customer adds product to the cart and proceed with checkout, it will be asked to enter address where NFT tokens will be send.
 8. After order is paid and shifted to the processing state, NFT tokens will be transferred to the address which customer entered.
+
+== Changelog ==
+
+= 1.0.0 =
+* Initial version
+
+== Upgrade Notice ==
+
+= 1.0.0 =
+* No upgrade notice yet
