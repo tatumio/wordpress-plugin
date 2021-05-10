@@ -1,28 +1,16 @@
 <?php
-
 /**
- * The plugin bootstrap file
- *
- * This file is read by WordPress to generate the plugin information in the plugin
- * admin area. This file also includes all of the dependencies used by the plugin,
- * registers the activation and deactivation functions, and defines a function
- * that starts the plugin.
- *
- * @link              https://tatum.io/
- * @since             1.0.0
- * @package           Tatum
- *
- * @wordpress-plugin
  * Plugin Name:       Tatum
  * Plugin URI:        https://tatum.io/
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Tatum is a free easiest and fastest plugin to work with NFTs without any expertise in blockchain field.
  * Version:           1.0.0
  * Author:            Lukas Kotol
- * Author URI:        https://tatum.io/
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * Author URI:        https://github.com/Hathoriel
+ * License:           MIT
+ * License URI:       https://opensource.org/licenses/MIT
  * Text Domain:       tatum
  * Domain Path:       /languages
+ *
  */
 
 // If this file is called directly, abort.
