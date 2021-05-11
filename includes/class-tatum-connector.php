@@ -6,51 +6,25 @@ class Tatum_Connector {
 	const BLOCKCHAIN_URL_MAPPING = [ 'ETH' => 'ethereum', 'CELO' => 'celo', 'BSC' => 'bsc' ];
 
 	private static function get( $url, $api_key ) {
-		$ch = curl_init( self::TATUM_URL . $url );
-		curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
-		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $ch, CURLOPT_HTTPHEADER, self::headers( $api_key ) );
-
-		$server_output = curl_exec( $ch );
-		$code          = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
-		if ( substr( $code, 0, strlen( '2' ) ) !== '2' ) {
-			throw new Exception( $server_output );
-		}
-
-		if ( curl_errno( $ch ) ) {
-			$error_msg = curl_error( $ch );
-			throw new Exception( $error_msg );
-		}
-
+		$args          = [ 'headers' => self::headers( $api_key ) ];
+		$response      = wp_remote_get( self::TATUM_URL . $url, $args );
+		$server_output = wp_remote_retrieve_body( $response );
 		return json_decode( $server_output, true );
 	}
 
 	private static function post( $url, $body, $api_key ) {
-		$ch = curl_init( self::TATUM_URL . $url );
-		curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'POST' );
-		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode( $body ) );
-		curl_setopt( $ch, CURLOPT_HTTPHEADER, self::headers( $api_key ) );
-
-		$server_output = curl_exec( $ch );
-		$code          = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
-		if ( substr( $code, 0, strlen( '2' ) ) !== '2' ) {
-			throw new Exception( $server_output );
-		}
-
-		if ( curl_errno( $ch ) ) {
-			$error_msg = curl_error( $ch );
-			throw new Exception( $error_msg );
-		}
-
+		$args          = [ 'headers' => self::headers( $api_key ), 'body' => json_encode($body) ];
+		print_r($args);
+		$response      = wp_remote_post( self::TATUM_URL . $url, $args );
+		$server_output = wp_remote_retrieve_body( $response );
 		return json_decode( $server_output, true );
 	}
 
 	private static function headers( $api_key ): array {
 		return [
-			'Accept: application/json',
-			'Content-Type: application/json',
-			'x-api-key:' . $api_key,
+			'Accept' => 'application/json',
+			'Content-Type' => 'application/json',
+			'x-api-key' => $api_key,
 		];
 	}
 
@@ -87,7 +61,7 @@ class Tatum_Connector {
 	}
 
 	public static function get_nonce( $chain, $address, $api_key ) {
-		return self::get( '/v3/' . self::BLOCKCHAIN_URL_MAPPING[ $chain ] . '/transaction/count/'.$address, $api_key );
+		return self::get( '/v3/' . self::BLOCKCHAIN_URL_MAPPING[ $chain ] . '/transaction/count/' . $address, $api_key );
 	}
 
 	public static function transfer_nft_token( $body, $api_key ) {

@@ -130,7 +130,8 @@ class Tatum_Public {
 	public function woocommerce_validate_address_checkout() {
 		$tatum_address_validator = new Tatum_Address_Validator();
 		foreach ( [ 'ETH', 'CELO', 'BSC' ] as $chain ) {
-			if ( isset( $_POST[ 'recipient_blockchain_address_' . $chain ] ) && ! $tatum_address_validator->isETHAddress( $_POST[ 'recipient_blockchain_address_' . $chain ] ) ) {
+			$recipient_address = sanitize_text_field($_POST[ 'recipient_blockchain_address_' . $chain ]);
+			if ( isset( $_POST[ 'recipient_blockchain_address_' . $chain ] ) && ! $tatum_address_validator->isETHAddress($recipient_address ) ) {
 				wc_add_notice( __( 'Please enter valid format of your ' . $chain . ' address.' ), 'error' );
 			}
 		}

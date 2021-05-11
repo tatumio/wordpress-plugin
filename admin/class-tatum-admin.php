@@ -253,9 +253,9 @@ class Tatum_Admin {
         <tr>
             <th><label for="<?php echo $name; ?>"><?php echo $label; ?></label></th>
             <td>
-                <select id="<?= $name; ?>" name="<?= $name; ?>" <?php echo $readonly ? 'disabled' : ''; ?>>
+                <select id="<?php echo $name; ?>" name="<?php echo $name; ?>" <?php echo $readonly ? 'disabled' : ''; ?>>
 					<?php foreach ( $options as $key => $value ): ?>
-                        <option value="<?= $key; ?>" <?php echo $selected === $key ? 'selected' : ''; ?> ><?= $value; ?></option>
+                        <option value="<?php echo $key; ?>" <?php echo $selected === $key ? 'selected' : ''; ?> ><?php echo $value; ?></option>
 					<?php endforeach; ?>
                 </select>
             </td>
@@ -268,10 +268,10 @@ class Tatum_Admin {
 		$status_formatted = $this->format_api_key_status( $status );
 		?>
         <tr>
-            <span id="api_key_status" style="display: none"><?= $status ?></span>
+            <span id="api_key_status" style="display: none"><?php echo $status ?></span>
             <th><label>Status</label></th>
             <td>
-				<?= $status_formatted ?>
+				<?php echo $status_formatted ?>
             </td>
         </tr>
 		<?php
@@ -287,7 +287,7 @@ class Tatum_Admin {
 
 	private function get_address_balance( $chain, $address, $api_key ) {
 		$balance = Tatum_Connector::get_balance( $chain, $address, $api_key );
-
+        print_r($balance);
 		if ( $chain === 'CELO' ) {
 			return $balance['celo'];
 		} else {
@@ -373,25 +373,27 @@ class Tatum_Admin {
 	}
 
 	public function generate_wallet( $post ) {
+
 		try {
-			$existing_posts = $this->get_api_keys_by_title( $post->post_title );
+			$post_title = sanitize_title_with_dashes($post->post_title);
+			$existing_posts = $this->get_api_keys_by_title( $post_title );
 			if ( count( $existing_posts ) > 1 ) {
 				return $this->add_flash_notice( 'API key already exists.', "error" );
 			}
 
 			if ( isset( $_POST['chain'] ) ) {
-				Tatum_Connector::get_api_version( $post->post_title );
-				$chain = $_POST['chain'];
+				Tatum_Connector::get_api_version( $post_title );
+				$chain = sanitize_text_field($_POST['chain']);
 				update_post_meta( $post->ID, 'chain', $chain );
-				$response = Tatum_Connector::generate_wallet( $chain, $post->post_title );
+				$response = Tatum_Connector::generate_wallet( $chain, $post_title );
 				update_post_meta( $post->ID, 'mnemonic', $response['mnemonic'] );
 				update_post_meta( $post->ID, 'xpub', $response['xpub'] );
-				$response = Tatum_Connector::generate_account( $chain, $response['xpub'], 1, $post->post_title );
+				$response = Tatum_Connector::generate_account( $chain, $response['xpub'], 1, $post_title );
 				update_post_meta( $post->ID, 'address', $response['address'] );
 				$response = Tatum_Connector::generate_private_key( $chain, [
 					'index'    => 1,
 					'mnemonic' => get_post_meta( $post->ID, 'mnemonic', true )
-				], $post->post_title );
+				], $post_title );
 				update_post_meta( $post->ID, 'private_key', $response['key'] );
 				update_post_meta( $post->ID, 'status', 'wallet_generated' );
 				$this->add_flash_notice( 'Your API key was added and your wallet was generated. Now you should send funds to the address and deploy NFT contract.', "success" );
@@ -409,8 +411,8 @@ class Tatum_Admin {
 				return;
 			}
 
-			$nft_contract_name   = $_POST['nft_contract_name'];
-			$nft_contract_symbol = $_POST['nft_contract_symbol'];
+			$nft_contract_name   = sanitize_text_field($_POST['nft_contract_name']);
+			$nft_contract_symbol = sanitize_text_field($_POST['nft_contract_symbol']);
 			$address             = get_post_meta( $post->ID, 'address', true );
 			$private_key         = get_post_meta( $post->ID, 'private_key', true );
 			$chain               = get_post_meta( $post->ID, 'chain', true );
@@ -461,7 +463,8 @@ class Tatum_Admin {
 		if ( is_admin() ) {
 			if ( ! empty( $_GET['post'] ) ) {
 				// Get the post object
-				$post = get_post( $_GET['post'] );
+
+				$post = get_post( sanitize_text_field($_GET['post'] ));
 				if ( $post->post_type == 'tatum_api_key' ) {
 					$status = get_post_meta( $post->ID, 'status', true );
 					if ( $status == 'contract_transaction_sent' ) {
@@ -671,7 +674,8 @@ class Tatum_Admin {
 
 	private function save_tatum_option_field( $post_id, $field ) {
 		if ( isset( $_POST[ $field ] ) ) {
-			update_post_meta( $post_id, $field, $_POST[ $field ] );
+		    $value = sanitize_text_field($_POST[ $field ]);
+			update_post_meta( $post_id, $field, $value);
 		}
 	}
 
@@ -756,7 +760,7 @@ class Tatum_Admin {
 	public function woocommerce_add_transaction_data_column( $product, $item, $item_id ) {
 		?>
         <td class="line_transfer_hash">
-			<?= get_post_meta( $product->get_id(), 'tatum_transaction_hash', true ); ?>
+			<?php echo get_post_meta( $product->get_id(), 'tatum_transaction_hash', true ); ?>
         </td>
 		<?php
 	}

@@ -34,16 +34,16 @@
                 <tr>
                     <th><label for="api_key">Select api key</label></th>
                     <td>
-                        <select name="<?= $this->plugin_name ?>[api_key]" id="<?= $this->plugin_name ?>_api_key">
+                        <select name="<?php echo $this->plugin_name ?>[api_key]" id="<?php echo $this->plugin_name ?>_api_key">
 							<?php if ( ! isset( $active_api_key ) ) : ?>
                                 <option value="select" selected>Select API key</option>
 							<?php endif; ?>
 							<?php foreach ( $this->get_contract_address_obtained_api_keys() as $key ): ?>
 
-                                <option value="<?= $key->post_title ?>"
-									<?= isset( $active_api_key ) && $key->ID == $active_api_key['tatum_api_key']->ID ? 'selected' : '' ?>
+                                <option value="<?php echo $key->post_title ?>"
+									<?php echo isset( $active_api_key ) && $key->ID == $active_api_key['tatum_api_key']->ID ? 'selected' : '' ?>
                                 >
-									<?= $key->post_title ?>
+									<?php echo $key->post_title ?>
                                 </option>
 							<?php endforeach; ?>
                         </select>
@@ -52,17 +52,17 @@
                 <tr>
                     <th><label for="automatic_minting">Automatic product minting</label></th>
                     <td>
-                        <input type="checkbox" name="<?= $this->plugin_name ?>[automatic_minting]"
-                               id="<?= $this->plugin_name ?>_automatic_minting"
-							<?= isset( $options['automatic_minting'] ) ? 'checked' : '' ?>/>
+                        <input type="checkbox" name="<?php echo $this->plugin_name ?>[automatic_minting]"
+                               id="<?php echo $this->plugin_name ?>_automatic_minting"
+							<?php echo isset( $options['automatic_minting'] ) ? 'checked' : '' ?>/>
                     </td>
                 </tr>
                 <tr>
                     <th><label for="url">URL of metadata token</label></th>
                     <td>
-                        <input type="text" name="<?= $this->plugin_name ?>[metadata_url]"
-                               id="<?= $this->plugin_name ?>_metadata_url"
-                               value="<?= isset( $options['metadata_url'] ) ? $options['metadata_url'] : '' ?>"/>
+                        <input type="text" name="<?php echo $this->plugin_name ?>[metadata_url]"
+                               id="<?php echo $this->plugin_name ?>_metadata_url"
+                               value="<?php echo isset( $options['metadata_url'] ) ? $options['metadata_url'] : '' ?>"/>
                         <p class="description">If you checked automatic product minting, please provide URL of metadata
                             which will be set to each token on minting.</p>
                     </td>
