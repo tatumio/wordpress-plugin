@@ -14,7 +14,6 @@ class Tatum_Connector {
 
 	private static function post( $url, $body, $api_key ) {
 		$args          = [ 'headers' => self::headers( $api_key ), 'body' => json_encode($body) ];
-		print_r($args);
 		$response      = wp_remote_post( self::TATUM_URL . $url, $args );
 		$server_output = wp_remote_retrieve_body( $response );
 		return json_decode( $server_output, true );

@@ -287,7 +287,6 @@ class Tatum_Admin {
 
 	private function get_address_balance( $chain, $address, $api_key ) {
 		$balance = Tatum_Connector::get_balance( $chain, $address, $api_key );
-        print_r($balance);
 		if ( $chain === 'CELO' ) {
 			return $balance['celo'];
 		} else {
