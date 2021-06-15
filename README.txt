@@ -5,62 +5,63 @@ Tags: tatum, blockchain, nft, erc721, ethereum, celo, bsc
 Requires at least: 5.5
 Requires PHP: 7.0
 Tested up to: 5.7.1
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
-Tatum is a free easiest and fastest plugin to work with NFTs without any expertise in blockchain field.
+Tatum is the easiest and fastest free plugin to work with NFTs without any blockchain development experience.
 
 == Description ==
 
-With Tatum plugin you can easily **create wallet, deploy, mint and sell NFTs!**
-The Tatum plugin depends on Woocommerce plugin and make possible to mint NFT tokens with **ETH, CELO and Binance Smart Chain!**
+With the Tatum plugin, you can easily **create a wallet, deploy, mint, and sell NFTs!**
+The Tatum plugin depends on the Woocommerce plugin and makes it possible to mint NFT tokens with **ETH, CELO, and Binance Smart Chain!**
 
-With Tatum plugin you can:
+With the Tatum plugin, you can:
 
 *   Sell NFTs
-*   Generate wallet
+*   Generate wallets
 *   Mint NFTs
 
 == Installation ==
 
 This section describes how to install the Tatum plugin and get it working.
 
-1. Install Tatum plugin and make sure you have Woocommerce plugin installed.
-2. Create account at [Tatum Dashboard](https://dashboard.tatum.io/login) and obtain API key.
-3. Add new Tatum API key to the Tatum plugin.
-4. Generate wallet.
-5. Fund your wallet with crypto.
-6. Deploy NFT smart contract.
-7. After obtaining NFT smart contract address select your API key in General settings section.
-8. Create Woocommerce product, don't forget to fill the Tatum tab in the product section if you dont selected automatic minting in the General settings. Make sure products have only one quantity because every NFT is unique.
-9. When you will be creating your Woocommerce product, NFT token will be minted, make sure you have enough balance on your address for paying fees.
-10. When your customers will proceed to the checkout, they will enter their blockchain address and if you have enough balance for paying fees, the tokens will be send to them.
+1. Create an account in the [Tatum Dashboard](https://dashboard.tatum.io/login) and obtain an API key.
+2. Add the Tatum API key to the Tatum plugin. This step will also generate a wallet.
+3. Fund your address with crypto. Then fill in the Contract name and symbol and click Save. This step will deploy your NFT smart contract to the blockchain.
+4. Refresh your page multiple times after the NFT smart contract has been deployed. Now you are ready to mint your NFT tokens!
+5. Select your API key in the General settings section of the Tatum plugin. For the sake of simplicity, we will also enable automatic product minting.
+6. Now, when we create a product, the Tatum plugin will mint an NFT token.
+7. When a customer adds a product to the cart and proceeds to checkout, they will be asked to enter an address where NFT tokens will be sent.
+8. After the order has been paid and is being processed, the NFT tokens will be transferred to the address entered.
 
 == Frequently Asked Questions ==
 
 = Can I use the Tatum plugin for selling NFTs? =
 
-Yes, the Tatum plugin is made for selling and minting NFTs without any expertise in blockchain field.
+Yes, the Tatum plugin is made for selling and minting NFTs without any blockchain experience.
 
-= Is plugin free? =
+= Is the plugin free? =
 
-Yes the Tatum plugin is a for free!
+Yes, the Tatum plugin is completely free!
 
 == Screenshots ==
-1. Create account at [Tatum Dashboard](https://dashboard.tatum.io/login) and obtain API key.
-2. Add new Tatum API key to the Tatum plugin. This step will also generate the wallet.
-3. Fund your address with crypto. Then fill Contract name and symbol and click on save. This step will deploy your NFT smart contract to the blockchain.
-4. Refresh your page multiple times after NFT smart contract will be deployed. Then you are ready to mint your NFT tokens!
-5. Select your API key in the General settings section of the Tatum plugin. For simplicity we will check also automatic product minting.
-6. Now if we create product, Tatum plugin will mint NFT token.
-7. When customer adds product to the cart and proceed with checkout, it will be asked to enter address where NFT tokens will be send.
-8. After order is paid and shifted to the processing state, NFT tokens will be transferred to the address which customer entered.
+1. Create an account in the [Tatum Dashboard](https://dashboard.tatum.io/login) and obtain an API key.
+2. Add the Tatum API key to the Tatum plugin. This step will also generate a wallet.
+3. Fund your address with crypto. Then fill in the Contract name and symbol and click Save. This step will deploy your NFT smart contract to the blockchain.
+4. Refresh your page multiple times after the NFT smart contract has been deployed. Now you are ready to mint your NFT tokens!
+5. Select your API key in the General settings section of the Tatum plugin. For the sake of simplicity, we will also enable automatic product minting.
+6. Now, when we create a product, the Tatum plugin will mint an NFT token.
+7. When a customer adds a product to the cart and proceeds to checkout, they will be asked to enter an address where NFT tokens will be sent.
+8. After the order has been paid and is being processed, the NFT tokens will be transferred to the address entered.
 
 == Changelog ==
 
 = 1.0.0 =
 * Initial version
+
+= 1.0.1 =
+* Added deploy smart contract enough balance validation
 
 == Upgrade Notice ==
 

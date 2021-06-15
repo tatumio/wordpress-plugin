@@ -9,7 +9,6 @@
  * @package    Tatum
  * @subpackage Tatum/includes
  */
-
 /**
  * Fired during plugin activation.
  *
@@ -20,17 +19,16 @@
  * @subpackage Tatum/includes
  * @author     Lukas Kotol <lukas.kotol@tatum.io>
  */
-class Tatum_Activator {
-
-	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
-	 *
-	 * @since    1.0.0
-	 */
-	public static function activate() {
-
-	}
-
+class Tatum_Activator
+{
+    /**
+     * Short Description. (use period)
+     *
+     * Long Description.
+     *
+     * @since    1.0.0
+     */
+    public static function activate()
+    {
+    }
 }
