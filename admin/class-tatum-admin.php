@@ -266,13 +266,11 @@ class Tatum_Admin
     }
 
     public function render_status(WP_Post $post) {
-        $status_formatted = $this->format_api_key_status_long($post);
         ?>
         <tr>
-<!--            <span id="api_key_status" style="display: none">--><?php //echo $status ?><!--</span>-->
             <th><label>Status</label></th>
             <td>
-                <?php echo $status_formatted ?>
+                <?php $this->format_api_key_status_long($post) ?>
             </td>
         </tr>
         <?php
@@ -286,14 +284,24 @@ class Tatum_Admin
         }
         switch ($status) {
             case 'wallet_generated':
-                $threshold = $this->estimate_nft_deploy($post);
+                $deploy_fee = $this->estimate_transaction_cost($post, 'DEPLOY_NFT');
                 $address = get_post_meta($post->ID, 'address', true);
                 $chain = get_post_meta($post->ID, 'chain', true);
-                return 'Wallet generated. To deploy your NFT contract, your balance on the address ' . $address . ' should be greater than ' . $threshold.' '. $chain .'.';
-            case 'contract_address_obtained':
-                return 'NFT Contract address set up! You are ready to mint tokens!';
+                ?>
+                Wallet generated. To deploy your NFT contract, your balance on the address <?php echo $address ?> should be greater than <?php echo $deploy_fee ?> <?php echo $chain ?>.
+                <?php break;
             case 'contract_transaction_sent':
-                return 'NFT Contract sent, waiting for obtaining contract address.';
+                ?>  NFT Contract sent, waiting for obtaining contract address.  <?php break;
+            case 'contract_address_obtained':
+                $mint_cost = $this->estimate_transaction_cost($post, 'MINT_NFT');
+                $transfer_cost = $this->estimate_transaction_cost($post, 'TRANSFER_NFT');
+                $chain = get_post_meta($post->ID, 'chain', true);
+                ?>
+                <p>🎉 NFT Contract address set up and you are ready to mint tokens! Go to the general settings tab of the Tatum plugin and select this API key to activate it! </p>
+                <p> Make sure you have enough balance on the address to be able to perform operations. Fees of operations are approximately following (we do not charge you anything):</p>
+                <p>Mint - <?php echo $mint_cost. ' '. $chain ?></p>
+                <p>Transfer - <?php echo $transfer_cost. ' '. $chain ?></p>
+                <?php break;
         }
     }
 
@@ -422,9 +430,9 @@ class Tatum_Admin
         }
     }
 
-    public function estimate_nft_deploy(WP_Post $post) {
+    public function estimate_transaction_cost(WP_Post $post, $type) {
         $chain = get_post_meta($post->ID, 'chain', true);
-        $estimate = Tatum_Connector::estimate(['chain' => $chain, 'type' => 'DEPLOY_NFT'], $post->post_title);
+        $estimate = Tatum_Connector::estimate(['chain' => $chain, 'type' => $type], $post->post_title);
         return $estimate['gasLimit'] * $estimate['gasPrice'] / 1000000000;
     }
 
@@ -444,7 +452,7 @@ class Tatum_Admin
             update_post_meta($post->ID, 'nft_contract_name', $nft_contract_name);
             update_post_meta($post->ID, 'nft_contract_symbol', $nft_contract_symbol);
 
-            $threshold = $this->estimate_nft_deploy($post);
+            $threshold = $this->estimate_transaction_cost($post, 'DEPLOY_NFT');
             $balance = $this->get_address_balance($chain, $address, $post->post_title);
             if ($balance <= $threshold) {
                 $this->add_flash_notice('To deploy NFT contract, your balance on address ' . $address . ' should be greater than ' . $threshold.' '. $chain .'.', "error");

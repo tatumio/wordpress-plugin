@@ -5,11 +5,11 @@ Tags: tatum, blockchain, nft, erc721, ethereum, celo, bsc
 Requires at least: 5.5
 Requires PHP: 7.0
 Tested up to: 5.7.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
-Tatum is the easiest and fastest free plugin to work with NFTs without any blockchain development experience.
+[Tatum](https://tatum.io/) is the easiest and fastest free plugin to work with NFTs without any blockchain development experience.
 
 == Description ==
 
@@ -45,6 +45,15 @@ Yes, the Tatum plugin is made for selling and minting NFTs without any blockchai
 
 Yes, the Tatum plugin is completely free!
 
+= Do we charge you any fees for mint or transfer tokens? =
+
+No, we dont charge you anything. You are just paying blockchain fees for the deploy, mint and transfer transactions.
+
+= Can customers sell their NFT? =
+
+No. The plugin could be only used to sell the NFT created by Admin to the customers.
+
+
 == Screenshots ==
 1. Create an account in the [Tatum Dashboard](https://dashboard.tatum.io/login) and obtain an API key.
 2. Add the Tatum API key to the Tatum plugin. This step will also generate a wallet.
@@ -62,6 +71,9 @@ Yes, the Tatum plugin is completely free!
 
 = 1.0.1 =
 * Added deploy smart contract enough balance validation
+
+= 1.0.2 =
+* Added information about fees cost
 
 == Upgrade Notice ==
 
