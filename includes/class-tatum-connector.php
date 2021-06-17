@@ -4,11 +4,18 @@ class Tatum_Connector
 {
     const TATUM_URL = 'https://api-eu1.tatum.io';
     const BLOCKCHAIN_URL_MAPPING = array('ETH' => 'ethereum', 'CELO' => 'celo', 'BSC' => 'bsc');
+    private static function isResponseOk($response) {
+        $code = wp_remote_retrieve_response_code($response);
+        if($code > 299 ||  $code < 200) {
+            throw new Exception('Tatum connector exception');
+        }
+    }
     private static function get($url, $api_key)
     {
         $args = array('headers' => self::headers($api_key));
         $response = wp_remote_get(self::TATUM_URL . $url, $args);
         $server_output = wp_remote_retrieve_body($response);
+        self::isResponseOk($response);
         return json_decode($server_output, true);
     }
     private static function post($url, $body, $api_key)
@@ -16,6 +23,7 @@ class Tatum_Connector
         $args = array('headers' => self::headers($api_key), 'body' => json_encode($body));
         $response = wp_remote_post(self::TATUM_URL . $url, $args);
         $server_output = wp_remote_retrieve_body($response);
+        self::isResponseOk($response);
         return json_decode($server_output, true);
     }
     private static function headers($api_key) : array

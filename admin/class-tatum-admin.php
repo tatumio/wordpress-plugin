@@ -297,7 +297,7 @@ class Tatum_Admin
                 $transfer_cost = $this->estimate_transaction_cost($post, 'TRANSFER_NFT');
                 $chain = get_post_meta($post->ID, 'chain', true);
                 ?>
-                <p>🎉 NFT Contract address set up and you are ready to mint tokens! Go to the general settings tab of the Tatum plugin and select this API key to activate it! </p>
+                <p>🎉&nbsp;&nbsp;NFT Contract address set up and you are ready to mint tokens! Go to the general settings tab of the Tatum plugin and select this API key to activate it! </p>
                 <p> Make sure you have enough balance on the address to be able to perform operations. Fees of operations are approximately following (we do not charge you anything):</p>
                 <p>Mint - <?php echo $mint_cost. ' '. $chain ?></p>
                 <p>Transfer - <?php echo $transfer_cost. ' '. $chain ?></p>
@@ -472,7 +472,7 @@ class Tatum_Admin
             update_post_meta($post->ID, 'nft_contract_transaction_hash', $response['txId']);
             update_post_meta($post->ID, 'status', 'contract_transaction_sent');
         } catch (Exception $error) {
-            $this->add_flash_notice('There was a problem with deploying your smart contract, please check if you have enough balance.', "error");
+            $this->add_flash_notice('There was a problem with deploying your smart contract, please check if you have enough balance or contact support forum https://wordpress.org/support/plugin/tatum/.', "error");
         }
     }
 
@@ -514,7 +514,7 @@ class Tatum_Admin
                         }
                     }
                     if ($status == 'contract_address_obtained') {
-                        $this->add_flash_notice('🎉 Your contract address is obtained and you are ready to mint your tokens!', "success");
+                        $this->add_flash_notice('🎉&nbsp;&nbsp;Your contract address is obtained and you are ready to mint your tokens!', "success");
                     }
                 }
             }
