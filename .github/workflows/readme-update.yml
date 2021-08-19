@@ -16,3 +16,5 @@ jobs:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SLUG: tatum
+          ASSETS_DIR: assets
+          README_NAME: README.txt
