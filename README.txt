@@ -1,7 +1,7 @@
 === Tatum ===
 Contributors: lukaskotol
 Donate link: https://tatum.io/
-Tags: tatum, blockchain, nft, erc721, ethereum, celo, bsc
+Tags: tatum, blockchain, nft, erc721, ethereum, celo, bsc, mint
 Requires at least: 5.5
 Requires PHP: 7.0
 Tested up to: 5.7.1
