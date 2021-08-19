@@ -56,7 +56,7 @@ No. The plugin could be only used to sell the NFT created by Admin to the custom
 = How does it work when Automatic Minting is disabled? =
 
 When Automatic minting is disabled, you need to specify the URL and the token id for every NFT token you are minting.
-If you have enabled Automatic minting, then the token id will be incremented from zero, adding one for each minted NFT and the URL will be the same for all NFT’s.
+If you have enabled Automatic minting, then the token id will be incremented from zero, adding one for each minted NFT and the URL will be the same for all NFTs.
 
 
 == Screenshots ==
