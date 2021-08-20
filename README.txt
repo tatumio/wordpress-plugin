@@ -58,6 +58,8 @@ No. The plugin could be only used to sell the NFT created by Admin to the custom
 When Automatic minting is disabled, you need to specify the URL and the token id for every NFT token you are minting.
 If you have enabled Automatic minting, then the token id will be incremented from zero, adding one for each minted NFT and the URL will be the same for all NFTs.
 
+=  What data can/should be included in Metadata? =
+In the Metadata there should be some info about minted Token or link to web page of the token. Check these links to find more details: https://nftschool.dev/reference/metadata-schemas/#ethereum-and-evm-compatible-chains, https://forum.openzeppelin.com/t/how-to-provide-metadata-for-erc721/4057.
 
 == Screenshots ==
 1. Create an account in the [Tatum Dashboard](https://dashboard.tatum.io/login) and obtain an API key.
