@@ -523,6 +523,7 @@ class Tatum_Admin
 
     public function change_post_columns($defaults) {
         $defaults['status'] = 'Status';
+        $defaults['chain'] = 'Chain';
         unset($defaults['date']);
 
         return $defaults;
@@ -531,6 +532,9 @@ class Tatum_Admin
     public function fill_custom_columns($column_name, $post_id) {
         if ($column_name == 'status') {
             echo $this->format_api_key_status(get_post_meta($post_id, 'status', true));
+        }
+        if ($column_name == 'chain') {
+            echo get_post_meta($post_id, 'chain', true);
         }
     }
 
@@ -736,7 +740,7 @@ class Tatum_Admin
             }
 
             if (!isset($tatum_url) || $tatum_url === '' || filter_var($tatum_url, FILTER_VALIDATE_URL) === false) {
-                return $this->add_flash_notice('URL Metadata of your NFT token should be valid ULR!', "error");
+                return $this->add_flash_notice('URL Metadata of your NFT token should be valid URL!', "error");
             }
 
             $active_key = $this->get_active_api_key();
