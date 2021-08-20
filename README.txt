@@ -5,7 +5,7 @@ Tags: tatum, blockchain, nft, erc721, ethereum, celo, bsc, mint
 Requires at least: 5.5
 Requires PHP: 7.0
 Tested up to: 5.7.1
-Stable tag: 1.0.3
+Stable tag: 1.0.5
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -84,6 +84,9 @@ In the Metadata there should be some info about minted Token or link to web page
 
 = 1.0.3 =
 * Fixed deploy NFT minor bug
+
+= 1.0.5 =
+* Fixed minor bugs
 
 == Upgrade Notice ==
 

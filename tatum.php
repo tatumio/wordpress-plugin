@@ -4,7 +4,7 @@
  * Plugin Name:       Tatum
  * Plugin URI:        https://tatum.io/
  * Description:       Tatum is a free easiest and fastest plugin to work with NFTs without any expertise in blockchain field.
- * Version:           1.0.3
+ * Version:           1.0.4
  * Author:            Lukas Kotol
  * Author URI:        https://github.com/Hathoriel
  * License:           MIT
@@ -23,7 +23,7 @@ require plugin_dir_path(__FILE__) . 'vendor/autoload.php';
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('TATUM_VERSION', '1.0.3');
+define('TATUM_VERSION', '1.0.5');
 /**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-tatum-activator.php
