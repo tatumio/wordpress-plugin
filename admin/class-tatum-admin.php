@@ -545,7 +545,7 @@ class Tatum_Admin
 		$formatted_status = [
 			'contract_address_obtained' => 'NFT Contract address set up! You are ready to mint tokens!',
 			'contract_transaction_sent' => 'NFT Contract sent, waiting for obtaining contract address.',
-			'wallet_generated'          => 'Wallet generated'
+			'wallet_generated'          => 'Wallet generated - fund your wallet.'
 		];
 
 		return $formatted_status[ $status ];
