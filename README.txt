@@ -22,7 +22,7 @@ With the Tatum plugin, you can:
 *   Generate wallets
 *   Mint NFTs
 
-You are welcome to add your pull request to the [repository](https://github.com/tatumio/woocommerce-plugin). Or feel free to contact me via [Telegram](https://t.me/LukasKotol).
+You are welcome to add your pull request to the [repository](https://github.com/tatumio/woocommerce-plugin). Feel free to contact me via [Telegram](https://t.me/LukasKotol).
 
 == Installation ==
 
