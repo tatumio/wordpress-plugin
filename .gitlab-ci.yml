@@ -1,0 +1,17 @@
+# CI pipeline is dynamically created through `node-gitlab-ci`, please checkout `.gitlab-ci.ts`!
+
+ts config:
+    image: devowliode/node-gitlab-ci:latest
+    stage: build
+    script: node-gitlab-ci create-yml
+    artifacts:
+        paths:
+            - .gitlab-ci.ts.yml
+
+trigger pipeline:
+    stage: test
+    trigger:
+        strategy: depend
+        include:
+            - artifact: .gitlab-ci.ts.yml
+              job: ts config

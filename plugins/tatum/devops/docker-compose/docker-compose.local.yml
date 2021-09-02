@@ -1,0 +1,13 @@
+# This file overrides the file from docker-compose.yml
+
+version: "3"
+
+services:
+    wordpress:
+        volumes:
+            # Composer PHP files
+            - ../../plugins/tatum/vendor:/var/www/html/wp-content/plugins/tatum/vendor
+            # The main plugin source
+            - ../../plugins/tatum/src:/var/www/html/wp-content/plugins/tatum
+            # Devops scripts
+            - ../../plugins/tatum/devops/scripts:/scripts/plugins/tatum

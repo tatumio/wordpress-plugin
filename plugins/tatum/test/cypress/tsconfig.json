@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "target": "ES5",
+        "esModuleInterop": true,
+        "baseUrl": "../node_modules",
+        "types": ["cypress", "node"],
+        "resolveJsonModule": true
+    },
+    "include": ["**/*.*"]
+}
