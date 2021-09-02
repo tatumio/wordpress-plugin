@@ -12,9 +12,12 @@ import "./style/admin.scss";
 const node = document.getElementById(`${RootStore.get.optionStore.slug}-component`);
 
 if (node) {
-    render(<RootStore.StoreProvider>
-      <div>ahoj</div>
-    </RootStore.StoreProvider>, node);
+    render(
+        <RootStore.StoreProvider>
+            <ComponentLibrary />
+        </RootStore.StoreProvider>,
+        node
+    );
 }
 
 // Expose this functionalities to add-ons, but you need to activate the library functionality
