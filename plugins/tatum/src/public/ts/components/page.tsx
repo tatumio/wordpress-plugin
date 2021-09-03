@@ -1,15 +1,16 @@
-import React, { Component, FC } from "react";
+import React from "react";
 import { observer } from "mobx-react";
-import { useStores } from "../store";
-import { Layout, Row, Col } from "antd";
+import { Layout as AntdLayout, Row, Col } from "antd";
 import "antd/dist/antd.css";
-import { Guideline } from "./guideline";
 
-const ComponentLibrary: FC<{}> = observer(() => {
-    const { optionStore } = useStores();
-    const { Header, Footer, Content } = Layout;
+type Props = {
+    children?: React.ReactNode;
+};
+
+export const Layout = observer(({ children }: Props) => {
+    const { Header, Footer, Content: AntdContent } = AntdLayout;
     return (
-        <Layout>
+        <AntdLayout>
             <Header style={{ backgroundColor: "#fff" }}>
                 <Row justify="space-around" align="middle">
                     <Col span={8}>NFT Maker</Col>
@@ -18,19 +19,18 @@ const ComponentLibrary: FC<{}> = observer(() => {
                     </Col>
                 </Row>
             </Header>
-            <Content style={{ backgroundColor: "#f0f2f5" }}>
+            <AntdContent style={{ backgroundColor: "#f0f2f5" }}>
                 <Row style={{ marginTop: "40px" }}>
                     <Col
                         span={12}
                         offset={6}
                         style={{ display: "flex", justifyContent: "center", flexDirection: "column" }}
                     >
-                        <Guideline />
+                        {children}
                     </Col>
                 </Row>
-            </Content>
+            </AntdContent>
             <Footer>Footer</Footer>
-        </Layout>
+        </AntdLayout>
     );
 });
-export { ComponentLibrary };

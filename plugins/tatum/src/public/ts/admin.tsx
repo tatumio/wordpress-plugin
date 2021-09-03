@@ -5,16 +5,16 @@
  */
 import "@tatum/utils"; // Import once for startup polyfilling (e. g. setimmediate)
 import { render } from "react-dom";
-import { ComponentLibrary } from "./components";
 import { RootStore } from "./store";
 import "./style/admin.scss";
+import { LandingPage } from "./pages/landingPage";
 
 const node = document.getElementById(`${RootStore.get.optionStore.slug}-component`);
 
 if (node) {
     render(
         <RootStore.StoreProvider>
-            <ComponentLibrary />
+            <LandingPage />
         </RootStore.StoreProvider>,
         node
     );
