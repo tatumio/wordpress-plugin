@@ -131,7 +131,9 @@
         ]
     },
     "dependencies": {
+        "@ant-design/icons": "^4.6.4",
         "@tatum/utils": "^1.0.0",
+        "antd": "^4.16.13",
         "core-js": "3.6.5",
         "enzyme": "^3.11.0",
         "enzyme-adapter-react-16": "^1.15.2",
