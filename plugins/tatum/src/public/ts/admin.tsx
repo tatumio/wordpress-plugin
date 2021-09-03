@@ -7,14 +7,14 @@ import "@tatum/utils"; // Import once for startup polyfilling (e. g. setimmediat
 import { render } from "react-dom";
 import { RootStore } from "./store";
 import "./style/admin.scss";
-import { LandingPage } from "./pages/landingPage";
+import { Layout } from "./components";
 
 const node = document.getElementById(`${RootStore.get.optionStore.slug}-component`);
 
 if (node) {
     render(
         <RootStore.StoreProvider>
-            <LandingPage />
+            <Layout />
         </RootStore.StoreProvider>,
         node
     );

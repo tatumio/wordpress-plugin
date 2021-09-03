@@ -36,26 +36,23 @@ const CardItemText = ({
     title: string;
     description?: string;
     durationText?: string;
-}) => {
-    console.log(description);
-    return (
-        <>
-            {description ? (
-                <div className="tatum-card-item-text-container">
-                    <div>{title}</div>
-                    <div className="tatum-card-description-text">{description}</div>
-                    <div className="tatum-card-description-text">{durationText}</div>
-                </div>
-            ) : (
+}) => (
+    <>
+        {description ? (
+            <div className="tatum-card-item-text-container">
                 <div>{title}</div>
-            )}
-        </>
-    );
-};
+                <div className="tatum-card-description-text">{description}</div>
+                <div className="tatum-card-description-text">{durationText}</div>
+            </div>
+        ) : (
+            <div>{title}</div>
+        )}
+    </>
+);
 
 const Guideline: FC<{}> = observer(() => {
     return (
-        <>
+        <div className="tatum-empty-body-cards">
             <Card title="Complete these tasks to start selling your products as NFTs" style={{ width: "100%" }} />
             <CardItem title="Woocommerce plugin installed" done={true} />
             <CardItem
@@ -64,7 +61,7 @@ const Guideline: FC<{}> = observer(() => {
                 description="Choose your API plan and start minting NFTs"
                 durationText="3 minutes"
             />
-        </>
+        </div>
     );
 });
 

@@ -2,13 +2,12 @@ import React from "react";
 import { observer } from "mobx-react";
 import { Layout as AntdLayout, Row, Col } from "antd";
 import "antd/dist/antd.css";
+import { useStores } from "../store";
+import { LandingPage } from "../pages/landingPage";
 
-type Props = {
-    children?: React.ReactNode;
-};
-
-export const Layout = observer(({ children }: Props) => {
+export const Layout = observer(() => {
     const { Header, Footer, Content: AntdContent } = AntdLayout;
+    const page = usePageComponent();
     return (
         <AntdLayout>
             <Header style={{ backgroundColor: "#fff" }}>
@@ -19,14 +18,14 @@ export const Layout = observer(({ children }: Props) => {
                     </Col>
                 </Row>
             </Header>
-            <AntdContent style={{ backgroundColor: "#f0f2f5" }}>
+            <AntdContent style={{ backgroundColor: "#f9f9f9" }}>
                 <Row style={{ marginTop: "40px" }}>
                     <Col
                         span={12}
                         offset={6}
                         style={{ display: "flex", justifyContent: "center", flexDirection: "column" }}
                     >
-                        {children}
+                        {page}
                     </Col>
                 </Row>
             </AntdContent>
@@ -34,3 +33,13 @@ export const Layout = observer(({ children }: Props) => {
         </AntdLayout>
     );
 });
+
+const usePageComponent = () => {
+    const { pageStore } = useStores();
+    switch (pageStore.page) {
+        case "landingPage":
+            return <LandingPage />;
+        default:
+            return <LandingPage />;
+    }
+};

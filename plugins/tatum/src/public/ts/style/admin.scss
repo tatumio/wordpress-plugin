@@ -1,6 +1,6 @@
 .wp-styleguide--buttons {
-    background-color: #fff;
-    padding: 10px;
+  background-color: #fff;
+  padding: 10px;
 }
 
 .wrap {
@@ -11,8 +11,10 @@
   padding-left: 0;
 }
 
-.ant-card-body {
-  display: none;
+.tatum-empty-body-cards {
+  .ant-card-body {
+    display: none;
+  }
 }
 
 .tatum-card-item {

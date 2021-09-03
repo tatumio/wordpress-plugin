@@ -1,10 +1,11 @@
 import { Guideline } from "../components/guideline";
-import { Layout } from "../components";
+import { About } from "../components/about";
 
 export const LandingPage = () => {
     return (
-        <Layout>
+        <>
             <Guideline />
-        </Layout>
+            <About />
+        </>
     );
 };

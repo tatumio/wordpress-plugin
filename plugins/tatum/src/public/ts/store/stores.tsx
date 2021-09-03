@@ -2,6 +2,7 @@ import { configure } from "mobx";
 import { createContextFactory } from "@tatum/utils";
 import { TodoStore } from "./todo";
 import { OptionStore } from "./option";
+import { PageStore } from "./page";
 
 configure({
     enforceActions: "always"
@@ -20,6 +21,8 @@ class RootStore {
 
     public optionStore: OptionStore;
 
+    public pageStore: PageStore;
+
     private contextMemo: {
         StoreContext: React.Context<RootStore>;
         StoreProvider: React.FC<{}>;
@@ -35,6 +38,7 @@ class RootStore {
     private constructor() {
         this.todoStore = new TodoStore(this);
         this.optionStore = new OptionStore(this);
+        this.pageStore = new PageStore(this);
     }
 
     public static get StoreProvider() {
