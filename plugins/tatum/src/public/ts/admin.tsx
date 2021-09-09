@@ -10,6 +10,10 @@ import "./style/admin.scss";
 import { Layout } from "./components";
 
 const node = document.getElementById(`${RootStore.get.optionStore.slug}-component`);
+const wpContent = node?.parentNode?.parentNode?.parentNode as HTMLElement;
+if (wpContent) {
+    wpContent.style.paddingLeft = "0";
+}
 
 if (node) {
     render(
