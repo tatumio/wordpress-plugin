@@ -9,7 +9,7 @@ export const Layout = observer(() => {
     const { Header, Footer, Content: AntdContent } = AntdLayout;
     const page = usePageComponent();
     return (
-        <AntdLayout>
+        <AntdLayout className="tatum">
             <Header style={{ backgroundColor: "#fff" }}>
                 <Row justify="space-around" align="middle">
                     <Col span={8}>NFT Maker</Col>

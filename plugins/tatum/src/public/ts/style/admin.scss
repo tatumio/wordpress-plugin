@@ -7,19 +7,32 @@
   margin: 0;
 }
 
-.tatum-empty-body-cards {
-  .ant-card-body {
-    display: none;
+.tatum {
+  .tatum-empty-body-cards {
+    .ant-card-body {
+      display: none;
+    }
   }
-}
 
-.tatum-card-item {
-  display: flex;
-  align-items: center;
-}
+  .tatum-card-item {
+    display: flex;
+    align-items: center;
+  }
 
-.tatum-card-description-text {
-  font-weight: 400;
-  font-size: 14px;
-  color: #9a9a9a;
+  .tatum-card-description-text {
+    font-weight: 400;
+    font-size: 14px;
+    color: #9a9a9a;
+  }
+
+  .video-tutorials-container {
+    margin-top: 40px;
+    margin-bottom: 80px;
+  }
+
+  .card-item-video-content {
+    display: flex;
+    justify-content: space-between;
+  }
+
 }
