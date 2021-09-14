@@ -1,11 +1,11 @@
-import { observable, action } from "mobx";
-import { TodoModel } from "../models";
+import { action, observable } from "mobx";
 import { RootStore } from "./stores";
+import { Page } from "../models/page";
 
 /* istanbul ignore next: Example implementations gets deleted the most time after plugin creation! */
 class PageStore {
     @observable
-    public page = "landingPage";
+    public page: Page = Page.LANDING;
 
     public readonly rootStore: RootStore;
 
@@ -14,7 +14,7 @@ class PageStore {
     }
 
     @action
-    public setPage(page: string) {
+    public setPage(page: Page) {
         this.page = page;
     }
 }

@@ -2,13 +2,17 @@
   margin: 0;
 }
 
-.tatum {
-  .tatum-empty-body-cards {
-    .ant-card-body {
-      display: none;
-    }
+.grid-table {
+  .ant-card-body {
+    padding: 0;
   }
+}
 
+.ant-card-grid-hoverable {
+  cursor: pointer;
+}
+
+.tatum {
   .tatum-card-item {
     display: flex;
     align-items: center;
@@ -31,5 +35,22 @@
     align-items: center;
   }
 
+  .back-to-landing-page-container {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    cursor: pointer;
 
+    .title {
+      margin-left: 40px;
+    }
+  }
+
+  .why-do-i-need-api-key {
+    font-weight: 500;
+  }
+
+  .get-your-api-key-cards {
+    margin-top: 40px;
+  }
 }
