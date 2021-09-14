@@ -1,28 +1,12 @@
-import { Button, Card } from "antd";
+import { Card } from "antd";
 import React from "react";
-import { CardItemText } from "./CardItemText";
+import { CardGridItem } from "./CardGridItem";
 
 export const VideoTutorials = () => {
-    const gridStyle = {
-        width: "100%",
-        align: "center"
-    };
-
     return (
         <Card className="video-tutorials-container grid-table" title="Tutorials">
-            <Card.Grid style={gridStyle} hoverable={false}>
-                <CardItemVideoContent />
-            </Card.Grid>
-            <Card.Grid style={gridStyle} hoverable={false}>
-                <CardItemVideoContent />
-            </Card.Grid>
+            <CardGridItem buttonText="Watch Tutorial" title="blabla" description="blabla" />
+            <CardGridItem buttonText="Watch Tutorial" title="blabla" description="blabla" />
         </Card>
     );
 };
-
-const CardItemVideoContent = () => (
-    <div className="card-item-video-content grid-table">
-        <CardItemText title="blabla" description="blabal" />
-        <Button>Watch Tutorial</Button>
-    </div>
-);

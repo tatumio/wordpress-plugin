@@ -33,7 +33,7 @@ const CardItem = ({
             ) : (
                 <Avatar style={{ height: "40px", width: "40px", marginRight: "10px" }} />
             )}
-            <CardItemText title={title} description={description} durationText={durationText} />
+            <CardItemText title={title} description={description} secondDescription={durationText} />
         </div>
     );
 };

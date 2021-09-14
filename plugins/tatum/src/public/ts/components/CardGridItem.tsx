@@ -2,16 +2,36 @@ import { Button, Card } from "antd";
 import { CardItemText } from "./CardItemText";
 import React from "react";
 
-const CardGridItem = ({ hoverable }: { hoverable: boolean,  }) => {
+export const CardGridItem = ({
+    hoverable = false,
+    title,
+    description,
+    secondDescription,
+    buttonText,
+    buttonType,
+    buttonLink
+}: {
+    hoverable?: boolean;
+    title: string;
+    description?: string;
+    secondDescription?: string;
+    buttonText: string;
+    buttonType?: "link" | "text" | "ghost" | "default" | "primary" | "dashed";
+    buttonLink?: string;
+}) => {
     const gridStyle = {
         width: "100%",
         align: "center"
     };
     return (
-        <Card.Grid hoverable={false} style={gridStyle}>
-            <div className="card-item-video-content grid-table">
-                <CardItemText title="blabla" description="blabal" />
-                <Button type="primary">Watch Tutorial</Button>
+        <Card.Grid hoverable={hoverable} style={gridStyle}>
+            <div className="card-item-grid-content grid-table">
+                <CardItemText title={title} description={description} secondDescription={secondDescription} />
+                <Button type={buttonType}>
+                    <a href={buttonLink} target="_blank" rel="noreferrer">
+                        {buttonText}
+                    </a>
+                </Button>
             </div>
         </Card.Grid>
     );
