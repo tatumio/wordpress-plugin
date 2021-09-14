@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { Layout as AntdLayout, Row, Col } from "antd";
-import "antd/dist/antd.css";
+
 import { useStores } from "../store";
 import { LandingPage } from "../pages/landingPage";
 

@@ -25,28 +25,30 @@ class Assets {
      * @param string $hook_suffix The current admin page
      */
     public function enqueue_scripts_and_styles($type, $hook_suffix = null) {
-        // Generally check if an entrypoint should be loaded
-        if (!in_array($type, [self::$TYPE_ADMIN, self::$TYPE_FRONTEND], true)) {
-            return;
+        if ($this->isScreenBase("toplevel_page_tatum-component")) {
+            // Generally check if an entrypoint should be loaded
+            if (!in_array($type, [self::$TYPE_ADMIN, self::$TYPE_FRONTEND], true)) {
+                return;
+            }
+
+            // Your assets implementation here... See utils Assets for enqueue* methods
+            // $useNonMinifiedSources = $this->useNonMinifiedSources(); // Use this variable if you need to differ between minified or non minified sources
+            // Our utils package relies on jQuery, but this shouldn't be a problem as the most themes still use jQuery (might be replaced with https://github.com/github/fetch)
+            // Enqueue external utils package
+            $scriptDeps = $this->enqueueUtils();
+
+            // Enqueue plugin entry points
+            if ($type === self::$TYPE_ADMIN) {
+                $handle = $this->enqueueScript('admin', 'admin.js', $scriptDeps);
+                $this->enqueueStyle('admin', 'admin.css');
+            } elseif ($type === self::$TYPE_FRONTEND) {
+                $handle = $this->enqueueScript('widget', 'widget.js', $scriptDeps);
+                $this->enqueueStyle('widget', 'widget.css');
+            }
+
+            // Localize script with server-side variables
+            wp_localize_script($handle, TATUM_SLUG_CAMELCASE, $this->localizeScript($type));
         }
-
-        // Your assets implementation here... See utils Assets for enqueue* methods
-        // $useNonMinifiedSources = $this->useNonMinifiedSources(); // Use this variable if you need to differ between minified or non minified sources
-        // Our utils package relies on jQuery, but this shouldn't be a problem as the most themes still use jQuery (might be replaced with https://github.com/github/fetch)
-        // Enqueue external utils package
-        $scriptDeps = $this->enqueueUtils();
-
-        // Enqueue plugin entry points
-        if ($type === self::$TYPE_ADMIN) {
-            $handle = $this->enqueueScript('admin', 'admin.js', $scriptDeps);
-            $this->enqueueStyle('admin', 'admin.css');
-        } elseif ($type === self::$TYPE_FRONTEND) {
-            $handle = $this->enqueueScript('widget', 'widget.js', $scriptDeps);
-            $this->enqueueStyle('widget', 'widget.css');
-        }
-
-        // Localize script with server-side variables
-        wp_localize_script($handle, TATUM_SLUG_CAMELCASE, $this->localizeScript($type));
     }
 
     /**

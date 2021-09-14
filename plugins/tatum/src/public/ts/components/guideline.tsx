@@ -1,7 +1,14 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { observer } from "mobx-react";
-import { Card, Avatar } from "antd";
+import { Card, Avatar, Spin } from "antd";
 import { CheckCircleFilled } from "@ant-design/icons";
+import {
+    locationRestSetupGet,
+    ParamsRouteSetupGet,
+    RequestRouteSetupGet,
+    ResponseRouteSetupGet
+} from "../wp-api/setup.get";
+import { request } from "../utils";
 
 const CardItem = ({
     title,
@@ -50,19 +57,44 @@ const CardItemText = ({
     </>
 );
 
+const SpinnerCard = () => {
+    return <Card style={{ display: "flex", justifyContent: "center" }} title={<Spin />} />;
+};
+
 const Guideline: FC<{}> = observer(() => {
+    const { data } = useSetup();
     return (
         <div className="tatum-empty-body-cards">
             <Card title="Complete these tasks to start selling your products as NFTs" style={{ width: "100%" }} />
-            <CardItem title="Woocommerce plugin installed" done={true} />
-            <CardItem
-                title="Complete these tasks to start selling your products as NFTs"
-                done={false}
-                description="Choose your API plan and start minting NFTs"
-                durationText="3 minutes"
-            />
+            {!data ? (
+                <SpinnerCard />
+            ) : (
+                <>
+                    <CardItem title="Woocommerce plugin installed" done={data.isWoocommerceInstalled} />
+                    <CardItem
+                        title="Get your Tatum API key"
+                        done={false}
+                        description="Choose your API plan and start minting NFTs"
+                        durationText="3 minutes"
+                    />
+                </>
+            )}
         </div>
     );
 });
+
+const useSetup = () => {
+    const [setup, setSetup] = useState<ResponseRouteSetupGet | null>(null);
+    useEffect(() => {
+        async function fetchMyAPI() {
+            const result = await request<RequestRouteSetupGet, ParamsRouteSetupGet, ResponseRouteSetupGet>({
+                location: locationRestSetupGet
+            });
+            setSetup(result);
+        }
+        fetchMyAPI();
+    }, []);
+    return { data: setup };
+};
 
 export { Guideline };

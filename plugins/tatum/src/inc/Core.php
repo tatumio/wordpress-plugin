@@ -1,7 +1,7 @@
 <?php
 namespace Hathoriel\Tatum;
 use Hathoriel\Tatum\base\Core as BaseCore;
-use Hathoriel\Tatum\rest\HelloWorld;
+use Hathoriel\Tatum\rest\SetupRest;
 use Hathoriel\Tatum\view\menu\Page;
 use Hathoriel\Tatum\view\widget\Widget;
 
@@ -35,7 +35,7 @@ class Core extends BaseCore {
      */
     public function init() {
         // Register all your hooks here
-        add_action('rest_api_init', [HelloWorld::instance(), 'rest_api_init']);
+        add_action('rest_api_init', [SetupRest::instance(), 'rest_api_init']);
         add_action('admin_enqueue_scripts', [$this->getAssets(), 'admin_enqueue_scripts']);
         add_action('wp_enqueue_scripts', [$this->getAssets(), 'wp_enqueue_scripts']);
         add_action('admin_menu', [Page::instance(), 'admin_menu']);

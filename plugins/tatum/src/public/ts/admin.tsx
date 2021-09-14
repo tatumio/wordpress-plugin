@@ -3,10 +3,11 @@
 /**
  * The entry point for the admin side wp-admin resource.
  */
+import "antd/dist/antd.css";
+import "./style/admin.scss";
 import "@tatum/utils"; // Import once for startup polyfilling (e. g. setimmediate)
 import { render } from "react-dom";
 import { RootStore } from "./store";
-import "./style/admin.scss";
 import { Layout } from "./components";
 
 const node = document.getElementById(`${RootStore.get.optionStore.slug}-component`);

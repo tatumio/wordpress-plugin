@@ -5,7 +5,7 @@ namespace Hathoriel\Tatum\Test;
 use TestCaseUtils;
 use Hathoriel\Tatum\base\Core as BaseCore;
 use Hathoriel\Tatum\Core;
-use Hathoriel\Tatum\rest\HelloWorld;
+use Hathoriel\Tatum\rest\SetupRest;
 use Hathoriel\Tatum\view\menu\Page;
 use Mockery;
 use Mockery\MockInterface;
@@ -49,7 +49,7 @@ final class CoreTest extends TestCase {
         $this->core->shouldReceive('getAssets')->andReturnNull();
 
         redefine(Page::class . '::instance', always(null));
-        redefine(HelloWorld::class . '::instance', always(null));
+        redefine(SetupRest::class . '::instance', always(null));
 
         WP_Mock::expectActionAdded('rest_api_init', [null, 'rest_api_init']);
         WP_Mock::expectActionAdded('admin_enqueue_scripts', [null, 'admin_enqueue_scripts']);

@@ -6,6 +6,8 @@ export const VideoTutorials = () => {
         <div className="video-tutorials-container tatum-empty-body-cards">
             <Card title="Tutorials" />
             <Card title={<CardItemVideoContent />} />
+            <Card title={<CardItemVideoContent />} />
+            <Card title={<CardItemVideoContent />} />
         </div>
     );
 };
@@ -13,7 +15,7 @@ export const VideoTutorials = () => {
 const CardItemVideoContent = () => (
     <div className="card-item-video-content">
         <CardItemText title="blabla" description="blabal" />
-        <Button title="Watch Tutorial" />
+        <Button>Watch Tutorial</Button>
     </div>
 );
 
