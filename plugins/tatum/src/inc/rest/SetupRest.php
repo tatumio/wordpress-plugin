@@ -4,7 +4,9 @@ namespace Hathoriel\Tatum\rest;
 
 use Hathoriel\Utils\Service;
 use Hathoriel\Tatum\base\UtilsProvider;
+use Mockery\Exception;
 use WP_REST_Response;
+use WP_REST_Request;
 use Hathoriel\Tatum\tatum\Setup;
 
 // @codeCoverageIgnoreStart
@@ -37,6 +39,12 @@ class SetupRest
             'callback' => [$this, 'getSetup'],
             'permission_callback' => '__return_true'
         ]);
+
+        register_rest_route($namespace, '/api-key', [
+            'methods' => 'POST',
+            'callback' => [$this, 'setApiKey'],
+            'permission_callback' => '__return_true'
+        ]);
     }
 
     /**
@@ -55,6 +63,11 @@ class SetupRest
      */
     public function getSetup() {
         return new WP_REST_Response(Setup::getSetup());
+    }
+
+    public function setApiKey(WP_REST_Request $request) {
+        $data = $request->get_params();
+        return new WP_REST_Response($data);
     }
 
     /**

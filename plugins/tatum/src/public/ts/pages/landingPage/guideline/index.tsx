@@ -1,19 +1,14 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
 import { observer } from "mobx-react";
 import { Avatar, Card, Spin } from "antd";
 import { CheckCircleFilled } from "@ant-design/icons";
-import {
-    locationRestSetupGet,
-    ParamsRouteSetupGet,
-    RequestRouteSetupGet,
-    ResponseRouteSetupGet
-} from "../../../wp-api/setup.get";
-import { request } from "../../../utils";
 import { useStores } from "../../../store";
 import { Page } from "../../../models/page";
 import { CardItemText } from "../../../components/CardItemText";
 import { Container } from "../../../components/container";
 import "./index.scss";
+import { useGet } from "../../../hooks/useGet";
+import { RouteHttpVerb } from "@tatum/utils";
 
 const CardItem = ({
     title,
@@ -44,7 +39,7 @@ const SpinnerCard = () => {
     return <Card style={{ display: "flex", justifyContent: "center" }} title={<Spin />} />;
 };
 
-const CardsContent = ({ data }: { data: ResponseRouteSetupGet }) => {
+const CardsContent = ({ data }: { data: SetupInterface }) => {
     const { pageStore } = useStores();
     const gridStyle = {
         width: "100%",
@@ -69,7 +64,7 @@ const CardsContent = ({ data }: { data: ResponseRouteSetupGet }) => {
 };
 
 const Guideline: FC<{}> = observer(() => {
-    const { data } = useSetup();
+    const { data } = useGet<SetupInterface>("/setup");
 
     return (
         <Container isGridCard={true}>
@@ -80,18 +75,8 @@ const Guideline: FC<{}> = observer(() => {
     );
 });
 
-const useSetup = () => {
-    const [setup, setSetup] = useState<ResponseRouteSetupGet | null>(null);
-    useEffect(() => {
-        async function fetchMyAPI() {
-            const result = await request<RequestRouteSetupGet, ParamsRouteSetupGet, ResponseRouteSetupGet>({
-                location: locationRestSetupGet
-            });
-            setSetup(result);
-        }
-        fetchMyAPI();
-    }, []);
-    return { data: setup };
-};
+interface SetupInterface {
+    isWoocommerceInstalled?: boolean;
+}
 
 export { Guideline };

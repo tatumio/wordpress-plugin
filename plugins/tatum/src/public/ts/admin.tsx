@@ -28,5 +28,4 @@ if (node) {
 // Expose this functionalities to add-ons, but you need to activate the library functionality
 // in your webpack configuration, see also https://webpack.js.org/guides/author-libraries/
 export * from "@tatum/utils";
-export * from "./wp-api";
 export * from "./store";

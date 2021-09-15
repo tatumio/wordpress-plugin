@@ -1,6 +1,7 @@
 <?php
 
 namespace Hathoriel\Tatum\tatum;
+
 use Hathoriel\Tatum\base\UtilsProvider;
 
 class Setup
@@ -12,7 +13,10 @@ class Setup
     }
 
     public static function getSetup() {
-        return [ 'isWoocommerceInstalled' => self::isWoocommerceInstalled()];
+        return ['isWoocommerceInstalled' => self::isWoocommerceInstalled()];
+    }
 
+    public static function setApiKey($api_key) {
+        update_option(TATUM_SLUG . '_api_key', $api_key);
     }
 }

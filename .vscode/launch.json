@@ -14,7 +14,7 @@
             "pathMappings": {
                 // Do not remove that because it is used in `../common/generate-launch-json.js`
                 // create-wp-react-app -->
-                "/var/www/html/wp-content/plugins/wp-reactjs-starter": "${workspaceFolder}/plugins/wp-reactjs-starter/src",
+                "/var/www/html/wp-content/plugins/tatum": "${workspaceFolder}/plugins/tatum/src",
                 "/var/www/html/wp-content/packages/utils/src": "${workspaceFolder}/packages/utils/src"
                 // <-- create-wp-react-app
             },
