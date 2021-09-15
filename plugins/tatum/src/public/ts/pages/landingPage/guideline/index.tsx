@@ -7,11 +7,13 @@ import {
     ParamsRouteSetupGet,
     RequestRouteSetupGet,
     ResponseRouteSetupGet
-} from "../wp-api/setup.get";
-import { request } from "../utils";
-import { useStores } from "../store";
-import { Page } from "../models/page";
-import { CardItemText } from "./CardItemText";
+} from "../../../wp-api/setup.get";
+import { request } from "../../../utils";
+import { useStores } from "../../../store";
+import { Page } from "../../../models/page";
+import { CardItemText } from "../../../components/CardItemText";
+import { Container } from "../../../components/container";
+import "./index.scss";
 
 const CardItem = ({
     title,
@@ -70,9 +72,11 @@ const Guideline: FC<{}> = observer(() => {
     const { data } = useSetup();
 
     return (
-        <Card title="Complete these tasks to start selling your products as NFTs" className="grid-table">
-            {data ? <CardsContent data={data} /> : <SpinnerCard />}
-        </Card>
+        <Container isGridCard={true}>
+            <Card title="Complete these tasks to start selling your products as NFTs">
+                {data ? <CardsContent data={data} /> : <SpinnerCard />}
+            </Card>
+        </Container>
     );
 });
 

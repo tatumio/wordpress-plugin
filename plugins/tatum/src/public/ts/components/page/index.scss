@@ -1,0 +1,10 @@
+.back-to-landing-page-container {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  cursor: pointer;
+
+  .title {
+    margin-left: 40px;
+  }
+}

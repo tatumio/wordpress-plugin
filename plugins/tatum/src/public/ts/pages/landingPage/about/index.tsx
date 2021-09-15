@@ -1,8 +1,9 @@
 import { Card } from "antd";
+import { Container } from "../../../components/container";
 
 export const About = () => (
-    <>
-        <Card title="Default size card" style={{ width: "100%", marginTop: "40px" }}>
+    <Container>
+        <Card title="Default size card">
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ac dui arcu. Sed sed neque libero.
                 Aliquam consequat urna non bibendum pellentesque. Proin vitae turpis eleifend, placerat justo vitae,
@@ -12,5 +13,5 @@ export const About = () => (
                 faucibus erat at, consectetur massa.
             </p>
         </Card>
-    </>
+    </Container>
 );

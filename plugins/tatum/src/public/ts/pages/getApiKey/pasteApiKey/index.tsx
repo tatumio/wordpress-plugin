@@ -1,5 +1,7 @@
 import { Card, Input } from "antd";
 import React from "react";
+import { Container } from "../../../components/container";
+import "./index.scss";
 
 export const PasteApiKey = () => {
     const gridStyle = {
@@ -7,14 +9,14 @@ export const PasteApiKey = () => {
         align: "center"
     };
     return (
-        <div className="get-your-api-key-cards grid-table">
+        <Container isGridCard={true}>
             <Card title="Step 2 - Paste your API key below (Final step)">
                 <Card.Grid hoverable={false} style={gridStyle}>
-                    <div className="card-item-grid-content grid-table">Paste your API key</div>
+                    <div>Paste your API key</div>
                     {/* TODO: change style of input */}
                     <Input placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" />
                 </Card.Grid>
             </Card>
-        </div>
+        </Container>
     );
 };

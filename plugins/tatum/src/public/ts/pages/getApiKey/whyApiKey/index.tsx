@@ -1,10 +1,11 @@
 import { Card } from "antd";
+import "./index.scss";
 
-export const WhyDoINeedApiKey = () => {
+export const WhyApiKey = () => {
     return (
         <>
             <Card title="Tatum">
-                <div className="why-do-i-need-api-key">Why do I need an API key to sell NFTs?</div>
+                <div className="whyApiKey">Why do I need an API key to sell NFTs?</div>
                 <div>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ac dui arcu. Sed sed neque libero.
                     Aliquam consequat urna non bibendum pellentesque. Proin vitae turpis eleifend, placerat justo vitae,

@@ -2,55 +2,6 @@
   margin: 0;
 }
 
-.grid-table {
-  .ant-card-body {
-    padding: 0;
-  }
-}
-
 .ant-card-grid-hoverable {
   cursor: pointer;
-}
-
-.tatum {
-  .tatum-card-item {
-    display: flex;
-    align-items: center;
-  }
-
-  .tatum-card-description-text {
-    font-weight: 400;
-    font-size: 14px;
-    color: #9a9a9a;
-  }
-
-  .video-tutorials-container {
-    margin-top: 40px;
-    margin-bottom: 80px;
-  }
-
-  .card-item-grid-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .back-to-landing-page-container {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    cursor: pointer;
-
-    .title {
-      margin-left: 40px;
-    }
-  }
-
-  .why-do-i-need-api-key {
-    font-weight: 500;
-  }
-
-  .get-your-api-key-cards {
-    margin-top: 40px;
-  }
 }

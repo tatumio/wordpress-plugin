@@ -1,6 +1,6 @@
-import { Guideline } from "../components/guideline";
-import { About } from "../components/about";
-import { VideoTutorials } from "../components/VideoTutorials";
+import { Guideline } from "./guideline";
+import { About } from "./about";
+import { VideoTutorials } from "./VideoTutorials";
 
 export const LandingPage = () => {
     return (

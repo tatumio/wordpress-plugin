@@ -1,0 +1,29 @@
+.ant-input {
+  padding: 4px 11px !important;
+  line-height: 1.5715 !important;
+  min-height: 0 !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  font-variant: tabular-nums !important;
+  list-style: none !important;
+  font-feature-settings: "tnum" !important;
+  position: relative !important;
+  display: inline-block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  color: #000000d9 !important;
+  font-size: 14px !important;
+  background-color: #fff !important;
+  background-image: none !important;
+  border: 1px solid #d9d9d9 !important;
+  border-radius: 2px !important;
+  transition: all .3s !important;
+
+  &:focus {
+    border-color: #40a9ff !important;
+    border-right-width: 1px !important;
+    outline: 0 !important;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2) !important;
+  }
+}

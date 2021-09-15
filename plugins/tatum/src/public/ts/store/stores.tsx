@@ -1,6 +1,5 @@
 import { configure } from "mobx";
 import { createContextFactory } from "@tatum/utils";
-import { TodoStore } from "./todo";
 import { OptionStore } from "./option";
 import { PageStore } from "./page";
 
@@ -16,8 +15,6 @@ configure({
  */
 class RootStore {
     private static me: RootStore;
-
-    public todoStore: TodoStore;
 
     public optionStore: OptionStore;
 
@@ -36,7 +33,6 @@ class RootStore {
     }
 
     private constructor() {
-        this.todoStore = new TodoStore(this);
         this.optionStore = new OptionStore(this);
         this.pageStore = new PageStore(this);
     }

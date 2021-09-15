@@ -1,6 +1,7 @@
 import { Button, Card } from "antd";
-import { CardItemText } from "./CardItemText";
+import { CardItemText } from "../CardItemText";
 import React from "react";
+import "./index.scss";
 
 export const CardGridItem = ({
     hoverable = false,

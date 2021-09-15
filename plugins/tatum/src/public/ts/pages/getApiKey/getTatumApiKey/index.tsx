@@ -1,16 +1,16 @@
-import { Button, Card } from "antd";
+import { Card } from "antd";
 import React from "react";
-import { CardItemText } from "./CardItemText";
-import { CardGridItem } from "./CardGridItem";
+import { CardGridItem } from "../../../components/CardGridItem";
+import { Container } from "../../../components/container";
 
-export const GetYourApiKey = () => {
+export const GetTatumApiKey = () => {
     const gridStyle = {
         width: "100%",
         align: "center"
     };
 
     return (
-        <div className="get-your-api-key-cards grid-table">
+        <Container isGridCard={true}>
             <Card title="Step 1 - Get your API key">
                 <CardGridItem
                     title="Start - $9 per month"
@@ -40,6 +40,6 @@ export const GetYourApiKey = () => {
                     <div className="card-item-grid-content grid-table">Accepted payment methods</div>
                 </Card.Grid>
             </Card>
-        </div>
+        </Container>
     );
 };

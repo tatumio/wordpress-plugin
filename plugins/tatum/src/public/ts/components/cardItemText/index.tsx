@@ -1,4 +1,5 @@
 import React from "react";
+import "./index.scss";
 
 export const CardItemText = ({
     title,
@@ -11,7 +12,7 @@ export const CardItemText = ({
 }) => (
     <>
         {description ? (
-            <div className="tatum-card-item-text-container">
+            <div>
                 <div>{title}</div>
                 <div className="tatum-card-description-text">{description}</div>
                 <div className="tatum-card-description-text">{secondDescription}</div>

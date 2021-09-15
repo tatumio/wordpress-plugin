@@ -2,11 +2,12 @@ import React from "react";
 import { observer } from "mobx-react";
 import { Col, Layout as AntdLayout, Row } from "antd";
 
-import { useStores } from "../store";
-import { LandingPage } from "../pages/landingPage";
-import { GetApiKey } from "../pages/getApiKey";
-import { Page } from "../models/page";
+import { useStores } from "../../store";
+import { LandingPage } from "../../pages/landingPage";
+import { GetApiKey } from "../../pages/getApiKey";
+import { Page } from "../../models/page";
 import { LeftOutlined } from "@ant-design/icons";
+import "./index.scss";
 
 export const Layout = observer(() => {
     const { Header, Footer, Content: AntdContent } = AntdLayout;

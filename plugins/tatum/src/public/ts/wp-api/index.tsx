@@ -1,1 +1,1 @@
-export * from "./hello.get";
+export * from "./setup.get";
