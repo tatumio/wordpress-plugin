@@ -13,6 +13,7 @@ import { spawn, execSync } from "child_process";
 import WebpackBar from "webpackbar";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
+import svgToTinyDataUri from "mini-svg-data-uri";
 
 const CacheLoaderVersion = require("cache-loader/package.json").version;
 
@@ -329,6 +330,19 @@ function createDefaultSettings(
                             }
                         },
                         "sass-loader"
+                    ]
+                },
+                {
+                    test: /\.svg$/i,
+                    use: [
+                        {
+                            loader: "url-loader",
+                            options: {
+                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                // @ts-ignore
+                                generator: (content) => svgToTinyDataUri(content.toString())
+                            }
+                        }
                     ]
                 }
             ]

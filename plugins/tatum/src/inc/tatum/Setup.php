@@ -3,6 +3,8 @@
 namespace Hathoriel\Tatum\tatum;
 
 use Hathoriel\Tatum\base\UtilsProvider;
+use Hathoriel\Tatum\tatum\Connector;
+
 
 class Setup
 {
@@ -17,6 +19,15 @@ class Setup
     }
 
     public static function setApiKey($api_key) {
-        update_option(TATUM_SLUG . '_api_key', $api_key);
+        try {
+            $api_key_resp = Connector::get_api_version($api_key);
+            update_option(TATUM_SLUG . '_api_key', $api_key);
+            return $api_key_resp;
+        } catch (\Exception $e) {
+            return [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ];
+        }
     }
 }

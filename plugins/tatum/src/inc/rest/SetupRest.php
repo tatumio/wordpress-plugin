@@ -4,10 +4,10 @@ namespace Hathoriel\Tatum\rest;
 
 use Hathoriel\Utils\Service;
 use Hathoriel\Tatum\base\UtilsProvider;
-use Mockery\Exception;
 use WP_REST_Response;
 use WP_REST_Request;
 use Hathoriel\Tatum\tatum\Setup;
+use Hathoriel\Tatum\tatum\Estimate;
 
 // @codeCoverageIgnoreStart
 defined('ABSPATH') or die('No script kiddies please!'); // Avoid direct file request
@@ -45,6 +45,12 @@ class SetupRest
             'callback' => [$this, 'setApiKey'],
             'permission_callback' => '__return_true'
         ]);
+
+        register_rest_route($namespace, '/estimate', [
+            'methods' => 'GET',
+            'callback' => [$this, 'estimate'],
+            'permission_callback' => '__return_true'
+        ]);
     }
 
     /**
@@ -66,8 +72,13 @@ class SetupRest
     }
 
     public function setApiKey(WP_REST_Request $request) {
-        $data = $request->get_params();
-        return new WP_REST_Response($data);
+        $data = $request->get_json_params();
+        $response = Setup::setApiKey($data['apiKey']);
+        return new WP_REST_Response($response);
+    }
+
+    public function estimate() {
+        return new WP_REST_Response(Estimate::estimateCountOfMintAllSupportedBlockchain());
     }
 
     /**

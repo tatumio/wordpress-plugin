@@ -4,11 +4,9 @@ import { Avatar, Card, Spin } from "antd";
 import { CheckCircleFilled } from "@ant-design/icons";
 import { useStores } from "../../../store";
 import { Page } from "../../../models/page";
-import { CardItemText } from "../../../components/CardItemText";
-import { Container } from "../../../components/container";
+import { Container, CardItemText, Spinner } from "../../../components";
 import "./index.scss";
 import { useGet } from "../../../hooks/useGet";
-import { RouteHttpVerb } from "@tatum/utils";
 
 const CardItem = ({
     title,
@@ -36,7 +34,7 @@ const CardItem = ({
 };
 
 const SpinnerCard = () => {
-    return <Card style={{ display: "flex", justifyContent: "center" }} title={<Spin />} />;
+    return <Card style={{ display: "flex", justifyContent: "center" }} title={<Spinner />} />;
 };
 
 const CardsContent = ({ data }: { data: SetupInterface }) => {
