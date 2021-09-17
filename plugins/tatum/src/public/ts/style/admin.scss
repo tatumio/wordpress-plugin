@@ -2,6 +2,10 @@ body {
   background-color: #f9f9f9;
 }
 
+.ant-message {
+  z-index: 101000000;
+}
+
 .wrap {
   margin: 0;
 }
@@ -21,17 +25,6 @@ body {
 
 .ant-layout-content {
   height: 100vh;
-}
-
-.needHelpContainer {
-  display: flex;
-  justify-content: right;
-  margin-top: 20px;
-
-  .needHelp {
-    color: #9a9a9a;
-    cursor: pointer;
-  }
 }
 
 .ant-card-grid-hoverable {

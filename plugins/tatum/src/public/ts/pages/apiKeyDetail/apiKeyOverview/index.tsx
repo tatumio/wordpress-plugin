@@ -3,18 +3,20 @@ import { Card } from "antd";
 import React, { useState } from "react";
 import { useStores } from "../../../store";
 import { Tutorial } from "../tutorial";
-import { MutateError, useMutate } from "../../../hooks/useMutate";
+import { ResponseError, useMutate } from "../../../hooks/useMutate";
 import { RouteHttpVerb } from "@tatum/utils";
+import { showSuccess } from "../../../utils/message";
 
 export const ApiKeyOverview = () => {
     const { apiKeyStore } = useStores();
 
-    const { mutate } = useMutate<MutateError>({ path: "/dismiss-tutorial", method: RouteHttpVerb.POST });
+    const { mutate } = useMutate<ResponseError>({ path: "/dismiss-tutorial", method: RouteHttpVerb.POST });
     const [isDismissed, setDismissTutorial] = useState(apiKeyStore.apiKey.isTutorialDismissed);
 
-    const dismissTutorial = () => {
-        mutate();
+    const dismissTutorial = async () => {
         setDismissTutorial(true);
+        await mutate();
+        showSuccess("Tutorial hidden.");
     };
 
     return (

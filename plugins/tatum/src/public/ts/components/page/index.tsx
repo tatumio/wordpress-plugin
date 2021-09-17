@@ -12,6 +12,7 @@ import { ApiKeyDetail } from "../../pages/apiKeyDetail";
 import { Spinner } from "../spinner";
 import { useGet } from "../../hooks/useGet";
 import { ApiKey } from "../../models";
+import { Help } from "../../pages/help";
 
 export const Layout = observer(() => {
     const { Header, Footer, Content: AntdContent } = AntdLayout;
@@ -40,7 +41,7 @@ export const Layout = observer(() => {
                     </Col>
                 </Row>
             </Header>
-            <AntdContent>
+            <AntdContent style={{ backgroundColor: "#f9f9f9" }}>
                 <Row style={{ backgroundColor: "#f9f9f9" }}>
                     <Col
                         span={12}
@@ -52,10 +53,7 @@ export const Layout = observer(() => {
                                 <Spinner />
                             </div>
                         ) : (
-                            <>
-                                {page}
-                                <NeedHelp />
-                            </>
+                            page
                         )}
                     </Col>
                 </Row>
@@ -80,31 +78,36 @@ const usePageContent = () => {
             };
         case Page.LANDING:
             return defaultPage;
+        case Page.HELP:
+            return {
+                page: <Help />,
+                header: <BackToMainPage title="Need Help?" />
+            };
         case Page.GET_API_KEY:
             return {
                 page: <GetApiKey />,
-                header: <BackToLandingPage title="Get your Tatum API key" />
+                header: <BackToMainPage title="Get your Tatum API key" />
             };
         default:
             return defaultPage;
     }
 };
 
-const BackToLandingPage = ({ title }: { title: string }) => {
-    const { pageStore } = useStores();
+const BackToMainPage = ({ title }: { title: string }) => {
+    const { pageStore, apiKeyStore } = useStores();
+
+    const nextPage = () => {
+        if (apiKeyStore.apiKey) {
+            pageStore.setPage(Page.API_KEY_DETAIL);
+        } else {
+            pageStore.setPage(Page.LANDING);
+        }
+    };
 
     return (
-        <div className="back-to-landing-page-container" onClick={() => pageStore.setPage(Page.LANDING)}>
+        <div className="back-to-landing-page-container" onClick={nextPage}>
             <LeftOutlined />
             <div className="title">{title}</div>
-        </div>
-    );
-};
-
-const NeedHelp = () => {
-    return (
-        <div className="needHelpContainer">
-            <div className="needHelp">Need Help?</div>
         </div>
     );
 };

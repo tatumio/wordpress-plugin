@@ -2,13 +2,12 @@ import { useState } from "react";
 import { request } from "../utils";
 import { RouteLocationInterface, RouteParamsInterface, RouteRequestInterface } from "@tatum/utils";
 import { message } from "antd";
+import { ResponseError } from "../models/reponseError";
 
-export interface MutateError {
-    status?: string;
-    message?: string;
-}
-
-export const useMutate = <T extends MutateError>(location: RouteLocationInterface, body?: Record<string, unknown>) => {
+export const useMutate = <T extends ResponseError>(
+    location: RouteLocationInterface,
+    body?: Record<string, unknown>
+) => {
     const [data, setData] = useState<T | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 

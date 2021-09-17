@@ -1,0 +1,10 @@
+.needHelpContainer {
+  display: flex;
+  justify-content: right;
+  margin-top: 20px;
+
+  .needHelp {
+    color: #9a9a9a;
+    cursor: pointer;
+  }
+}

@@ -75,6 +75,7 @@ class SetupRest
 
     public function dismissTutorial() {
         Setup::dismissTutorial();
+        return new WP_REST_Response([]);
     }
 
     /**

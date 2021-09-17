@@ -9,6 +9,7 @@ export const VideoTutorials = () => {
             <Card title="Tutorials">
                 <CardGridItem buttonText="Watch Tutorial" title="blabla" description="blabla" />
                 <CardGridItem buttonText="Watch Tutorial" title="blabla" description="blabla" />
+                <CardGridItem buttonText="Watch Tutorial" title="blabla" description="blabla" />
             </Card>
         </Container>
     );
