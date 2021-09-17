@@ -30,4 +30,15 @@ class Setup
             ];
         }
     }
+
+    public static function getApiKey() {
+        return [
+            'apiKey' => get_option(TATUM_SLUG . '_api_key'),
+            'plan' => 'Basic plan',
+            'remainingCredits' => 839123,
+            'usedCredits' => 32332,
+            'nftCreated' => 32,
+            'nftSold' => 13
+        ];
+    }
 }

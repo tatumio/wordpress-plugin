@@ -1,10 +1,11 @@
-import { Button, Card, Input, Modal, Spin } from "antd";
+import { Button, Card, Input, Modal } from "antd";
 import React, { useEffect, useState } from "react";
-import { Container } from "../../../components/container";
 import "./index.scss";
 import { MutateError, useMutate } from "../../../hooks/useMutate";
 import { RouteHttpVerb } from "@tatum/utils";
-import { Spinner } from "../../../components";
+import { Spinner, Container } from "../../../components";
+import { useStores } from "../../../store";
+import { Page } from "../../../models/page";
 
 interface ApiKeyResponse extends MutateError {
     version: string;
@@ -17,13 +18,17 @@ export const PasteApiKey = () => {
     };
     const { data, mutate, loading } = useMutate<ApiKeyResponse>({ path: "/api-key", method: RouteHttpVerb.POST });
     const [apiKey, setApiKey] = useState<string>();
+    const { pageStore } = useStores();
 
     useEffect(() => {
         if (data?.version) {
             Modal.success({
                 title: "API key successfully set up.",
                 content: "Your API key was successfully set up and you are ready to mint NFTs!",
-                okText: "Mint your first NFT!"
+                okText: "Mint your first NFT!",
+                onOk: () => {
+                    pageStore.setPage(Page.API_KEY_DETAIL);
+                }
             });
         }
     }, [data]);

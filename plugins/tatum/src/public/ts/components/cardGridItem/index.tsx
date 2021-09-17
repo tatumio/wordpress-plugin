@@ -16,7 +16,7 @@ export const CardGridItem = ({
     title: string;
     description?: string;
     secondDescription?: string;
-    buttonText: string;
+    buttonText?: string;
     buttonType?: "link" | "text" | "ghost" | "default" | "primary" | "dashed";
     buttonLink?: string;
 }) => {
@@ -28,11 +28,13 @@ export const CardGridItem = ({
         <Card.Grid hoverable={hoverable} style={gridStyle}>
             <div className="card-item-grid-content grid-table">
                 <CardItemText title={title} description={description} secondDescription={secondDescription} />
-                <Button type={buttonType}>
-                    <a href={buttonLink} target="_blank" rel="noreferrer">
-                        {buttonText}
-                    </a>
-                </Button>
+                {buttonText && (
+                    <Button type={buttonType}>
+                        <a href={buttonLink} target="_blank" rel="noreferrer">
+                            {buttonText}
+                        </a>
+                    </Button>
+                )}
             </div>
         </Card.Grid>
     );

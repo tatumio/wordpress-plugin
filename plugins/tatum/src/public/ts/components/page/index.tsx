@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { observer } from "mobx-react";
 import { Col, Layout as AntdLayout, Row } from "antd";
 
@@ -8,10 +8,28 @@ import { GetApiKey } from "../../pages/getApiKey";
 import { Page } from "../../models/page";
 import { LeftOutlined } from "@ant-design/icons";
 import "./index.scss";
+import { ApiKeyDetail } from "../../pages/apiKeyDetail";
+import { Spinner } from "../spinner";
+import { useGet } from "../../hooks/useGet";
+import { ApiKey } from "../../models";
 
 export const Layout = observer(() => {
     const { Header, Footer, Content: AntdContent } = AntdLayout;
     const { page, header } = usePageContent();
+    const { data } = useGet<ApiKey>("/api-key");
+    const { pageStore, apiKeyStore } = useStores();
+
+    useEffect(() => {
+        if (data) {
+            if (data.apiKey) {
+                apiKeyStore.setApiKey(data);
+                pageStore.setPage(Page.API_KEY_DETAIL);
+            } else {
+                pageStore.setPage(Page.LANDING);
+            }
+        }
+    }, [data]);
+
     return (
         <AntdLayout className="tatum">
             <Header style={{ backgroundColor: "#fff" }}>
@@ -22,18 +40,24 @@ export const Layout = observer(() => {
                     </Col>
                 </Row>
             </Header>
-            <AntdContent style={{ backgroundColor: "#f9f9f9" }}>
+            <AntdContent>
                 <Row style={{ marginTop: "40px" }}>
                     <Col
                         span={12}
                         offset={6}
                         style={{ display: "flex", justifyContent: "center", flexDirection: "column" }}
                     >
-                        {page}
+                        {!data ? (
+                            <Spinner />
+                        ) : (
+                            <>
+                                {page}
+                                <NeedHelp />
+                            </>
+                        )}
                     </Col>
                 </Row>
             </AntdContent>
-            <Footer>Footer</Footer>
         </AntdLayout>
     );
 });
@@ -47,25 +71,38 @@ const usePageContent = () => {
     };
 
     switch (pageStore.page) {
+        case Page.API_KEY_DETAIL:
+            return {
+                page: <ApiKeyDetail />,
+                header: "NFT Maker"
+            };
         case Page.LANDING:
             return defaultPage;
         case Page.GET_API_KEY:
             return {
                 page: <GetApiKey />,
-                header: <BackToLadingPage title="Get your Tatum API key" />
+                header: <BackToLandingPage title="Get your Tatum API key" />
             };
         default:
             return defaultPage;
     }
 };
 
-const BackToLadingPage = ({ title }: { title: string }) => {
+const BackToLandingPage = ({ title }: { title: string }) => {
     const { pageStore } = useStores();
 
     return (
         <div className="back-to-landing-page-container" onClick={() => pageStore.setPage(Page.LANDING)}>
             <LeftOutlined />
             <div className="title">{title}</div>
+        </div>
+    );
+};
+
+const NeedHelp = () => {
+    return (
+        <div className="needHelpContainer">
+            <div className="needHelp">Need Help?</div>
         </div>
     );
 };

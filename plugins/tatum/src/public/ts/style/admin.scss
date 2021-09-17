@@ -1,5 +1,37 @@
+body {
+  background-color: #f9f9f9;
+}
+
 .wrap {
   margin: 0;
+}
+
+#wpfooter {
+  display: none;
+}
+
+#wpbody-content {
+  height: 100vh;
+  padding: 0;
+}
+
+#tatum-component {
+  height: 100vh;
+}
+
+.ant-layout-content {
+  height: 100vh;
+}
+
+.needHelpContainer {
+  display: flex;
+  justify-content: right;
+  margin-top: 20px;
+
+  .needHelp {
+    color: #9a9a9a;
+    cursor: pointer;
+  }
 }
 
 .ant-card-grid-hoverable {

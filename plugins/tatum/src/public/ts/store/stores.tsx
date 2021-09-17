@@ -2,6 +2,7 @@ import { configure } from "mobx";
 import { createContextFactory } from "@tatum/utils";
 import { OptionStore } from "./option";
 import { PageStore } from "./page";
+import { ApiKeyStore } from "./apiKey";
 
 configure({
     enforceActions: "always"
@@ -20,6 +21,8 @@ class RootStore {
 
     public pageStore: PageStore;
 
+    public apiKeyStore: ApiKeyStore;
+
     private contextMemo: {
         StoreContext: React.Context<RootStore>;
         StoreProvider: React.FC<{}>;
@@ -35,6 +38,7 @@ class RootStore {
     private constructor() {
         this.optionStore = new OptionStore(this);
         this.pageStore = new PageStore(this);
+        this.apiKeyStore = new ApiKeyStore(this);
     }
 
     public static get StoreProvider() {

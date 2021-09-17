@@ -33,24 +33,10 @@ class SetupRest
      * Register endpoints.
      */
     public function rest_api_init() {
-        $namespace = Service::getNamespace($this);
-        register_rest_route($namespace, '/setup', [
-            'methods' => 'GET',
-            'callback' => [$this, 'getSetup'],
-            'permission_callback' => '__return_true'
-        ]);
-
-        register_rest_route($namespace, '/api-key', [
-            'methods' => 'POST',
-            'callback' => [$this, 'setApiKey'],
-            'permission_callback' => '__return_true'
-        ]);
-
-        register_rest_route($namespace, '/estimate', [
-            'methods' => 'GET',
-            'callback' => [$this, 'estimate'],
-            'permission_callback' => '__return_true'
-        ]);
+        $this->registerRoute('/setup', 'GET', 'getSetup');
+        $this->registerRoute('/api-key', 'POST', 'setApiKey');
+        $this->registerRoute('/estimate', 'GET', 'estimate');
+        $this->registerRoute('/api-key', 'GET', 'getApiKey');
     }
 
     /**
@@ -81,10 +67,24 @@ class SetupRest
         return new WP_REST_Response(Estimate::estimateCountOfMintAllSupportedBlockchain());
     }
 
+    public function getApiKey() {
+        $api_key = Setup::getApiKey();
+        return new WP_REST_Response($api_key);
+    }
+
     /**
      * New instance.
      */
     public static function instance() {
         return new SetupRest();
+    }
+
+    private function registerRoute($path, $method, $callback) {
+        $namespace = Service::getNamespace($this);
+        register_rest_route($namespace, $path, [
+            'methods' => $method,
+            'callback' => [$this, $callback],
+            'permission_callback' => '__return_true'
+        ]);
     }
 }
