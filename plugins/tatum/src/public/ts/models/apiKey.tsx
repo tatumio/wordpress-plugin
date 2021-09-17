@@ -5,4 +5,5 @@ export interface ApiKey {
     usedCredits: number;
     nftCreated: number;
     nftSold: number;
+    isTutorialDismissed: boolean;
 }

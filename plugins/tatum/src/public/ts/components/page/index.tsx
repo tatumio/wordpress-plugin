@@ -5,7 +5,7 @@ import { Col, Layout as AntdLayout, Row } from "antd";
 import { useStores } from "../../store";
 import { LandingPage } from "../../pages/landingPage";
 import { GetApiKey } from "../../pages/getApiKey";
-import { Page } from "../../models/page";
+import { Page } from "../../models";
 import { LeftOutlined } from "@ant-design/icons";
 import "./index.scss";
 import { ApiKeyDetail } from "../../pages/apiKeyDetail";
@@ -41,14 +41,16 @@ export const Layout = observer(() => {
                 </Row>
             </Header>
             <AntdContent>
-                <Row style={{ marginTop: "40px" }}>
+                <Row style={{ backgroundColor: "#f9f9f9" }}>
                     <Col
                         span={12}
                         offset={6}
                         style={{ display: "flex", justifyContent: "center", flexDirection: "column" }}
                     >
                         {!data ? (
-                            <Spinner />
+                            <div style={{ height: "100vh", marginTop: "100px" }}>
+                                <Spinner />
+                            </div>
                         ) : (
                             <>
                                 {page}

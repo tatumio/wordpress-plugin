@@ -37,6 +37,7 @@ class SetupRest
         $this->registerRoute('/api-key', 'POST', 'setApiKey');
         $this->registerRoute('/estimate', 'GET', 'estimate');
         $this->registerRoute('/api-key', 'GET', 'getApiKey');
+        $this->registerRoute('/dismiss-tutorial', 'POST', 'dismissTutorial');
     }
 
     /**
@@ -70,6 +71,10 @@ class SetupRest
     public function getApiKey() {
         $api_key = Setup::getApiKey();
         return new WP_REST_Response($api_key);
+    }
+
+    public function dismissTutorial() {
+        Setup::dismissTutorial();
     }
 
     /**

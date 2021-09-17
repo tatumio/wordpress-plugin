@@ -38,7 +38,12 @@ class Setup
             'remainingCredits' => 839123,
             'usedCredits' => 32332,
             'nftCreated' => 32,
-            'nftSold' => 13
+            'nftSold' => 13,
+            'isTutorialDismissed' => get_option(TATUM_SLUG . '_is_tutorial_dismissed', false)
         ];
+    }
+
+    public static function dismissTutorial() {
+        update_option(TATUM_SLUG . '_is_tutorial_dismissed', true);
     }
 }

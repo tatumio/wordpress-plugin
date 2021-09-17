@@ -1,28 +1,25 @@
 import { CardGridItem, Container } from "../../../components";
-import { Button, Card } from "antd";
-import React from "react";
+import { Card } from "antd";
+import React, { useState } from "react";
 import { useStores } from "../../../store";
+import { Tutorial } from "../tutorial";
+import { MutateError, useMutate } from "../../../hooks/useMutate";
+import { RouteHttpVerb } from "@tatum/utils";
 
 export const ApiKeyOverview = () => {
     const { apiKeyStore } = useStores();
-    const gridStyle = {
-        width: "100%",
-        align: "center"
+
+    const { mutate } = useMutate<MutateError>({ path: "/dismiss-tutorial", method: RouteHttpVerb.POST });
+    const [isDismissed, setDismissTutorial] = useState(apiKeyStore.apiKey.isTutorialDismissed);
+
+    const dismissTutorial = () => {
+        mutate();
+        setDismissTutorial(true);
     };
+
     return (
         <>
-            <Container isGridCard={true}>
-                <Card title="🎉 You're ready to start selling NFTs!">
-                    <CardGridItem
-                        title="How to upload your first NFT on your webshop"
-                        description="Learn how to use your product upload flow and create NFTs"
-                        buttonText="Watch tutorial"
-                    />
-                    <Card.Grid hoverable={false} style={gridStyle}>
-                        <Button>Dismiss</Button>
-                    </Card.Grid>
-                </Card>
-            </Container>
+            {!isDismissed && <Tutorial dismissTutorial={dismissTutorial} />}
             <Container isGridCard={true}>
                 <Card title="TODO: picture here">
                     <CardGridItem title="Your Tatum plan" description={apiKeyStore.apiKey.plan} />
