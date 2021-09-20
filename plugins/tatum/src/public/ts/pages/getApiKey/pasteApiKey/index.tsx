@@ -1,11 +1,12 @@
 import { Button, Card, Input, Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import "./index.scss";
-import { ResponseError, useMutate } from "../../../hooks/useMutate";
+import { useMutate } from "../../../hooks/useMutate";
 import { RouteHttpVerb } from "@tatum/utils";
 import { Spinner, Container } from "../../../components";
 import { useStores } from "../../../store";
 import { Page } from "../../../models/page";
+import { ResponseError } from "../../../models/reponseError";
 
 interface ApiKeyResponse extends ResponseError {
     version: string;

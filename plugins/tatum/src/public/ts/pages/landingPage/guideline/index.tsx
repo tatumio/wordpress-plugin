@@ -1,12 +1,13 @@
 import React, { FC } from "react";
 import { observer } from "mobx-react";
-import { Avatar, Card, Spin } from "antd";
+import { Avatar, Card } from "antd";
 import { CheckCircleFilled } from "@ant-design/icons";
 import { useStores } from "../../../store";
 import { Page } from "../../../models/page";
 import { Container, CardItemText, Spinner } from "../../../components";
 import "./index.scss";
 import { useGet } from "../../../hooks/useGet";
+import { ResponseError } from "../../../models/reponseError";
 
 const CardItem = ({
     title,
@@ -73,7 +74,7 @@ const Guideline: FC<{}> = observer(() => {
     );
 });
 
-interface SetupInterface {
+interface SetupInterface extends ResponseError {
     isWoocommerceInstalled?: boolean;
 }
 

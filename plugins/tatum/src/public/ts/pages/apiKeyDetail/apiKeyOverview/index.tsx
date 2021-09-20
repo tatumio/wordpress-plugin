@@ -3,9 +3,10 @@ import { Card } from "antd";
 import React, { useState } from "react";
 import { useStores } from "../../../store";
 import { Tutorial } from "../tutorial";
-import { ResponseError, useMutate } from "../../../hooks/useMutate";
+import { useMutate } from "../../../hooks/useMutate";
 import { RouteHttpVerb } from "@tatum/utils";
 import { showSuccess } from "../../../utils/message";
+import { ResponseError } from "../../../models/reponseError";
 
 export const ApiKeyOverview = () => {
     const { apiKeyStore } = useStores();

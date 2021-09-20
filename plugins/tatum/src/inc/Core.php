@@ -1,6 +1,7 @@
 <?php
 namespace Hathoriel\Tatum;
 use Hathoriel\Tatum\base\Core as BaseCore;
+use Hathoriel\Tatum\hooks\Admin;
 use Hathoriel\Tatum\rest\SetupRest;
 use Hathoriel\Tatum\view\menu\Page;
 use Hathoriel\Tatum\view\widget\Widget;
@@ -39,6 +40,10 @@ class Core extends BaseCore {
         add_action('admin_enqueue_scripts', [$this->getAssets(), 'admin_enqueue_scripts']);
         add_action('wp_enqueue_scripts', [$this->getAssets(), 'wp_enqueue_scripts']);
         add_action('admin_menu', [Page::instance(), 'admin_menu']);
+
+        // Register woocommerce hooks
+        add_action('woocommerce_product_data_tabs', [Admin::instance(), 'add_product_data_tab']);
+        add_action('admin_head', [Admin::instance(), 'add_product_data_icon']);
     }
 
     /**
