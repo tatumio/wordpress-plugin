@@ -7,6 +7,8 @@ import { useMutate } from "../../../hooks/useMutate";
 import { RouteHttpVerb } from "@tatum/utils";
 import { showSuccess } from "../../../utils/message";
 import { ResponseError } from "../../../models/reponseError";
+import { getImageUrl } from "../../../utils/image";
+import "./index.scss";
 
 export const ApiKeyOverview = () => {
     const { apiKeyStore } = useStores();
@@ -24,7 +26,7 @@ export const ApiKeyOverview = () => {
         <>
             {!isDismissed && <Tutorial dismissTutorial={dismissTutorial} />}
             <Container isGridCard={true}>
-                <Card title="TODO: picture here">
+                <Card title={<img className="header-overview" src={getImageUrl("header-overview.png")} />}>
                     <CardGridItem title="Your Tatum plan" description={apiKeyStore.apiKey.plan} />
                     <CardGridItem title="Your Tatum api key" description={apiKeyStore.apiKey.apiKey} />
                     <CardGridItem
