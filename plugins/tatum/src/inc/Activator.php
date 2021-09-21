@@ -20,7 +20,7 @@ class Activator {
      * Method gets fired when the user activates the plugin.
      */
     public function activate() {
-        // Your implementation...
+        $this->initDatabase();
     }
 
     /**
@@ -49,5 +49,18 @@ class Activator {
         if ($errorlevel) {
             $wpdb->print_error();
         }*/
+    }
+
+    private function initDatabase() {
+        global $wpdb;
+        $charset_collate = $wpdb->get_charset_collate();
+
+        $table_name = $this->getTableName() . "_lazy_nft";
+
+        $sql = "CREATE TABLE $table_name (
+            id bigint NOT NULL AUTO_INCREMENT,
+            UNIQUE KEY id (id)
+        ) $charset_collate;";
+        dbDelta($sql);
     }
 }
