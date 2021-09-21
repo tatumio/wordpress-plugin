@@ -42,8 +42,9 @@ class Core extends BaseCore {
         add_action('admin_menu', [Page::instance(), 'admin_menu']);
 
         // Register woocommerce hooks
-        add_action('woocommerce_product_data_tabs', [Admin::instance(), 'add_product_data_tab']);
         add_action('admin_head', [Admin::instance(), 'add_product_data_icon']);
+        add_action('woocommerce_product_data_tabs', [Admin::instance(), 'add_product_data_tab']);
+        add_action('woocommerce_product_data_panels', [Admin::instance(), 'add_product_data_fields']);
     }
 
     /**
