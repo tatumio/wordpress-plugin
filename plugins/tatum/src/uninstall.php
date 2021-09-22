@@ -9,9 +9,7 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
     exit();
 }
 
-delete_option('tatum_api_key');
-delete_option('tatum_is_tutorial_dismissed');
-
 global $wpdb;
+$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE 'tatum\_%';" );
 $wpdb->query("DROP TABLE IF EXISTS wp_tatum_lazy_nft");
 wp_cache_flush();

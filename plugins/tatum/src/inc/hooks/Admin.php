@@ -79,6 +79,17 @@ class Admin
         echo '</div>';
     }
 
+    public function productSave($product_id) {
+        print_r($_POST);
+        exit();
+        $product = wc_get_product($product_id);
+        if ($product === NULL || $product === false) {
+            throw new \Exception('Cannot find product.');
+        }
+
+    }
+
+
     public static function instance() {
         return new Admin();
     }

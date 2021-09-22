@@ -55,11 +55,14 @@ class Activator {
         global $wpdb;
         $charset_collate = $wpdb->get_charset_collate();
 
-        $table_name = $this->getTableName() . "_lazy_nft";
-
-        $sql = "CREATE TABLE $table_name (
+        $table_name = $this->getTableName("lazy_nft");
+        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
             id bigint NOT NULL AUTO_INCREMENT,
-            UNIQUE KEY id (id)
+            product_id bigint NOT NULL,
+            chain ENUM('CELO', 'ETH', 'BSC', 'ONE', 'MATIC') NOT NULL,
+            transactionId varchar(256),
+            UNIQUE KEY id (id),
+            INDEX(product_id)
         ) $charset_collate;";
         dbDelta($sql);
     }
