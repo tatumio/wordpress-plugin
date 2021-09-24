@@ -60,9 +60,10 @@ class Activator {
             id bigint NOT NULL AUTO_INCREMENT,
             product_id bigint NOT NULL,
             chain ENUM('CELO', 'ETH', 'BSC', 'ONE', 'MATIC') NOT NULL,
-            transactionId varchar(256),
+            transaction_id varchar(256),
             UNIQUE KEY id (id),
-            INDEX(product_id)
+            INDEX(product_id),
+            CONSTRAINT UniqChainProductId UNIQUE (product_id, chain)
         ) $charset_collate;";
         dbDelta($sql);
     }

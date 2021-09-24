@@ -2,8 +2,17 @@
 
 namespace Hathoriel\Tatum\hooks;
 
+use Hathoriel\Tatum\tatum\Chains;
+use Hathoriel\Tatum\tatum\LazyMint;
+
 class Admin
 {
+    private $lazyMint;
+
+    public function __construct() {
+        $this->lazyMint = new LazyMint();
+    }
+
     public function add_product_data_tab($tabs) {
         $tabs['tatum'] = array(
             'label' => 'Tatum',
@@ -48,47 +57,43 @@ class Admin
 
     }
 
-    public function add_product_data_fields() {
+    public function add_product_data_fields($product_id) {
         echo '<div id="tatum_product_data" class="panel woocommerce_options_panel hidden">';
         echo '<h4 style="margin-left: 10px;">Select the chain to mint your NFT on</h4>';
-        woocommerce_wp_checkbox(array( // Checkbox.
-            'id' => 'tatum_eth',
-            'label' => __('Ethereum (ETH)', 'woocommerce'),
-        ));
 
-        woocommerce_wp_checkbox(array( // Checkbox.
-            'id' => 'tatum_bsc',
-            'label' => __('Binance Smart Chain (BSC)', 'woocommerce'),
-        ));
 
-        woocommerce_wp_checkbox(array( // Checkbox.
-            'id' => 'tatum_matic',
-            'label' => __('Polygon (MATIC)', 'woocommerce'),
-        ));
-
-        woocommerce_wp_checkbox(array( // Checkbox.
-            'id' => 'tatum_one',
-            'label' => __('Harmony (ONE)', 'woocommerce'),
-        ));
-
-        woocommerce_wp_checkbox(array( // Checkbox.
-            'id' => 'tatum_celo',
-            'label' => __('Celo (CELO)', 'woocommerce'),
-        ));
-
+        $checkedChains = $this->lazyMint->getByChainAndProductId(get_the_ID());
+        foreach (Chains::getChainLabels() as $chain => $label) {
+            $value = '';
+            foreach ($checkedChains as $checkedChain) {
+                if ($checkedChain->chain === $chain) {
+                    $value = 'yes';
+                }
+            }
+            woocommerce_wp_checkbox(array(
+                'id' => 'tatum_' . $chain,
+                'label' => __($label, 'woocommerce'),
+                'value' => $value
+            ));
+        }
         echo '</div>';
     }
 
     public function productSave($product_id) {
-        print_r($_POST);
-        exit();
         $product = wc_get_product($product_id);
         if ($product === NULL || $product === false) {
             throw new \Exception('Cannot find product.');
         }
 
-    }
+        $this->lazyMint->deleteByProduct($product_id);
 
+        foreach (Chains::getChainCodes() as $chain) {
+            if (isset($_POST['tatum_' . $chain]) && $_POST['tatum_' . $chain] === 'yes') {
+                $this->lazyMint->insert($product_id, $chain);
+            }
+
+        }
+    }
 
     public static function instance() {
         return new Admin();

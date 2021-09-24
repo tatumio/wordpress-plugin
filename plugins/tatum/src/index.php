@@ -35,8 +35,8 @@ define('TATUM_OPT_PREFIX', 'tatum'); // The option name prefix in wp_options
 define('TATUM_SLUG_CAMELCASE', lcfirst(str_replace('-', '', ucwords(TATUM_SLUG, '-'))));
 //define('TATUM_TD', ''); This constant is defined in the core class. Use this constant in all your __() methods
 //define('TATUM_VERSION', ''); This constant is defined in the core class
-//define('TATUM_DEBUG', true); This constant should be defined in wp-config.php to enable the Base#debug() method
-define('WPRJSS_DEBUG', true);
+define('TATUM_DEBUG', true); // This constant should be defined in wp-config.php to enable the Base#debug() method
+
 
 // Check PHP Version and print notice if minimum not reached, otherwise start the plugin core
 require_once TATUM_INC .

@@ -25,26 +25,6 @@ msgstr ""
 msgid "Hathoriel"
 msgstr ""
 
-#: inc/hooks/Admin.php:56
-msgid "Ethereum (ETH)"
-msgstr ""
-
-#: inc/hooks/Admin.php:61
-msgid "Binance Smart Chain (BSC)"
-msgstr ""
-
-#: inc/hooks/Admin.php:66
-msgid "Polygon (MATIC)"
-msgstr ""
-
-#: inc/hooks/Admin.php:71
-msgid "Harmony (ONE)"
-msgstr ""
-
-#: inc/hooks/Admin.php:76
-msgid "Celo (CELO)"
-msgstr ""
-
 #: inc/view/widget/Widget.php:24
 msgid "A widget that demonstrates using React."
 msgid_plural "Widgets that demonstrates using React."
