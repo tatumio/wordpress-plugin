@@ -26,6 +26,12 @@ class PublicHooks
                     $order = wc_get_order($order_id);
                     foreach ($order->get_items() as $item_id => $item) {
                         $product_id = $item->get_product_id();
+                        $product = wc_get_product($product_id);
+                        $url = wp_get_attachment_url( $product->get_image_id());
+                        $uploads = wp_upload_dir();
+                        $file_path = str_replace( $uploads['baseurl'], $uploads['basedir'], $url );
+                        echo $file_path;
+                        exit();
                         $lazyMints = $this->lazyMint->getByProduct($product_id);
                         foreach ($lazyMints as $lazyMint) {
 
