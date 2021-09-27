@@ -62,7 +62,7 @@ class Admin
         echo '<h4 style="margin-left: 10px;">Select the chain to mint your NFT on</h4>';
 
 
-        $checkedChains = $this->lazyMint->getByChainAndProductId(get_the_ID());
+        $checkedChains = $this->lazyMint->getByProduct(get_the_ID());
         foreach (Chains::getChainLabels() as $chain => $label) {
             $value = '';
             foreach ($checkedChains as $checkedChain) {
@@ -91,7 +91,6 @@ class Admin
             if (isset($_POST['tatum_' . $chain]) && $_POST['tatum_' . $chain] === 'yes') {
                 $this->lazyMint->insert($product_id, $chain);
             }
-
         }
     }
 

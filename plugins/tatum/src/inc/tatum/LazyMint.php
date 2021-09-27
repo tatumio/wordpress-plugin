@@ -25,7 +25,11 @@ class LazyMint
         $this->wpdb->query("DELETE FROM $this->tableName WHERE product_id = $product_id AND transaction_id IS NULL;");
     }
 
-    public function getByChainAndProductId($product_id) {
+    public function updateByProductAndChain($product_id, $chain, $data) {
+        $this->wpdb->update($this->tableName, $data, array('product_id' => $product_id, 'chain' => $chain));
+    }
+
+    public function getByProduct($product_id) {
         if($product_id === false) {
             return array();
         }

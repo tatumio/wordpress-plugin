@@ -38,6 +38,7 @@ class Activator {
      * @param boolean $errorlevel If true throw errors
      */
     public function dbDelta($errorlevel) {
+        // TODO: remove tatum options from DB
         // Your table installation here...
         /*$table_name = $this->getTableName();
         $sql = "CREATE TABLE $table_name (
@@ -59,6 +60,7 @@ class Activator {
         $sql = "CREATE TABLE IF NOT EXISTS $table_name (
             id bigint NOT NULL AUTO_INCREMENT,
             product_id bigint NOT NULL,
+            order_id bigint,
             chain ENUM('CELO', 'ETH', 'BSC', 'ONE', 'MATIC') NOT NULL,
             transaction_id varchar(256),
             UNIQUE KEY id (id),

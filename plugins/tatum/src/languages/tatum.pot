@@ -25,6 +25,10 @@ msgstr ""
 msgid "Hathoriel"
 msgstr ""
 
+#: inc/hooks/PublicHooks.php:43
+msgid "NFT minting error occurred. Please try again or contact administrator."
+msgstr ""
+
 #: inc/view/widget/Widget.php:24
 msgid "A widget that demonstrates using React."
 msgid_plural "Widgets that demonstrates using React."
