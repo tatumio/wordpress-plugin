@@ -3,6 +3,7 @@
 namespace Hathoriel\Tatum\hooks;
 
 use Hathoriel\Tatum\tatum\Chains;
+use Hathoriel\Tatum\tatum\Ipfs;
 use Hathoriel\Tatum\tatum\LazyMint;
 use Hathoriel\Tatum\tatum\Connector;
 
@@ -24,69 +25,9 @@ class PublicHooks
                 $api_key = get_option(TATUM_SLUG . '_api_key');
                 if ($api_key) {
                     $order = wc_get_order($order_id);
-                    foreach ($order->get_items() as $item_id => $item) {
-                        $product_id = $item->get_product_id();
-                        $product = wc_get_product($product_id);
-                        $url = wp_get_attachment_url($product->get_image_id());
-                        $uploads = wp_upload_dir();
-                        $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $url);
-                        echo $api_key;
-                        echo "<br/>";
-                        echo "<br/>";
-                        $url = "https://api-eu1.tatum.io/v3/ipfs";
-// data fields for POST request
-                        $fields = array("f1"=>"value1", "another_field2"=>"anothervalue");
-
-// files to upload
-                        $filenames = array($file_path);
-
-                        $files = array();
-                        foreach ($filenames as $f){
-                            $files["file"] = file_get_contents($f);
-                        }
-
-
-                        $curl = curl_init();
-
-
-                        $boundary = uniqid();
-                        $delimiter = '-------------' . $boundary;
-
-                        $post_data = $this->build_data_files($boundary, $fields, $files);
-
-
-                        curl_setopt_array($curl, array(
-                            CURLOPT_URL => $url,
-                            CURLOPT_RETURNTRANSFER => 1,
-                            CURLOPT_MAXREDIRS => 10,
-                            CURLOPT_TIMEOUT => 30,
-                            //CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                            CURLOPT_CUSTOMREQUEST => "POST",
-                            CURLOPT_POST => 1,
-                            CURLOPT_POSTFIELDS => $post_data,
-                            CURLOPT_HTTPHEADER => array(
-                                //"Authorization: Bearer $TOKEN",
-                                "Content-Type: multipart/form-data; boundary=" . $delimiter,
-                                "Content-Length: " . strlen($post_data),
-                                "x-api-key: $api_key"
-
-                            ),
-
-
-                        ));
-
-
-                        $response = curl_exec($curl);
-
-                        $info = curl_getinfo($curl);
-
-                        var_dump($info);
-                        var_dump($response);
-                        $err = curl_error($curl);
-                        var_dump($err);
-                        curl_close($curl);
-
-                        exit();
+                    foreach ($order->get_items() as $order_item) {
+                        $product_id = $order_item->get_product_id();
+                        Ipfs::storeProductImageToIpfs($product_id, $api_key);
 
                         $lazyMints = $this->lazyMint->getByProduct($product_id);
                         foreach ($lazyMints as $lazyMint) {
@@ -114,34 +55,6 @@ class PublicHooks
             echo '{"result":"failure","messages":"<ul class=\"woocommerce-error\" role=\"alert\">\n\t\t\t<li>\n\t\t\tNFT minting error occurred. Please try again or contact administrator.\t\t<\/li>\n\t<\/ul>\n","refresh":false,"reload":false}';
             exit();
         }
-    }
-
-    public function build_data_files($boundary, $fields, $files) {
-        $data = '';
-        $eol = "\r\n";
-
-        $delimiter = '-------------' . $boundary;
-
-        foreach ($fields as $name => $content) {
-            $data .= "--" . $delimiter . $eol
-                . 'Content-Disposition: form-data; name="' . $name . "\"" . $eol . $eol
-                . $content . $eol;
-        }
-
-
-        foreach ($files as $name => $content) {
-            $data .= "--" . $delimiter . $eol
-                . 'Content-Disposition: form-data; name="' . $name . '"; filename="filename.jpg"' . $eol
-                //. 'Content-Type: image/png'.$eol
-                . 'Content-Transfer-Encoding: binary' . $eol;
-
-            $data .= $eol;
-            $data .= $content . $eol;
-        }
-        $data .= "--" . $delimiter . "--" . $eol;
-
-
-        return $data;
     }
 
     public function woocommerce_add_address_checkout($checkout) {

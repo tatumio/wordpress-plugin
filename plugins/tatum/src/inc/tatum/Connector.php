@@ -4,7 +4,7 @@ namespace Hathoriel\Tatum\tatum;
 
 class Connector
 {
-    const TATUM_URL = 'https://api-eu1.tatum.io';
+    public const TATUM_URL = 'https://api-eu1.tatum.io';
     const BLOCKCHAIN_URL_MAPPING = array('ETH' => 'ethereum', 'CELO' => 'celo', 'BSC' => 'bsc');
 
     private static function isResponseOk($response) {
