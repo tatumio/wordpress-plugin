@@ -8,11 +8,8 @@ class Ipfs
         $image_content = self::getProductImageNameAndContent($product_id);
         $responseImage = self::storeIpfsFile($image_content, $api_key);
         $json = self::createMetadataJson($image_content, rawurldecode($responseImage['ipfsHash']));
-        var_dump($json);
         $responseMetadata = self::storeIpfsFile(array('name' => 'metadata.json', 'content' => $json), $api_key);
-        var_dump($responseImage);
-        var_dump($responseMetadata);
-        exit();
+        return rawurldecode($responseMetadata['ipfsHash']);
     }
 
     private static function storeIpfsFile($data_files, $api_key) {

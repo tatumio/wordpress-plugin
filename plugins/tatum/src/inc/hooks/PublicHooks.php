@@ -27,7 +27,7 @@ class PublicHooks
                     $order = wc_get_order($order_id);
                     foreach ($order->get_items() as $order_item) {
                         $product_id = $order_item->get_product_id();
-                        Ipfs::storeProductImageToIpfs($product_id, $api_key);
+                        $url = Ipfs::storeProductImageToIpfs($product_id, $api_key);
 
                         $lazyMints = $this->lazyMint->getByProduct($product_id);
                         foreach ($lazyMints as $lazyMint) {
@@ -35,11 +35,14 @@ class PublicHooks
                             $recipient_address = get_post_meta($order_id, 'recipient_blockchain_address_' . $lazyMint->chain, true);
 
                             if ($recipient_address) {
-                                $transfer_body = array('to' => $recipient_address, 'chain' => $lazyMint->chain, 'url' => 'https://test.com');
+                                $transfer_body = array('to' => $recipient_address, 'chain' => $lazyMint->chain, 'url' => $url);
                                 if ($lazyMint->chain === 'CELO') {
                                     $transfer_body['feeCurrency'] = 'CELO';
                                 }
                                 $response = Connector::mint_nft($transfer_body, $api_key);
+                                var_dump($url);
+                                var_dump($response);
+                                exit();
                                 if (isset($response['txId'])) {
                                     $this->lazyMint->updateByProductAndChain($product_id, $lazyMint->chain, array('transaction_id' => $response['txId'], 'order_id' => $order_id));
                                 } else {
