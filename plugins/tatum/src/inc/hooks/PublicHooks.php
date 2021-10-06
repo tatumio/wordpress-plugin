@@ -6,6 +6,7 @@ use Hathoriel\Tatum\tatum\Chains;
 use Hathoriel\Tatum\tatum\Ipfs;
 use Hathoriel\Tatum\tatum\LazyMint;
 use Hathoriel\Tatum\tatum\Connector;
+use Mockery\Exception;
 
 class PublicHooks
 {
@@ -21,36 +22,17 @@ class PublicHooks
 
     public function woocommerce_order_set_to_processing($order_id) {
         try {
-            if (!is_admin()) {
-                $api_key = get_option(TATUM_SLUG . '_api_key');
-                if ($api_key) {
-                    $order = wc_get_order($order_id);
-                    foreach ($order->get_items() as $order_item) {
-                        $product_id = $order_item->get_product_id();
-                        $url = Ipfs::storeProductImageToIpfs($product_id, $api_key);
+            $api_key = get_option(TATUM_SLUG . '_api_key');
 
-                        $lazyMints = $this->lazyMint->getByProduct($product_id);
-                        foreach ($lazyMints as $lazyMint) {
-
-                            $recipient_address = get_post_meta($order_id, 'recipient_blockchain_address_' . $lazyMint->chain, true);
-
-                            if ($recipient_address) {
-                                $transfer_body = array('to' => $recipient_address, 'chain' => $lazyMint->chain, 'url' => $url);
-                                if ($lazyMint->chain === 'CELO') {
-                                    $transfer_body['feeCurrency'] = 'CELO';
-                                }
-                                $response = Connector::mint_nft($transfer_body, $api_key);
-                                var_dump($url);
-                                var_dump($response);
-                                exit();
-                                if (isset($response['txId'])) {
-                                    $this->lazyMint->updateByProductAndChain($product_id, $lazyMint->chain, array('transaction_id' => $response['txId'], 'order_id' => $order_id));
-                                } else {
-                                    wc_add_notice(__('NFT minting error occurred. Please try again or contact administrator.'), 'error');
-                                    exit();
-                                }
-                            }
-                        }
+            if ($api_key) {
+                $order = wc_get_order($order_id);
+                foreach ($order->get_items() as $order_item) {
+                    $product_id = $order_item->get_product_id();
+                    $url = Ipfs::storeProductImageToIpfs($product_id, $api_key);
+                    if ($url != false) {
+                        $this->mintProduct($product_id, $order_id, $api_key, $url);
+                    } else {
+                        $this->resolveIpfsError($product_id, $order_id);
                     }
                 }
             }
@@ -84,5 +66,38 @@ class PublicHooks
                 update_post_meta($order_id, 'recipient_blockchain_address_' . $chain, sanitize_text_field($_POST['recipient_blockchain_address_' . $chain]));
             }
         }
+    }
+
+    private function mintProduct($product_id, $order_id, $api_key, $url) {
+        $lazyMints = $this->lazyMint->getByProduct($product_id);
+        foreach ($lazyMints as $lazyMint) {
+            $recipient_address = get_post_meta($order_id, 'recipient_blockchain_address_' . $lazyMint->chain, true);
+
+            if ($recipient_address) {
+                $transfer_body = array('to' => $recipient_address, 'chain' => $lazyMint->chain, 'url' => "ipfs://$url");
+                if ($lazyMint->chain === 'CELO') {
+                    $transfer_body['feeCurrency'] = 'CELO';
+                }
+                $response = Connector::mint_nft($transfer_body, $api_key);
+
+                if (isset($response['txId'])) {
+                    $this->lazyMint->updateByProductAndChain($product_id, $lazyMint->chain, array('transaction_id' => $response['txId'], 'order_id' => $order_id));
+                } else {
+                    $this->lazyMint->updateByProductAndChain($product_id, $lazyMint->chain, array('error_cause' => 'MINT', 'recipient_address' => $recipient_address, 'order_id' => $order_id));
+                    wc_add_notice(__('NFT blockchain minting error occurred. Please try again or contact administrator.'), 'error');
+                    exit();
+                }
+            }
+        }
+    }
+
+    private function resolveIpfsError($product_id, $order_id) {
+        $lazyMints = $this->lazyMint->getByProduct($product_id);
+        foreach ($lazyMints as $lazyMint) {
+            $recipient_address = get_post_meta($order_id, 'recipient_blockchain_address_' . $lazyMint->chain, true);
+            $this->lazyMint->updateByProductAndChain($product_id, $lazyMint->chain, array('error_cause' => 'IPFS', 'recipient_address' => $recipient_address, 'order_id' => $order_id));
+        }
+        wc_add_notice(__('NFT IPFS minting error occurred. Check if you have correctly set product image. Then try again or contact administrator.'), 'error');
+        exit();
     }
 }

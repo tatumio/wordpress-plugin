@@ -25,8 +25,12 @@ msgstr ""
 msgid "Hathoriel"
 msgstr ""
 
-#: inc/hooks/PublicHooks.php:46
-msgid "NFT minting error occurred. Please try again or contact administrator."
+#: inc/hooks/PublicHooks.php:87
+msgid "NFT blockchain minting error occurred. Please try again or contact administrator."
+msgstr ""
+
+#: inc/hooks/PublicHooks.php:100
+msgid "NFT IPFS minting error occurred. Check if you have correctly set product image. Then try again or contact administrator."
 msgstr ""
 
 #: inc/view/widget/Widget.php:24

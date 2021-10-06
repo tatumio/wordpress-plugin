@@ -5,11 +5,14 @@ namespace Hathoriel\Tatum\tatum;
 class Ipfs
 {
     public static function storeProductImageToIpfs($product_id, $api_key) {
-        $image_content = self::getProductImageNameAndContent($product_id);
-        $responseImage = self::storeIpfsFile($image_content, $api_key);
-        $json = self::createMetadataJson($image_content, rawurldecode($responseImage['ipfsHash']));
-        $responseMetadata = self::storeIpfsFile(array('name' => 'metadata.json', 'content' => $json), $api_key);
-        return rawurldecode($responseMetadata['ipfsHash']);
+        $image = self::getProductImageNameAndContent($product_id);
+        if ($image['name'] != '' && $image['content'] != false) {
+            $responseImage = self::storeIpfsFile($image, $api_key);
+            $json = self::createMetadataJson($image, rawurldecode($responseImage['ipfsHash']));
+            $responseMetadata = self::storeIpfsFile(array('name' => 'metadata.json', 'content' => $json), $api_key);
+            return rawurldecode($responseMetadata['ipfsHash']);
+        }
+        return false;
     }
 
     private static function storeIpfsFile($data_files, $api_key) {

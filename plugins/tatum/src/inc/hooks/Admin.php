@@ -63,6 +63,8 @@ class Admin
 
 
         $checkedChains = $this->lazyMint->getByProduct(get_the_ID());
+        $isBoughtOrFailed = $this->isBoughOrFailed($checkedChains);
+
         foreach (Chains::getChainLabels() as $chain => $label) {
             $value = '';
             foreach ($checkedChains as $checkedChain) {
@@ -70,11 +72,11 @@ class Admin
                     $value = 'yes';
                 }
             }
-            woocommerce_wp_checkbox(array(
+            woocommerce_wp_checkbox(array_merge(array(
                 'id' => 'tatum_' . $chain,
                 'label' => __($label, 'woocommerce'),
-                'value' => $value
-            ));
+                'value' => $value,
+            ), $isBoughtOrFailed ? array('custom_attributes' => array('disabled' => 'disabled')) : array()));
         }
         echo '</div>';
     }
@@ -96,5 +98,15 @@ class Admin
 
     public static function instance() {
         return new Admin();
+    }
+
+    private function isBoughOrFailed($lazy_nfts) {
+        foreach ($lazy_nfts as $lazy_nft) {
+
+            if ($lazy_nft->error_cause != "" || $lazy_nft->error_cause != "" || $lazy_nft->recipient_address != "") {
+                return true;
+            }
+        }
+        return false;
     }
 }
