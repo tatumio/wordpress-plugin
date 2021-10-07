@@ -6,7 +6,7 @@ use Hathoriel\Tatum\tatum\Chains;
 use Hathoriel\Tatum\tatum\Ipfs;
 use Hathoriel\Tatum\tatum\LazyMint;
 use Hathoriel\Tatum\tatum\Connector;
-use Mockery\Exception;
+use Hathoriel\Tatum\tatum\LazyMintUtils;
 
 class PublicHooks
 {
@@ -28,11 +28,15 @@ class PublicHooks
                 $order = wc_get_order($order_id);
                 foreach ($order->get_items() as $order_item) {
                     $product_id = $order_item->get_product_id();
-                    $url = Ipfs::storeProductImageToIpfs($product_id, $api_key);
-                    if ($url != false) {
-                        $this->mintProduct($product_id, $order_id, $api_key, $url);
-                    } else {
-                        $this->resolveIpfsError($product_id, $order_id);
+                    $checkedChains = $this->lazyMint->getByProduct($product_id);
+                    $isMinted = LazyMintUtils::minted($checkedChains);
+                    if (!$isMinted) {
+                        $url = Ipfs::storeProductImageToIpfs($product_id, $api_key);
+                        if ($url != false) {
+                            $this->mintProduct($product_id, $order_id, $api_key, $url);
+                        } else {
+                            $this->resolveIpfsError($product_id, $order_id);
+                        }
                     }
                 }
             }

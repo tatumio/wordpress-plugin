@@ -32,13 +32,15 @@ class Setup
     }
 
     public static function getApiKey() {
+        $lazyMint = new LazyMint();
+        var_dump($lazyMint->getLazyMintCount());
         return [
             'apiKey' => get_option(TATUM_SLUG . '_api_key'),
             'plan' => 'Basic plan',
             'remainingCredits' => 839123,
             'usedCredits' => 32332,
-            'nftCreated' => 32,
-            'nftSold' => 13,
+            'nftCreated' => $lazyMint->getLazyMintCount(),
+            'nftSold' => $lazyMint->getMintCount(),
             'isTutorialDismissed' => get_option(TATUM_SLUG . '_is_tutorial_dismissed', false)
         ];
     }

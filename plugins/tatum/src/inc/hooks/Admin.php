@@ -4,6 +4,8 @@ namespace Hathoriel\Tatum\hooks;
 
 use Hathoriel\Tatum\tatum\Chains;
 use Hathoriel\Tatum\tatum\LazyMint;
+use Hathoriel\Tatum\tatum\BlockchainLink;
+use Hathoriel\Tatum\tatum\LazyMintUtils;
 
 class Admin
 {
@@ -59,26 +61,46 @@ class Admin
 
     public function add_product_data_fields($product_id) {
         echo '<div id="tatum_product_data" class="panel woocommerce_options_panel hidden">';
+
+        $checkedChains = $this->lazyMint->getByProduct(get_the_ID());
+        $isBoughtOrFailed = LazyMintUtils::isBoughOrFailed($checkedChains);
+        if ($isBoughtOrFailed) {
+            $this->mintedProductDataFields($checkedChains);
+        } else {
+            $this->lazyMintedDataProductFields($checkedChains);
+        }
+
+        echo '</div>';
+    }
+
+    private function lazyMintedDataProductFields($lazy_minted_nfts) {
         echo '<h4 style="margin-left: 10px;">Select the chain to mint your NFT on</h4>';
 
 
-        $checkedChains = $this->lazyMint->getByProduct(get_the_ID());
-        $isBoughtOrFailed = $this->isBoughOrFailed($checkedChains);
-
         foreach (Chains::getChainLabels() as $chain => $label) {
             $value = '';
-            foreach ($checkedChains as $checkedChain) {
+            foreach ($lazy_minted_nfts as $checkedChain) {
                 if ($checkedChain->chain === $chain) {
                     $value = 'yes';
                 }
             }
-            woocommerce_wp_checkbox(array_merge(array(
+            woocommerce_wp_checkbox(array(
                 'id' => 'tatum_' . $chain,
                 'label' => __($label, 'woocommerce'),
                 'value' => $value,
-            ), $isBoughtOrFailed ? array('custom_attributes' => array('disabled' => 'disabled')) : array()));
+            ));
         }
-        echo '</div>';
+    }
+
+    private function mintedProductDataFields($minted_nfts) {
+
+        echo '<h4 style="margin-left: 10px;">Product is already minted with transaction hashes:</h4>';
+
+
+        foreach ($minted_nfts as $chain) {
+            $link = BlockchainLink::tx($chain->transaction_id, $chain->chain);
+            echo "<p><span>$chain->chain</span>  <span>$link</span></p>";
+        }
     }
 
     public function productSave($product_id) {
@@ -98,15 +120,5 @@ class Admin
 
     public static function instance() {
         return new Admin();
-    }
-
-    private function isBoughOrFailed($lazy_nfts) {
-        foreach ($lazy_nfts as $lazy_nft) {
-
-            if ($lazy_nft->error_cause != "" || $lazy_nft->error_cause != "" || $lazy_nft->recipient_address != "") {
-                return true;
-            }
-        }
-        return false;
     }
 }

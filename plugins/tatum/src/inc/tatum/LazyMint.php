@@ -29,6 +29,16 @@ class LazyMint
         $this->wpdb->update($this->tableName, $data, array('product_id' => $product_id, 'chain' => $chain));
     }
 
+    public function getLazyMintCount() {
+        $this->wpdb->get_results("SELECT * FROM $this->tableName");
+        return $this->wpdb->num_rows;
+    }
+
+    public function getMintCount() {
+        $this->wpdb->get_results("SELECT * FROM $this->tableName WHERE transaction_id IS NOT NULL;");
+        return $this->wpdb->num_rows;
+    }
+
     public function getByProduct($product_id) {
         if($product_id === false) {
             return array();
