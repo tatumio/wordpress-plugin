@@ -33,7 +33,6 @@ class Setup
 
     public static function getApiKey() {
         $lazyMint = new LazyMint();
-        var_dump($lazyMint->getLazyMintCount());
         return [
             'apiKey' => get_option(TATUM_SLUG . '_api_key'),
             'plan' => 'Basic plan',
