@@ -10,7 +10,9 @@ export const CardGridItem = ({
     secondDescription,
     buttonText,
     buttonType,
-    buttonLink
+    buttonLink,
+    onClick,
+    buttonDisabled
 }: {
     hoverable?: boolean;
     title: string;
@@ -19,17 +21,21 @@ export const CardGridItem = ({
     buttonText?: string;
     buttonType?: "link" | "text" | "ghost" | "default" | "primary" | "dashed";
     buttonLink?: string;
+    onClick?: () => void;
+    buttonDisabled?: boolean;
 }) => {
+    console.log("buttonDisabled");
+    console.log(buttonDisabled);
     const gridStyle = {
         width: "100%",
         align: "center"
     };
     return (
         <Card.Grid hoverable={hoverable} style={gridStyle}>
-            <div className="card-item-grid-content grid-table">
+            <div className="card-item-grid-content grid-table" onClick={onClick}>
                 <CardItemText title={title} description={description} secondDescription={secondDescription} />
                 {buttonText && (
-                    <Button type={buttonType}>
+                    <Button type={buttonType} disabled={false}>
                         <a href={buttonLink} target="_blank" rel="noreferrer">
                             {buttonText}
                         </a>

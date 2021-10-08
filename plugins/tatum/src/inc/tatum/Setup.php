@@ -32,12 +32,14 @@ class Setup
     }
 
     public static function getApiKey() {
+        $api_key = Connector::get_api_version(get_option(TATUM_SLUG . '_api_key'));
         $lazyMint = new LazyMint();
         return [
             'apiKey' => get_option(TATUM_SLUG . '_api_key'),
-            'plan' => 'Basic plan',
-            'remainingCredits' => 839123,
-            'usedCredits' => 32332,
+            'plan' => 'Advanced',
+            'remainingCredits' => ($api_key['creditLimit'] - $api_key['usage']),
+            'creditLimit' => $api_key['creditLimit'],
+            'usedCredits' => $api_key['usage'],
             'nftCreated' => $lazyMint->getLazyMintCount(),
             'nftSold' => $lazyMint->getMintCount(),
             'isTutorialDismissed' => get_option(TATUM_SLUG . '_is_tutorial_dismissed', false)

@@ -5,6 +5,7 @@ export interface ApiKey extends ResponseError {
     plan: string;
     remainingCredits: number;
     usedCredits: number;
+    creditLimit: number;
     nftCreated: number;
     nftSold: number;
     isTutorialDismissed: boolean;
