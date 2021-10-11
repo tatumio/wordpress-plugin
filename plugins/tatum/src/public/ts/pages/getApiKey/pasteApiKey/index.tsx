@@ -6,20 +6,16 @@ import { RouteHttpVerb } from "@tatum/utils";
 import { Spinner, Container } from "../../../components";
 import { useStores } from "../../../store";
 import { Page } from "../../../models/page";
-import { ResponseError } from "../../../models/reponseError";
-
-interface ApiKeyResponse extends ResponseError {
-    version: string;
-}
+import { ApiKey } from "../../../models";
 
 export const PasteApiKey = () => {
     const gridStyle = {
         width: "100%",
         align: "center"
     };
-    const { data, mutate, loading } = useMutate<ApiKeyResponse>({ path: "/api-key", method: RouteHttpVerb.POST });
+    const { data, mutate, loading } = useMutate<ApiKey>({ path: "/api-key", method: RouteHttpVerb.POST });
     const [apiKey, setApiKey] = useState<string>();
-    const { pageStore } = useStores();
+    const { pageStore, apiKeyStore } = useStores();
 
     useEffect(() => {
         if (data?.version) {
@@ -28,6 +24,7 @@ export const PasteApiKey = () => {
                 content: "Your API key was successfully set up and you are ready to mint NFTs!",
                 okText: "Mint your first NFT!",
                 onOk: () => {
+                    apiKeyStore.setApiKey(data);
                     pageStore.setPage(Page.API_KEY_DETAIL);
                 }
             });

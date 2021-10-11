@@ -68,7 +68,7 @@ export const PriceOverview = () => {
                 sagittis lacus efficitur massa fringilla, in porttitor lorem iaculis.
             </Paragraph>
             {/*// @ts-ignore*/}
-            <Table columns={columns} dataSource={data} pagination={false} loading={!data} />
+            <Table columns={columns} dataSource={data} pagination={false} loading={!data} rowKey="key" />
         </Card>
     );
 };

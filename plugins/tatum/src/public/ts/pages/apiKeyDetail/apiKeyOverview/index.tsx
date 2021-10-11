@@ -1,5 +1,5 @@
-import { CardGridItem, CardItemText, Container } from "../../../components";
-import { Card, Progress } from "antd";
+import { CardGridItem, Container } from "../../../components";
+import { Card } from "antd";
 import React, { useState } from "react";
 import { useStores } from "../../../store";
 import { Tutorial } from "../tutorial";
@@ -15,7 +15,7 @@ export const ApiKeyOverview = () => {
     const { apiKeyStore, pageStore } = useStores();
 
     const { mutate } = useMutate<ResponseError>({ path: "/dismiss-tutorial", method: RouteHttpVerb.POST });
-    const [isDismissed, setDismissTutorial] = useState(apiKeyStore.apiKey.isTutorialDismissed);
+    const [isDismissed, setDismissTutorial] = useState(apiKeyStore?.apiKey?.isTutorialDismissed);
 
     const dismissTutorial = async () => {
         setDismissTutorial(true);
@@ -29,13 +29,14 @@ export const ApiKeyOverview = () => {
             <Container isGridCard={true}>
                 <Card title={<img className="header-overview" src={getImageUrl("header-overview.png")} />}>
                     <CardGridItem title="Your Tatum plan" description={apiKeyStore.apiKey.plan} />
+
                     <CardGridItem
                         hoverable={true}
                         title="Your Tatum api key"
                         description={apiKeyStore.apiKey.apiKey}
                         onClick={() => pageStore.setPage(Page.GET_API_KEY)}
                     />
-                    <CardGridItemProgress
+                    <CardGridItem
                         title="Remaining credits for month"
                         description={apiKeyStore.apiKey.remainingCredits.toString()}
                     />
@@ -49,33 +50,5 @@ export const ApiKeyOverview = () => {
                 </Card>
             </Container>
         </>
-    );
-};
-
-export const CardGridItemProgress = ({
-    hoverable = false,
-    title,
-    description,
-    secondDescription
-}: {
-    hoverable?: boolean;
-    title: string;
-    description?: string;
-    secondDescription?: string;
-}) => {
-    const gridStyle = {
-        width: "100%",
-        align: "center"
-    };
-    const { apiKeyStore } = useStores();
-    const percentUsed = Math.round(apiKeyStore.apiKey.usedCredits / apiKeyStore.apiKey.creditLimit);
-
-    return (
-        <Card.Grid hoverable={hoverable} style={gridStyle}>
-            <div className="card-item-grid-content grid-table">
-                <CardItemText title={title} description={description} secondDescription={secondDescription} />
-                <Progress type="circle" percent={percentUsed} />
-            </div>
-        </Card.Grid>
     );
 };

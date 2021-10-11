@@ -69,6 +69,7 @@
             "GPL-2.0-or-later",
             "GPL-3",
             "GPL-3.0-or-later",
+            "LGPL-3.0-or-later",
             "LGPL-3.0-or-later"
         ],
         "packages": [
@@ -134,24 +135,6 @@
             "./packages/utils/vendor/bin/phpcs --standard=./common/phpcs.xml",
             "./packages/utils/vendor/bin/phpcbf --standard=./common/phpcs.xml"
         ]
-    },
-    "husky": {
-        "hooks": {
-            "pre-commit": "lint-staged",
-            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-        }
-    },
-    "commitlint": {
-        "extends": [
-            "@commitlint/config-conventional"
-        ],
-        "rules": {
-            "header-max-length": [
-                2,
-                "always",
-                140
-            ]
-        }
     },
     "prettier": {
         "arrowParens": "always",

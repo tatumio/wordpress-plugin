@@ -1,9 +1,10 @@
 import { Card } from "antd";
 import "./index.scss";
+import { Container } from "../../../components";
 
 export const WhyApiKey = () => {
     return (
-        <>
+        <Container>
             <Card title="Tatum">
                 <div className="whyApiKey">Why do I need an API key to sell NFTs?</div>
                 <div>
@@ -15,6 +16,6 @@ export const WhyApiKey = () => {
                     tristique, faucibus erat at, consectetur massa.
                 </div>
             </Card>
-        </>
+        </Container>
     );
 };

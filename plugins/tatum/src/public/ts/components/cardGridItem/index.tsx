@@ -24,8 +24,6 @@ export const CardGridItem = ({
     onClick?: () => void;
     buttonDisabled?: boolean;
 }) => {
-    console.log("buttonDisabled");
-    console.log(buttonDisabled);
     const gridStyle = {
         width: "100%",
         align: "center"
@@ -35,7 +33,7 @@ export const CardGridItem = ({
             <div className="card-item-grid-content grid-table" onClick={onClick}>
                 <CardItemText title={title} description={description} secondDescription={secondDescription} />
                 {buttonText && (
-                    <Button type={buttonType} disabled={false}>
+                    <Button type={buttonType} disabled={buttonDisabled}>
                         <a href={buttonLink} target="_blank" rel="noreferrer">
                             {buttonText}
                         </a>
