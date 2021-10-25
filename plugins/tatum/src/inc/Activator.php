@@ -64,7 +64,7 @@ class Activator {
             chain ENUM('CELO', 'ETH', 'BSC', 'ONE', 'MATIC') NOT NULL,
             transaction_id varchar(256),
             recipient_address varchar(256),
-            error_cause varchar(256),   
+            error_cause varchar(256),
             UNIQUE KEY id (id),
             INDEX(product_id),
             CONSTRAINT UniqChainProductId UNIQUE (product_id, chain)

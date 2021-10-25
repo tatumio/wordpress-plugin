@@ -2,6 +2,7 @@
 
 namespace Hathoriel\Tatum\rest;
 
+use Hathoriel\Tatum\tatum\LazyMint;
 use Hathoriel\Utils\Service;
 use Hathoriel\Tatum\base\UtilsProvider;
 use WP_REST_Response;
@@ -38,6 +39,7 @@ class SetupRest
         $this->registerRoute('/estimate', 'GET', 'estimate');
         $this->registerRoute('/api-key', 'GET', 'getApiKey');
         $this->registerRoute('/dismiss-tutorial', 'POST', 'dismissTutorial');
+        $this->registerRoute('/nfts', 'GET', 'getNfts');
     }
 
     /**
@@ -76,6 +78,11 @@ class SetupRest
     public function dismissTutorial() {
         Setup::dismissTutorial();
         return new WP_REST_Response([]);
+    }
+
+    public function getNfts() {
+        $lazyNfts = new LazyMint();
+        return new WP_REST_Response(["nfts" => $lazyNfts->getAll()]);
     }
 
     /**

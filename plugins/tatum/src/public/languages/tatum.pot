@@ -11,10 +11,10 @@ msgstr ""
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 
-#: widget.js:650
+#: widget.js:651
 msgid "Hello, World!"
 msgstr ""
 
-#: widget.js:650
+#: widget.js:651
 msgid "I got generated from your new plugin!"
 msgstr ""

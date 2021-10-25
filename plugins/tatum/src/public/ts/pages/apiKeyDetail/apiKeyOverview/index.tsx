@@ -39,6 +39,7 @@ export const ApiKeyOverview = () => {
                     <CardGridItem
                         title="Remaining credits for month"
                         description={apiKeyStore.apiKey.remainingCredits.toString()}
+                        onClick={() => pageStore.setPage(Page.NFTS_OVERVIEW)}
                     />
                     <CardGridItem
                         title="Credits usage last month"

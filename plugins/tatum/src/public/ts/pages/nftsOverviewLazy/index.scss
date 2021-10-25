@@ -1,0 +1,11 @@
+.nftItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+  .nftImage {
+    width: 100px;
+    height: 100px;
+    padding-right: 20px;
+  }
+}

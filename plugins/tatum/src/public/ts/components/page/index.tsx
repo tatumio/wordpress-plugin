@@ -13,6 +13,7 @@ import { Spinner } from "../spinner";
 import { useGet } from "../../hooks/useGet";
 import { ApiKey } from "../../models";
 import { Help } from "../../pages/help";
+import { NftsOverviewLazy } from "../../pages/nftsOverviewLazy";
 
 export const Layout = observer(() => {
     const { Header, Footer, Content: AntdContent } = AntdLayout;
@@ -86,6 +87,11 @@ const usePageContent = () => {
         case Page.GET_API_KEY:
             return {
                 page: <GetApiKey />,
+                header: <BackToMainPage title="Get your Tatum API key" />
+            };
+        case Page.NFTS_OVERVIEW:
+            return {
+                page: <NftsOverviewLazy />,
                 header: <BackToMainPage title="Get your Tatum API key" />
             };
         default:
