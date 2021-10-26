@@ -4,9 +4,14 @@ namespace Hathoriel\Tatum\tatum;
 
 class BlockchainLink
 {
-    public static function tx($txHash, $chain) {
+    public static function txLink($txHash, $chain) {
         $prefixes = self::getExplorerPrefixes();
         return self::formatLink($txHash, $prefixes[$chain] . 'tx/' . $txHash);
+    }
+
+    public static function tx($txHash, $chain) {
+        $prefixes = self::getExplorerPrefixes();
+        return $prefixes[$chain] . 'tx/' . $txHash;
     }
 
     public static function address($address, $chain) {

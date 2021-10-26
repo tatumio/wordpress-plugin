@@ -7,6 +7,7 @@ export interface Nfts extends ResponseError {
 export interface Nft {
     name: string;
     transactionId: string | null;
+    transactionLink: string | null;
     errorCause: string | null;
     imageUrl: string | null;
     chain: string;

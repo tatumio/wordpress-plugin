@@ -98,7 +98,7 @@ class Admin
 
 
         foreach ($minted_nfts as $chain) {
-            $link = BlockchainLink::tx($chain->transaction_id, $chain->chain);
+            $link = BlockchainLink::txLink($chain->transaction_id, $chain->chain);
             echo "<p><span>$chain->chain</span>  <span>$link</span></p>";
         }
     }

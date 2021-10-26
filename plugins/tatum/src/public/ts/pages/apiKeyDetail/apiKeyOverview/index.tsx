@@ -39,16 +39,25 @@ export const ApiKeyOverview = () => {
                     <CardGridItem
                         title="Remaining credits for month"
                         description={apiKeyStore.apiKey.remainingCredits.toString()}
-                        onClick={() => pageStore.setPage(Page.NFTS_MINTED)}
                     />
                     <CardGridItem
                         title="Credits usage last month"
                         description={apiKeyStore.apiKey.usedCredits.toString()}
                         onClick={() => pageStore.setPage(Page.NFTS_LAZY)}
                     />
-                    <CardGridItem title="Total NFTs created" description={apiKeyStore.apiKey.nftCreated.toString()} />
+                    <CardGridItem
+                        hoverable={true}
+                        title="Total NFTs created"
+                        description={apiKeyStore.apiKey.nftCreated.toString()}
+                        onClick={() => pageStore.setPage(Page.NFTS_LAZY)}
+                    />
 
-                    <CardGridItem title="Total NFTs sold" description={apiKeyStore.apiKey.nftSold.toString()} />
+                    <CardGridItem
+                        hoverable={true}
+                        title="Total NFTs sold"
+                        description={apiKeyStore.apiKey.nftSold.toString()}
+                        onClick={() => pageStore.setPage(Page.NFTS_MINTED)}
+                    />
                 </Card>
             </Container>
         </>
