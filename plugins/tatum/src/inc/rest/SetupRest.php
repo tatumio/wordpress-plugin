@@ -39,7 +39,8 @@ class SetupRest
         $this->registerRoute('/estimate', 'GET', 'estimate');
         $this->registerRoute('/api-key', 'GET', 'getApiKey');
         $this->registerRoute('/dismiss-tutorial', 'POST', 'dismissTutorial');
-        $this->registerRoute('/nfts', 'GET', 'getNfts');
+        $this->registerRoute('/nfts/lazy', 'GET', 'getLazy');
+        $this->registerRoute('/nfts/minted', 'GET', 'getMinted');
     }
 
     /**
@@ -80,9 +81,14 @@ class SetupRest
         return new WP_REST_Response([]);
     }
 
-    public function getNfts() {
+    public function getLazy() {
         $lazyNfts = new LazyMint();
-        return new WP_REST_Response(["nfts" => $lazyNfts->getAll()]);
+        return new WP_REST_Response(["nfts" => $lazyNfts->getLazy()]);
+    }
+
+    public function getMinted() {
+        $lazyNfts = new LazyMint();
+        return new WP_REST_Response(["nfts" => $lazyNfts->getMinted()]);
     }
 
     /**

@@ -6,6 +6,15 @@ body {
   z-index: 101000000;
 }
 
+.ant-card-grid {
+  box-shadow: none;
+  border-bottom: 1px solid #f0f0f0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
 .wrap {
   margin: 0;
 }

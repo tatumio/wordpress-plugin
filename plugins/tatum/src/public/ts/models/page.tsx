@@ -3,5 +3,6 @@ export enum Page {
     GET_API_KEY = "GET_API_KEY",
     API_KEY_DETAIL = "API_KEY_DETAIL",
     HELP = "HELP",
-    NFTS_OVERVIEW = "NFTS_OVERVIEW"
+    NFTS_MINTED = "NFTS_MINTED",
+    NFTS_LAZY = "NFTS_LAZY"
 }

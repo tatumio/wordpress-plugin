@@ -14,6 +14,7 @@ import { useGet } from "../../hooks/useGet";
 import { ApiKey } from "../../models";
 import { Help } from "../../pages/help";
 import { NftsOverviewLazy } from "../../pages/nftsOverviewLazy";
+import { NftsOverviewMinted } from "../../pages/nftsOverviewMinted";
 
 export const Layout = observer(() => {
     const { Header, Footer, Content: AntdContent } = AntdLayout;
@@ -89,10 +90,15 @@ const usePageContent = () => {
                 page: <GetApiKey />,
                 header: <BackToMainPage title="Get your Tatum API key" />
             };
-        case Page.NFTS_OVERVIEW:
+        case Page.NFTS_MINTED:
+            return {
+                page: <NftsOverviewMinted />,
+                header: <BackToMainPage title="NFTs Sold" />
+            };
+        case Page.NFTS_LAZY:
             return {
                 page: <NftsOverviewLazy />,
-                header: <BackToMainPage title="Get your Tatum API key" />
+                header: <BackToMainPage title="NFTs created" />
             };
         default:
             return defaultPage;

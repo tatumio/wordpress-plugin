@@ -5,3 +5,4 @@ export * from "./cardItemText";
 export * from "./container";
 export * from "./paragraph";
 export * from "./paragraphHeader";
+export * from "./nftsOverview";

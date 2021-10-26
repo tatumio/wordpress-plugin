@@ -39,11 +39,12 @@ export const ApiKeyOverview = () => {
                     <CardGridItem
                         title="Remaining credits for month"
                         description={apiKeyStore.apiKey.remainingCredits.toString()}
-                        onClick={() => pageStore.setPage(Page.NFTS_OVERVIEW)}
+                        onClick={() => pageStore.setPage(Page.NFTS_MINTED)}
                     />
                     <CardGridItem
                         title="Credits usage last month"
                         description={apiKeyStore.apiKey.usedCredits.toString()}
+                        onClick={() => pageStore.setPage(Page.NFTS_LAZY)}
                     />
                     <CardGridItem title="Total NFTs created" description={apiKeyStore.apiKey.nftCreated.toString()} />
 
