@@ -58,35 +58,42 @@ class SetupRest
      * @apiVersion 0.1.0
      */
     public function getSetup() {
+        self::checkNonce();
         return new WP_REST_Response(Setup::getSetup());
     }
 
     public function setApiKey(WP_REST_Request $request) {
+        self::checkNonce();
         $data = $request->get_json_params();
         $response = Setup::setApiKey($data['apiKey']);
         return new WP_REST_Response($response);
     }
 
     public function estimate() {
+        self::checkNonce();
         return new WP_REST_Response(Estimate::estimateCountOfMintAllSupportedBlockchain());
     }
 
     public function getApiKey() {
+        self::checkNonce();
         $api_key = Setup::getApiKey();
         return new WP_REST_Response($api_key);
     }
 
     public function dismissTutorial() {
+        self::checkNonce();
         Setup::dismissTutorial();
         return new WP_REST_Response([]);
     }
 
     public function getLazy() {
+        self::checkNonce();
         $lazyNfts = new LazyMint();
         return new WP_REST_Response(["nfts" => $lazyNfts->getLazy()]);
     }
 
     public function getMinted() {
+        self::checkNonce();
         $lazyNfts = new LazyMint();
         return new WP_REST_Response(["nfts" => $lazyNfts->getMinted()]);
     }
@@ -105,5 +112,15 @@ class SetupRest
             'callback' => [$this, $callback],
             'permission_callback' => '__return_true'
         ]);
+    }
+
+    private static function checkNonce() {
+        if (!isset($_SERVER['HTTP_X_WP_NONCE'])) {
+            throw new \Exception('Only admin can view this page');
+        }
+        $nonce = $_SERVER['HTTP_X_WP_NONCE'];
+        if (!wp_verify_nonce($nonce, 'wp_rest')) {
+            throw new \Exception('Only admin can view this page');
+        }
     }
 }
