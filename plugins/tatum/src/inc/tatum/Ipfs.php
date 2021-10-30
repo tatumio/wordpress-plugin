@@ -44,8 +44,16 @@ class Ipfs
     private static function getProductImageNameAndContent($product_id) {
         $product = wc_get_product($product_id);
         $attachment_url = wp_get_attachment_url($product->get_image_id());
+        var_dump($attachment_url);
         $uploads = wp_upload_dir();
+        var_dump($uploads);
         $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $attachment_url);
+        if(file_exists($file_path)) {
+            var_dump(filesize($file_path));
+        } else {
+            echo 'dont exists';
+        }
+        exit();
         return array('name' => basename($attachment_url), 'content' => file_get_contents($file_path));
     }
 

@@ -111,10 +111,51 @@ class Admin
 
         $this->lazyMint->deleteByProduct($product_id);
 
+        $selectedChains = array();
+
         foreach (Chains::getChainCodes() as $chain) {
             if (isset($_POST['tatum_' . $chain]) && $_POST['tatum_' . $chain] === 'yes') {
                 $this->lazyMint->insert($product_id, $chain);
+                array_push($selectedChains, $chain);
             }
+        }
+
+        if (!empty($selectedChains)) {
+
+            $attribute_name = 'pa_tatum_nft_chain';
+            wp_set_object_terms($product_id, $selectedChains, $attribute_name, true);
+            $data = array(
+                $attribute_name => array(
+                    'name' => $attribute_name,
+                    'value' => '',
+                    'is_visible' => '1',
+                    'is_variation' => '1',
+                    'is_taxonomy' => '1'
+                )
+            );
+            //First getting the Post Meta
+            $_product_attributes = get_post_meta($product_id, '_product_attributes');
+
+            //Updating the Post Meta
+            update_post_meta($product_id, '_product_attributes', array_merge($_product_attributes, $data));
+
+
+//            foreach ($selectedChains as $chain) {
+                $variation_post = array(
+                    'post_title'  => $product->get_title(),
+                    'post_name'   => sanitize_title($product->get_title()),
+                    'post_status' => 'publish',
+                    'post_excerpt'=> 'My attribute: ',
+                    'post_parent' => $product->get_id(),
+                    'post_type'   => 'product_variation',
+                    'guid'        => $product->get_permalink(),
+                    'meta_input'  => array(
+                        "attribute_$attribute_name" => $chain
+                    )
+                );
+                // Creating the product variation
+                $variation_id = wp_insert_post( $variation_post );
+//            }
         }
     }
 

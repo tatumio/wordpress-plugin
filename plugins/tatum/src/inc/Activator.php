@@ -1,7 +1,9 @@
 <?php
+
 namespace Hathoriel\Tatum;
 
 use Hathoriel\Tatum\base\UtilsProvider;
+use Hathoriel\Tatum\tatum\Chains;
 use Hathoriel\Utils\Activator as UtilsActivator;
 
 // @codeCoverageIgnoreStart
@@ -12,7 +14,8 @@ defined('ABSPATH') or die('No script kiddies please!'); // Avoid direct file req
  * The activator class handles the plugin relevant activation hooks: Uninstall, activation,
  * deactivation and installation. The "installation" means installing needed database tables.
  */
-class Activator {
+class Activator
+{
     use UtilsProvider;
     use UtilsActivator;
 
@@ -21,6 +24,7 @@ class Activator {
      */
     public function activate() {
         $this->initDatabase();
+        $this->initAttributes();
     }
 
     /**
@@ -70,5 +74,25 @@ class Activator {
             CONSTRAINT UniqChainProductId UNIQUE (product_id, chain)
         ) $charset_collate;";
         dbDelta($sql);
+    }
+
+    private function initAttributes() {
+        $attributes = wc_get_attribute_taxonomies();
+        $slugs = wp_list_pluck($attributes, 'attribute_name');
+
+        if (!in_array('tatum_nft_chain', $slugs)) {
+            $args = array(
+                'slug' => 'tatum_nft_chain',
+                'name' => __('Tatum NFT chain', 'tatum-nft-chain'),
+                'type' => 'select',
+                'orderby' => 'menu_order',
+                'has_archives' => false,
+            );
+
+            wc_create_attribute($args);
+        }
+        foreach (Chains::getChainCodes() as $chain) {
+            wp_insert_term($chain, 'pa_tatum_nft_chain');
+        }
     }
 }

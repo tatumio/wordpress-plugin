@@ -46,10 +46,11 @@ class Core extends BaseCore {
         add_action('admin_head', [Admin::instance(), 'add_product_data_icon']);
         add_action('woocommerce_product_data_tabs', [Admin::instance(), 'add_product_data_tab']);
         add_action('woocommerce_product_data_panels', [Admin::instance(), 'add_product_data_fields']);
-        add_action('save_post_product', [Admin::instance(), 'productSave']);
+        add_action('woocommerce_update_product', [Admin::instance(), 'productSave']);
         add_action('woocommerce_order_status_processing', [PublicHooks::instance(), 'woocommerce_order_set_to_processing']);
         add_action('woocommerce_checkout_update_order_meta', [PublicHooks::instance(), 'woocommerce_save_address_checkout']);
         add_action('woocommerce_before_checkout_billing_form', [PublicHooks::instance(), 'woocommerce_add_address_checkout']);
+        add_action('woocommerce_cart_calculate_fees', [PublicHooks::instance(), 'addShippingFee']);
     }
 
     /**

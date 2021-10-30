@@ -35,7 +35,7 @@ class PublicHooks
                         if ($url != false) {
                             $this->mintProduct($product_id, $order_id, $api_key, $url);
                         } else {
-                            $this->resolveIpfsError($product_id, $order_id);
+                            $this->resolveNftError($product_id, $order_id);
                         }
                     }
                 }
@@ -95,13 +95,13 @@ class PublicHooks
         }
     }
 
-    private function resolveIpfsError($product_id, $order_id) {
+    private function resolveNftError($product_id, $order_id) {
         $lazyMints = $this->lazyMint->getByProduct($product_id);
-        foreach ($lazyMints as $lazyMint) {
-            $recipient_address = get_post_meta($order_id, 'recipient_blockchain_address_' . $lazyMint->chain, true);
-            $this->lazyMint->updateByProductAndChain($product_id, $lazyMint->chain, array('error_cause' => 'IPFS', 'recipient_address' => $recipient_address, 'order_id' => $order_id));
-        }
-        wc_add_notice(__('NFT IPFS minting error occurred. Check if you have correctly set product image. Then try again or contact administrator.'), 'error');
-        exit();
+        $recipient_address = get_post_meta($order_id, 'recipient_blockchain_address_' . $lazyMint->chain, true);
+        $this->lazyMint->updateByProductAndChain($product_id, $lazyMint->chain, array('error_cause' => 'IPFS', 'recipient_address' => $recipient_address, 'order_id' => $order_id));
+    }
+
+    public function addShippingFee() {
+        
     }
 }
