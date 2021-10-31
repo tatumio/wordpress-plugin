@@ -2,6 +2,7 @@
 
 namespace Hathoriel\Tatum\rest;
 
+use Hathoriel\Tatum\tatum\Fees;
 use Hathoriel\Tatum\tatum\LazyMint;
 use Hathoriel\Utils\Service;
 use Hathoriel\Tatum\base\UtilsProvider;
@@ -41,6 +42,8 @@ class SetupRest
         $this->registerRoute('/dismiss-tutorial', 'POST', 'dismissTutorial');
         $this->registerRoute('/nfts/lazy', 'GET', 'getLazy');
         $this->registerRoute('/nfts/minted', 'GET', 'getMinted');
+        $this->registerRoute('/fees', 'GET', 'getFees');
+        $this->registerRoute('/fees', 'POST', 'setFees');
     }
 
     /**
@@ -96,6 +99,18 @@ class SetupRest
         self::checkNonce();
         $lazyNfts = new LazyMint();
         return new WP_REST_Response(["nfts" => $lazyNfts->getMinted()]);
+    }
+
+    public function getFees() {
+        self::checkNonce();
+        return new WP_REST_Response(Fees::get());
+    }
+
+    public function setFees(WP_REST_Request $request) {
+        self::checkNonce();
+        $data = $request->get_json_params();
+        Fees::set($data);
+        return new WP_REST_Response(Fees::get());
     }
 
     /**

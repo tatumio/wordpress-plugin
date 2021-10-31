@@ -58,6 +58,13 @@ export const ApiKeyOverview = () => {
                         description={apiKeyStore.apiKey.nftSold.toString()}
                         onClick={() => pageStore.setPage(Page.NFTS_MINTED)}
                     />
+
+                    <CardGridItem
+                        hoverable={true}
+                        title="Settings & Preferences"
+                        description="Global settings"
+                        onClick={() => pageStore.setPage(Page.PREFERENCES)}
+                    />
                 </Card>
             </Container>
         </>

@@ -25,6 +25,10 @@ msgstr ""
 msgid "Hathoriel"
 msgstr ""
 
+#: inc/Activator.php:86
+msgid "Tatum NFT chain"
+msgstr ""
+
 #: inc/hooks/PublicHooks.php:91
 msgid "NFT blockchain minting error occurred. Please try again or contact administrator."
 msgstr ""

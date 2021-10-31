@@ -15,6 +15,7 @@ import { ApiKey } from "../../models";
 import { Help } from "../../pages/help";
 import { NftsOverviewLazy } from "../../pages/nftsOverviewLazy";
 import { NftsOverviewMinted } from "../../pages/nftsOverviewMinted";
+import { Preferences } from "../../pages/preferences";
 
 export const Layout = observer(() => {
     const { Header, Footer, Content: AntdContent } = AntdLayout;
@@ -99,6 +100,11 @@ const usePageContent = () => {
             return {
                 page: <NftsOverviewLazy />,
                 header: <BackToMainPage title="NFTs created" />
+            };
+        case Page.PREFERENCES:
+            return {
+                page: <Preferences />,
+                header: <BackToMainPage title="Preferences" />
             };
         default:
             return defaultPage;

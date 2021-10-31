@@ -143,6 +143,7 @@
         "mobx-react": "^6.2.2",
         "react": "^17.0.2",
         "react-dom": "^16.13.1",
+        "react-hook-form": "^7.18.0",
         "react-test-renderer": "^16.13.1"
     },
     "devDependencies": {

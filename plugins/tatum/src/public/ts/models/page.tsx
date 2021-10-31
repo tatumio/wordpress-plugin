@@ -4,5 +4,6 @@ export enum Page {
     API_KEY_DETAIL = "API_KEY_DETAIL",
     HELP = "HELP",
     NFTS_MINTED = "NFTS_MINTED",
-    NFTS_LAZY = "NFTS_LAZY"
+    NFTS_LAZY = "NFTS_LAZY",
+    PREFERENCES = "PREFERENCES"
 }
