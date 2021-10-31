@@ -109,53 +109,63 @@ class Admin
             throw new \Exception('Cannot find product.');
         }
 
-        $this->lazyMint->deleteByProduct($product_id);
-
-        $selectedChains = array();
-
-        foreach (Chains::getChainCodes() as $chain) {
-            if (isset($_POST['tatum_' . $chain]) && $_POST['tatum_' . $chain] === 'yes') {
-                $this->lazyMint->insert($product_id, $chain);
-                array_push($selectedChains, $chain);
+        $updating_product_id = 'update_product_' . $product_id;
+        if (false === ($updating_product = get_transient($updating_product_id))) {
+            // We'll get here only once! within 2 seconds for each product id;
+            // run your code here!
+            $this->lazyMint->deleteByProduct($product_id);
+            $selectedChains = array();
+            foreach (Chains::getChainCodes() as $chain) {
+                if (isset($_POST['tatum_' . $chain]) && $_POST['tatum_' . $chain] === 'yes') {
+                    $this->lazyMint->insert($product_id, $chain);
+                    array_push($selectedChains, $chain);
+                }
             }
+
+            if (!empty($selectedChains)) {
+                $this->addVariableProducts($product_id, $product, $selectedChains);
+            }
+
         }
+        set_transient($updating_product_id, $product_id, 2); // change 2 seconds if not enough
 
-        if (!empty($selectedChains)) {
+    }
 
-            $attribute_name = 'pa_tatum_nft_chain';
-            wp_set_object_terms($product_id, $selectedChains, $attribute_name, true);
-            $data = array(
-                $attribute_name => array(
-                    'name' => $attribute_name,
-                    'value' => '',
-                    'is_visible' => '1',
-                    'is_variation' => '1',
-                    'is_taxonomy' => '1'
+    private function addVariableProducts($product_id, $product, $selectedChains) {
+        $attribute_name = 'pa_tatum_nft_chain';
+        wp_set_object_terms($product_id, $selectedChains, $attribute_name, true);
+        $data = array(
+            $attribute_name => array(
+                'name' => $attribute_name,
+                'value' => '',
+                'is_visible' => '1',
+                'is_variation' => '1',
+                'is_taxonomy' => '1'
+            )
+        );
+        //First getting the Post Meta
+        $_product_attributes = get_post_meta($product_id, '_product_attributes');
+
+        //Updating the Post Meta
+        update_post_meta($product_id, '_product_attributes', array_merge($_product_attributes, $data));
+
+
+        foreach ($selectedChains as $chain) {
+            $variation_post = array(
+                'post_title' => $product->get_title(),
+                'post_name' => sanitize_title($product->get_title()),
+                'post_status' => 'publish',
+                'post_excerpt' => 'My attribute: ',
+                'post_parent' => $product->get_id(),
+                'post_type' => 'product_variation',
+                'guid' => $product->get_permalink(),
+                'meta_input' => array(
+                    "attribute_$attribute_name" => strtolower($chain)
                 )
+
             );
-            //First getting the Post Meta
-            $_product_attributes = get_post_meta($product_id, '_product_attributes');
-
-            //Updating the Post Meta
-            update_post_meta($product_id, '_product_attributes', array_merge($_product_attributes, $data));
-
-
-//            foreach ($selectedChains as $chain) {
-                $variation_post = array(
-                    'post_title'  => $product->get_title(),
-                    'post_name'   => sanitize_title($product->get_title()),
-                    'post_status' => 'publish',
-                    'post_excerpt'=> 'My attribute: ',
-                    'post_parent' => $product->get_id(),
-                    'post_type'   => 'product_variation',
-                    'guid'        => $product->get_permalink(),
-                    'meta_input'  => array(
-                        "attribute_$attribute_name" => $chain
-                    )
-                );
-                // Creating the product variation
-                $variation_id = wp_insert_post( $variation_post );
-//            }
+            // Creating the product variation
+            wp_insert_post($variation_post);
         }
     }
 
