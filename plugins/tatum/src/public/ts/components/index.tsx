@@ -6,4 +6,5 @@ export * from "./container";
 export * from "./paragraph";
 export * from "./paragraphHeader";
 export * from "./nftsOverview";
-export * from "./cardGridInputItem";
+export * from "./cardGridNumberInput";
+export * from "./cardGridCheckboxInput";

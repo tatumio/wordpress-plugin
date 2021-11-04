@@ -2,7 +2,7 @@
 
 namespace Hathoriel\Tatum\rest;
 
-use Hathoriel\Tatum\tatum\Fees;
+use Hathoriel\Tatum\tatum\Preferences;
 use Hathoriel\Tatum\tatum\LazyMint;
 use Hathoriel\Utils\Service;
 use Hathoriel\Tatum\base\UtilsProvider;
@@ -42,8 +42,8 @@ class SetupRest
         $this->registerRoute('/dismiss-tutorial', 'POST', 'dismissTutorial');
         $this->registerRoute('/nfts/lazy', 'GET', 'getLazy');
         $this->registerRoute('/nfts/minted', 'GET', 'getMinted');
-        $this->registerRoute('/fees', 'GET', 'getFees');
-        $this->registerRoute('/fees', 'POST', 'setFees');
+//        $this->registerRoute('/preferences', 'GET', 'getPreferences');
+//        $this->registerRoute('/preferences', 'POST', 'setPreferences');
     }
 
     /**
@@ -101,16 +101,17 @@ class SetupRest
         return new WP_REST_Response(["nfts" => $lazyNfts->getMinted()]);
     }
 
-    public function getFees() {
+    public function getPreferences() {
         self::checkNonce();
-        return new WP_REST_Response(Fees::get());
+        return new WP_REST_Response(["fees" => Preferences::getFees(), "defaultChains" =>  Preferences::getDefaultChains()]);
     }
 
-    public function setFees(WP_REST_Request $request) {
+    public function setPreferences(WP_REST_Request $request) {
         self::checkNonce();
         $data = $request->get_json_params();
-        Fees::set($data);
-        return new WP_REST_Response(Fees::get());
+        Preferences::setFees($data);
+        Preferences::setDefaultChains($data);
+        return new WP_REST_Response(["fees" => Preferences::getFees(), "defaultChains" =>  Preferences::getDefaultChains()]);
     }
 
     /**

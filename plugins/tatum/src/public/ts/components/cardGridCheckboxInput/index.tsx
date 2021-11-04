@@ -2,9 +2,9 @@ import { Button, Card, Input } from "antd";
 import { CardItemText } from "../CardItemText";
 import React from "react";
 import "./index.scss";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
 
-export const CardGridInputItem = ({
+export const CardGridCheckboxInput = ({
     hoverable = false,
     title,
     description,
@@ -24,7 +24,8 @@ export const CardGridInputItem = ({
         <Card.Grid hoverable={hoverable} style={gridStyle}>
             <div className="card-item-grid-content grid-table">
                 <CardItemText title={title} description={description} />
-                <Input {...register("ETH")} className="fee-input" addonBefore="$" defaultValue={inputValue} />
+                <Input type="checkbox" className="fee-input" />
+                {/*<Controller as={Input} className="fee-input" addonBefore="$" defaultValue={inputValue} />*/}
             </div>
         </Card.Grid>
     );

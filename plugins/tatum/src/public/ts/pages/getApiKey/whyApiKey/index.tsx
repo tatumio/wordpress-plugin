@@ -1,11 +1,13 @@
 import { Card } from "antd";
 import "./index.scss";
 import { Container } from "../../../components";
+import { getImageUrl } from "../../../utils/image";
+import React from "react";
 
 export const WhyApiKey = () => {
     return (
         <Container>
-            <Card title="Tatum">
+            <Card title={<img className="header-logo" src={getImageUrl("tatum-logo.svg")} />}>
                 <div className="whyApiKey">Why do I need an API key to sell NFTs?</div>
                 <div>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ac dui arcu. Sed sed neque libero.

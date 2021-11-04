@@ -5,7 +5,7 @@ import BSC from "../../../assets/BSC.svg";
 import CELO from "../../../assets/CELO.svg";
 import ETH from "../../../assets/ETH.svg";
 import MATIC from "../../../assets/MATIC.svg";
-import ONE from "../../../assets/TRX.svg";
+import ONE from "../../../assets/ONE.svg";
 import { Paragraph, ParagraphHeader } from "../../../components";
 
 export const PriceOverview = () => {

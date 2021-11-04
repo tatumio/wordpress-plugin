@@ -41,9 +41,6 @@ export const GetTatumApiKey = () => {
                     buttonLink="https://dashboard.tatum.io"
                     buttonDisabled={apiKeyStore?.apiKey?.plan === "Advanced"}
                 />
-                <Card.Grid hoverable={false} style={gridStyle}>
-                    <div className="card-item-grid-content grid-table">Accepted payment methods</div>
-                </Card.Grid>
             </Card>
         </Container>
     );

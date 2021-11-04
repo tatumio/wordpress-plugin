@@ -43,7 +43,6 @@ export const ApiKeyOverview = () => {
                     <CardGridItem
                         title="Credits usage last month"
                         description={apiKeyStore.apiKey.usedCredits.toString()}
-                        onClick={() => pageStore.setPage(Page.NFTS_LAZY)}
                     />
                     <CardGridItem
                         hoverable={true}
@@ -57,13 +56,6 @@ export const ApiKeyOverview = () => {
                         title="Total NFTs sold"
                         description={apiKeyStore.apiKey.nftSold.toString()}
                         onClick={() => pageStore.setPage(Page.NFTS_MINTED)}
-                    />
-
-                    <CardGridItem
-                        hoverable={true}
-                        title="Settings & Preferences"
-                        description="Global settings"
-                        onClick={() => pageStore.setPage(Page.PREFERENCES)}
                     />
                 </Card>
             </Container>

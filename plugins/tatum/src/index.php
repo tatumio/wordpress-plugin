@@ -6,9 +6,9 @@
  * Plugin Name: 	tatum
  * Plugin URI:		https://tatum.io
  * Description: 	
- * Author:          Hathoriel
- * Author URI:		
- * Version: 		1.0.0
+ * Author:          tatum.io
+ * Author URI:		https://tatum.io
+ * Version: 		2.0.0
  * Text Domain:		tatum
  * Domain Path:		/languages
  */

@@ -5,17 +5,15 @@ import { Col, Layout as AntdLayout, Row } from "antd";
 import { useStores } from "../../store";
 import { LandingPage } from "../../pages/landingPage";
 import { GetApiKey } from "../../pages/getApiKey";
-import { Page } from "../../models";
+import { ApiKey, Page } from "../../models";
 import { LeftOutlined } from "@ant-design/icons";
 import "./index.scss";
 import { ApiKeyDetail } from "../../pages/apiKeyDetail";
 import { Spinner } from "../spinner";
 import { useGet } from "../../hooks/useGet";
-import { ApiKey } from "../../models";
 import { Help } from "../../pages/help";
 import { NftsOverviewLazy } from "../../pages/nftsOverviewLazy";
 import { NftsOverviewMinted } from "../../pages/nftsOverviewMinted";
-import { Preferences } from "../../pages/preferences";
 
 export const Layout = observer(() => {
     const { Header, Footer, Content: AntdContent } = AntdLayout;
@@ -40,7 +38,12 @@ export const Layout = observer(() => {
                 <Row justify="space-around" align="middle">
                     <Col span={8}>{header}</Col>
                     <Col span={8} offset={8} style={{ display: "flex", justifyContent: "flex-end" }}>
-                        <div>A plugin by Tatum</div>
+                        <div>
+                            A plugin by{" "}
+                            <a target="_blank" rel="noreferrer" href="https://tatum.io">
+                                Tatum
+                            </a>
+                        </div>
                     </Col>
                 </Row>
             </Header>
@@ -100,11 +103,6 @@ const usePageContent = () => {
             return {
                 page: <NftsOverviewLazy />,
                 header: <BackToMainPage title="NFTs created" />
-            };
-        case Page.PREFERENCES:
-            return {
-                page: <Preferences />,
-                header: <BackToMainPage title="Preferences" />
             };
         default:
             return defaultPage;

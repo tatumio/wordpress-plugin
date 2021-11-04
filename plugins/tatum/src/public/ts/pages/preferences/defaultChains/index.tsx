@@ -1,16 +1,15 @@
-import { CardGridNumberInput, Container } from "../../../components";
+import { CardGridCheckboxInput, CardGridNumberInput, Container } from "../../../components";
 import { Card } from "antd";
 import React from "react";
-import "./index.scss";
 
-export const Fees = () => {
+export const DefaultChains = () => {
     const gridStyle = {
         width: "100%",
         align: "center"
     };
     return (
         <Container isGridCard={true}>
-            <Card title="Bill your customers transactions fees">
+            <Card title="Default chains">
                 <Card.Grid className="description" hoverable={false} style={gridStyle}>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ac dui arcu. Sed sed neque libero.
                     Aliquam consequat urna non bibendum pellentesque. Proin vitae turpis eleifend, placerat justo vitae,
@@ -19,8 +18,12 @@ export const Fees = () => {
                     semper. Nulla feugiat sem vitae neque ornare auctor. Fusce posuere faucibus aliquet. Donec quis arcu
                     tristique, faucibus erat at, consectetur massa.
                 </Card.Grid>
-                <CardGridNumberInput title="Ethereum (ETH)" description="We recommend $30" />
+                <CardGridCheckboxInput title="Ethereum (ETH)" description="Mint" />
+                <CardGridCheckboxInput title="Binance smart chain (BSC)" description="Mint" />
+                <CardGridCheckboxInput title="Celo ()" description="Mint" />
+                <CardGridCheckboxInput title="Polygon (Matic)" description="Mint" />
+                <CardGridCheckboxInput title="One (ETH)" description="Mint" />
             </Card>
         </Container>
     );
-};
+}

@@ -2,6 +2,7 @@ import { Button, Card } from "antd";
 import { CardItemText } from "../CardItemText";
 import React from "react";
 import "./index.scss";
+import { RightCircleOutlined } from "@ant-design/icons";
 
 export const CardGridItem = ({
     hoverable = false,
@@ -39,6 +40,7 @@ export const CardGridItem = ({
                         </a>
                     </Button>
                 )}
+                {hoverable && <RightCircleOutlined style={{ fontSize: "30px", color: "#9a9a9a" }} />}
             </div>
         </Card.Grid>
     );
