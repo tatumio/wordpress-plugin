@@ -1,8 +1,8 @@
 # Copyright (C) 2021 tatum.io
-# This file is distributed under the same license as the tatum plugin.
+# This file is distributed under the same license as the NFT Maker plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: tatum 2.0.0\n"
+"Project-Id-Version: NFT Maker 2.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Generator: WP-CLI 2.5.0\n"
 
 #. Plugin Name of the plugin
-msgid "tatum"
+msgid "NFT Maker"
 msgstr ""
 
 #. Plugin URI of the plugin
@@ -28,10 +28,6 @@ msgstr ""
 
 #: inc/Activator.php:86
 msgid "Tatum NFT chain"
-msgstr ""
-
-#: inc/hooks/PublicHooks.php:91
-msgid "NFT blockchain minting error occurred. Please try again or contact administrator."
 msgstr ""
 
 #: inc/view/widget/Widget.php:24

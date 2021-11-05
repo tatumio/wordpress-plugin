@@ -17,7 +17,7 @@ class Admin
 
     public function add_product_data_tab($tabs) {
         $tabs['tatum'] = array(
-            'label' => 'Tatum',
+            'label' => 'NFT Maker',
             'target' => 'tatum_product_data',
             'priority' => 21,
         );
@@ -28,9 +28,19 @@ class Admin
     public function add_product_data_icon() {
         ?>
       <style>
-        #woocommerce-product-data .tatum_options.active:hover > a:before,
+
+        #woocommerce-product-data .tatum_options.active > a:before {
+            background: url(<?php echo plugin_dir_url( 'tatum/public/assets/nft-maker-icon-gray.svg' ). 'nft-maker-icon-gray.svg'; ?>) center center no-repeat;
+            content: " " !important;
+            background-size: 100%;
+            width: 13px;
+            height: 13px;
+            display: inline-block;
+            line-height: 1;
+        }
+
         #woocommerce-product-data .tatum_options > a:before {
-            background: url(<?php echo plugin_dir_url( 'tatum/public/assets/tatum.png' ). 'tatum.png'; ?>) center center no-repeat;
+            background: url(<?php echo plugin_dir_url( 'tatum/public/assets/nft-maker-icon-blue.svg' ). 'nft-maker-icon-blue.svg'; ?>) center center no-repeat;
             content: " " !important;
             background-size: 100%;
             width: 13px;
@@ -48,7 +58,7 @@ class Admin
         }
 
         .tatum_options:hover a:before {
-            background: url(<?php echo plugin_dir_url( 'tatum/public/assets/tatum.png' ). 'tatum.png'; ?>) center center no-repeat;
+            background: url(<?php echo plugin_dir_url( 'tatum/public/assets/nft-maker-icon.svg' ). 'nft-maker-icon.svg'; ?>) center center no-repeat;
         }
 
         #tatum_product_data label {
@@ -63,6 +73,8 @@ class Admin
         echo '<div id="tatum_product_data" class="panel woocommerce_options_panel hidden">';
 
         $checkedChains = $this->lazyMint->getByProduct(get_the_ID());
+        // TODO: enable minting multiple times to same product
+        // TODO: Add message to the major upgrade
         $isBoughtOrFailed = LazyMintUtils::isBoughOrFailed($checkedChains);
         if ($isBoughtOrFailed) {
             $this->mintedProductDataFields($checkedChains);

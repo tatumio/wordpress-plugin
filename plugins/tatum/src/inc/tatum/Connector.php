@@ -4,12 +4,15 @@ namespace Hathoriel\Tatum\tatum;
 
 class Connector
 {
-    public const TATUM_URL = 'https://api-eu1.tatum.io';
+    public const TATUM_URL = [
+        'eu1' => 'https://api-eu1.tatum.io',
+        'us1' => 'https://api-us-west1.tatum.io'
+    ];
+
     const BLOCKCHAIN_URL_MAPPING = array('ETH' => 'ethereum', 'CELO' => 'celo', 'BSC' => 'bsc');
 
     private static function isResponseOk($response) {
         $server_output = json_decode(wp_remote_retrieve_body($response), true);
-
         if (isset($server_output['errorCode']) && $server_output['errorCode'] === 'api.key.invalid') {
             throw new \Exception('Invalid API key.');
         }
@@ -20,9 +23,10 @@ class Connector
         }
     }
 
-    private static function get($url, $api_key) {
+    private static function get($url, $api_key, $base = null) {
         $args = array('headers' => self::headers($api_key));
-        $response = wp_remote_get(self::TATUM_URL . $url, $args);
+        $baseUrl = $base === null ? self::get_base_url() : $base;
+        $response = wp_remote_get($baseUrl . $url, $args);
         $server_output = wp_remote_retrieve_body($response);
         self::isResponseOk($response);
         return json_decode($server_output, true);
@@ -30,10 +34,20 @@ class Connector
 
     private static function post($url, $body, $api_key) {
         $args = array('headers' => self::headers($api_key), 'body' => json_encode($body));
-        $response = wp_remote_post(self::TATUM_URL . $url, $args);
+        $response = wp_remote_post(self::get_base_url() . $url, $args);
         $server_output = wp_remote_retrieve_body($response);
         self::isResponseOk($response);
         return json_decode($server_output, true);
+    }
+
+    public static function get_base_url() {
+        $region = get_option(TATUM_SLUG . '_region');
+
+        if (!$region) {
+            return self::TATUM_URL['eu1'];
+        }
+
+        return self::TATUM_URL[$region];
     }
 
     private static function headers($api_key): array {
@@ -41,7 +55,19 @@ class Connector
     }
 
     public static function get_api_version($api_key) {
-        return self::get('/v3/tatum/version', $api_key);
+        try {
+            $eu = self::get('/v3/tatum/version', $api_key, self::TATUM_URL['eu1']);
+            update_option(TATUM_SLUG . '_region', 'eu1');
+            return $eu;
+        } catch (\Exception $e) {}
+
+        try {
+            $us = self::get('/v3/tatum/version', $api_key, self::TATUM_URL['us1']);
+            update_option(TATUM_SLUG . '_region', 'us1');
+            return $us;
+        } catch (\Exception $e) {}
+
+        throw new \Exception('Invalid API key.');
     }
 
     public static function generate_wallet($chain, $api_key) {
@@ -84,7 +110,7 @@ class Connector
         return self::post('/v3/blockchain/estimate', $body, $api_key);
     }
 
-    public static function get_rate($chain, $fiat ,$api_key) {
-        return self::get('/v3/tatum/rate/'. $chain . '?basePair=' . $fiat, $api_key);
+    public static function get_rate($chain, $fiat, $api_key) {
+        return self::get('/v3/tatum/rate/' . $chain . '?basePair=' . $fiat, $api_key);
     }
 }

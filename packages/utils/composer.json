@@ -66,17 +66,17 @@
     },
     "minimum-stability": "dev",
     "require-dev": {
-        "10up/wp_mock": "^0.4.2",
-        "antecedent/patchwork": "^2.1.12",
-        "comcast/php-legal-licenses": "^1.1.2",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
-        "metasyntactical/composer-plugin-license-check": "^0.5.0",
-        "php-stubs/wordpress-stubs": "^5.3.2",
-        "phpcompatibility/php-compatibility": "^9.3",
-        "phpunit/phpunit": "^7",
-        "rregeer/phpunit-coverage-check": "^0.3.1",
-        "slevomat/coding-standard": "^6.0@dev",
-        "squizlabs/php_codesniffer": "^3.5",
-        "wp-coding-standards/wpcs": "^2.2"
+      "10up/wp_mock": "^0.4.2",
+      "antecedent/patchwork": "^2.1.12",
+      "comcast/php-legal-licenses": "^1.1.2",
+      "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
+      "metasyntactical/composer-plugin-license-check": "^0.5.0",
+      "php-stubs/wordpress-stubs": "^5.3.2",
+      "phpcompatibility/php-compatibility": "^9.3",
+      "phpunit/phpunit": "^7",
+      "rregeer/phpunit-coverage-check": "^0.3.1",
+      "slevomat/coding-standard": "^6.0@dev",
+      "squizlabs/php_codesniffer": "^3.5",
+      "wp-coding-standards/wpcs": "^2.2"
     }
 }

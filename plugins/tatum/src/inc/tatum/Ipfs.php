@@ -12,7 +12,7 @@ class Ipfs
             $responseMetadata = self::storeIpfsFile(array('name' => 'metadata.json', 'content' => $json), $api_key);
             return rawurldecode($responseMetadata['ipfsHash']);
         }
-        return false;
+        throw new \Exception('IPFS: Cannot upload image.');
     }
 
     private static function storeIpfsFile($data_files, $api_key) {
@@ -23,7 +23,7 @@ class Ipfs
         $post_data = self::buildDataFiles($boundary, $data_files);
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => Connector::TATUM_URL . '/v3/ipfs',
+            CURLOPT_URL => Connector::get_base_url() . '/v3/ipfs',
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_MAXREDIRS => 10,
             CURLOPT_TIMEOUT => 30,
@@ -46,11 +46,13 @@ class Ipfs
         $attachment_url = wp_get_attachment_url($product->get_image_id());
         $uploads = wp_upload_dir();
         $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $attachment_url);
-        if (file_exists($file_path) && filesize($file_path) <= 50000) {
-            return array('name' => basename($attachment_url), 'content' => file_get_contents($file_path));
-        } else {
-            return false;
+        if (file_exists($file_path)) {
+            if (filesize($file_path) <= 50000) {
+                return array('name' => basename($attachment_url), 'content' => file_get_contents($file_path));
+            }
+            throw new \Exception('IPFS: Image is too big.');
         }
+        throw new \Exception('IPFS: Cannot find image.');
     }
 
 

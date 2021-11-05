@@ -38,7 +38,7 @@ class LazyMint
     }
 
     public function getMintCount() {
-        $this->wpdb->get_results("SELECT * FROM $this->tableName WHERE transaction_id IS NOT NULL;");
+        $this->wpdb->get_results("SELECT * FROM $this->tableName WHERE transaction_id IS NOT NULL OR error_cause IS NOT NULL;");
         return $this->wpdb->num_rows;
     }
 
@@ -50,12 +50,12 @@ class LazyMint
     }
 
     public function getLazy() {
-        $nfts = $this->wpdb->get_results("SELECT * FROM $this->tableName WHERE transaction_id IS NULL AND error_cause IS NULL");
+        $nfts = $this->wpdb->get_results("SELECT * FROM $this->tableName WHERE transaction_id IS NULL AND error_cause IS NULL;");
         return self::formatLazyNfts($nfts);
     }
 
     public function getMinted() {
-        $nfts = $this->wpdb->get_results("SELECT * FROM $this->tableName WHERE transaction_id IS NOT NULL OR error_cause IS NOT NULL");
+        $nfts = $this->wpdb->get_results("SELECT * FROM $this->tableName WHERE transaction_id IS NOT NULL OR error_cause IS NOT NULL;");
         return self::formatMintedNfts($nfts);
     }
 

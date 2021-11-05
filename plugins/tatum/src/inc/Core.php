@@ -50,7 +50,7 @@ class Core extends BaseCore {
         add_action('woocommerce_order_status_processing', [PublicHooks::instance(), 'woocommerce_order_set_to_processing']);
         add_action('woocommerce_checkout_update_order_meta', [PublicHooks::instance(), 'woocommerce_save_address_checkout']);
         add_action('woocommerce_before_checkout_billing_form', [PublicHooks::instance(), 'woocommerce_add_address_checkout']);
-        add_action('woocommerce_cart_calculate_fees', [PublicHooks::instance(), 'addShippingFee']);
+        add_action('woocommerce_thankyou_order_received_text', [PublicHooks::instance(), 'updateThankYouPage'], 10, 2);
     }
 
     /**

@@ -21,7 +21,7 @@ export const GetTatumApiKey = () => {
                     buttonText={apiKeyStore?.apiKey?.plan === "Free" ? "Current key" : "Get API key"}
                     buttonType="primary"
                     buttonLink="https://dashboard.tatum.io"
-                    buttonDisabled={apiKeyStore?.apiKey?.plan === "Free"}
+                    buttonDisabled={apiKeyStore?.apiKey?.plan === "Start"}
                 />
                 <CardGridItem
                     title="Basic - $49 per month"

@@ -3,7 +3,7 @@
  * Main file for WordPress.
  *
  * @wordpress-plugin
- * Plugin Name: 	tatum
+ * Plugin Name: 	NFT Maker
  * Plugin URI:		https://tatum.io
  * Description: 	
  * Author:          tatum.io

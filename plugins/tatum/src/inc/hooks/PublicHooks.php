@@ -2,11 +2,11 @@
 
 namespace Hathoriel\Tatum\hooks;
 
+use Hathoriel\Tatum\tatum\BlockchainLink;
 use Hathoriel\Tatum\tatum\Chains;
 use Hathoriel\Tatum\tatum\Ipfs;
 use Hathoriel\Tatum\tatum\LazyMint;
 use Hathoriel\Tatum\tatum\Connector;
-use Hathoriel\Tatum\tatum\LazyMintUtils;
 
 class PublicHooks
 {
@@ -28,15 +28,11 @@ class PublicHooks
                 $order = wc_get_order($order_id);
                 foreach ($order->get_items() as $order_item) {
                     $product_id = $order_item->get_product_id();
-                    $checkedChains = $this->lazyMint->getByProduct($product_id);
-                    $isMinted = LazyMintUtils::minted($checkedChains);
-                    if (!$isMinted) {
+                    try {
                         $url = Ipfs::storeProductImageToIpfs($product_id, $api_key);
-                        if ($url != false) {
-                            $this->mintProduct($product_id, $order_id, $api_key, $url);
-                        } else {
-                            $this->resolveNftError($product_id, $order_id);
-                        }
+                        $this->mintProduct($product_id, $order_id, $api_key, $url);
+                    } catch (\Exception $e) {
+                        $this->resolveNftError($product_id, $order_id, $e->getMessage());
                     }
                 }
             }
@@ -87,21 +83,39 @@ class PublicHooks
                 if (isset($response['txId'])) {
                     $this->lazyMint->updateByProductAndChain($product_id, $lazyMint->chain, array('transaction_id' => $response['txId'], 'order_id' => $order_id));
                 } else {
-                    $this->lazyMint->updateByProductAndChain($product_id, $lazyMint->chain, array('error_cause' => 'MINT', 'recipient_address' => $recipient_address, 'order_id' => $order_id));
-                    wc_add_notice(__('NFT blockchain minting error occurred. Please try again or contact administrator.'), 'error');
-                    exit();
+                    $this->resolveNftError($product_id, $order_id, 'Cannot mint NFT. Check recipient address or contact support.');
                 }
             }
         }
     }
 
-    private function resolveNftError($product_id, $order_id) {
-        $lazyMints = $this->lazyMint->getByProduct($product_id);
-        $recipient_address = get_post_meta($order_id, 'recipient_blockchain_address_' . $lazyMint->chain, true);
-        $this->lazyMint->updateByProductAndChain($product_id, $lazyMint->chain, array('error_cause' => 'IPFS', 'recipient_address' => $recipient_address, 'order_id' => $order_id));
+    private function resolveNftError($product_id, $order_id, $error_message) {
+        foreach (Chains::getChainCodes() as $chain) {
+            if (get_post_meta($order_id, 'recipient_blockchain_address_' . $chain, true)) {
+                $recipient_address = get_post_meta($order_id, 'recipient_blockchain_address_' . $chain, true);
+                $this->lazyMint->updateByProductAndChain($product_id, $chain, array('error_cause' => $error_message, 'recipient_address' => $recipient_address, 'order_id' => $order_id));
+
+            }
+        }
     }
 
-    public function addShippingFee() {
-        
+    public function updateThankYouPage($thank_you_title, $order) {
+        $transactions = '';
+        foreach ($order->get_items() as $order_item) {
+            $product_id = $order_item->get_product_id();
+            if ($product_id) {
+                $minted_nfts = $this->lazyMint->getByProduct($product_id);
+                foreach ($minted_nfts as $minted_nft) {
+                    if ($minted_nft->transaction_id != "") {
+                        $link = BlockchainLink::txLink($minted_nft->transaction_id, $minted_nft->chain);
+                        $transactions .= "$link<br>";
+                    }
+                }
+            }
+        }
+        if ($transactions !== '') {
+            return "Thank you. Your order has been received.<br><br> Following transactions were sent: <br><br> $transactions";
+        }
+        return "Thank you. Your order has been received.";
     }
 }

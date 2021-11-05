@@ -1,6 +1,6 @@
 === tatum ===
 Contributors: Hathoriel
-Tags:
+Tags: NFT
 Donate link:
 Stable tag: trunk
 Requires at least: 5.2.0
