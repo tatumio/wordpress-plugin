@@ -22,6 +22,10 @@ msgstr ""
 msgid "https://tatum.io"
 msgstr ""
 
+#. Description of the plugin
+msgid "NFT Maker is the easiest and fastest free plugin to work with NFTs without any blockchain development experience."
+msgstr ""
+
 #. Author of the plugin
 msgid "tatum.io"
 msgstr ""

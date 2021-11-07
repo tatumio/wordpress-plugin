@@ -41,13 +41,13 @@ class LazyMint
     }
 
     public function getPreparedCount() {
-        $this->wpdb->get_results("SELECT * FROM $this->preparedNft;");
-        return $this->wpdb->num_rows;
+        $nfts = $this->wpdb->get_results("SELECT * FROM $this->preparedNft;");
+        return count(self::formatPreparedNfts($nfts));
     }
 
     public function getLazyNftCount() {
-        $this->wpdb->get_results("SELECT * FROM $this->lazyNft;");
-        return $this->wpdb->num_rows;
+        $nfts = $this->wpdb->get_results("SELECT * FROM $this->lazyNft INNER JOIN $this->preparedNft ON $this->lazyNft.prepared_nft_id = $this->preparedNft.id;");
+        return count(self::formatMintedNfts($nfts));
     }
 
     public function getPreparedByProduct($product_id) {
@@ -79,35 +79,44 @@ class LazyMint
     }
 
     private static function formatPreparedNfts($nfts) {
-        return array_map(function ($nft) {
+        $formatted = array();
+        foreach ($nfts as $nft) {
             $product = wc_get_product($nft->product_id);
-            $datetime_created = $product->get_date_created();
-            return array(
-                "name" => $product->get_title(),
-                "imageUrl" => wp_get_attachment_image_url($product->get_image_id(), 'full'),
-                "chain" => $nft->chain,
-                "created" => $datetime_created,
-                "productId" => $product->get_id()
-            );
-        }, $nfts);
+            if ($product) {
+                $datetime_created = $product->get_date_created();
+                array_push($formatted, array(
+                    "name" => $product->get_title(),
+                    "imageUrl" => wp_get_attachment_image_url($product->get_image_id(), 'full'),
+                    "chain" => $nft->chain,
+                    "created" => $datetime_created,
+                    "productId" => $product->get_id()
+                ));
+            }
+        }
+        return $formatted;
     }
 
     private static function formatMintedNfts($nfts) {
-        return array_map(function ($nft) {
+        $formatted = array();
+        foreach ($nfts as $nft) {
             $order = wc_get_order($nft->order_id);
             $product = wc_get_product($nft->product_id);
-            $datetime_created = $product->get_date_created();
-            return array(
-                "name" => $product->get_title(),
-                "imageUrl" => wp_get_attachment_image_url($product->get_image_id(), 'full'),
-                "transactionId" => $nft->transaction_id,
-                "transactionLink" => BlockchainLink::tx($nft->transaction_id, $nft->chain),
-                "errorCause" => $nft->error_cause,
-                "chain" => $nft->chain,
-                "sold" => $order->get_date_paid(),
-                "created" => $datetime_created,
-                "productId" => $product->get_id()
-            );
-        }, $nfts);
+            if ($order && $product) {
+                $datetime_created = $product->get_date_created();
+                array_push($formatted, array(
+                    "name" => $product->get_title(),
+                    "imageUrl" => wp_get_attachment_image_url($product->get_image_id(), 'full'),
+                    "transactionId" => $nft->transaction_id,
+                    "transactionLink" => BlockchainLink::tx($nft->transaction_id, $nft->chain),
+                    "errorCause" => $nft->error_cause,
+                    "chain" => $nft->chain,
+                    "sold" => $order->get_date_paid(),
+                    "created" => $datetime_created,
+                    "productId" => $product->get_id()
+                ));
+            }
+        }
+
+        return $formatted;
     }
 }
