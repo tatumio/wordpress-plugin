@@ -36,6 +36,7 @@ class Connector
         $args = array('headers' => self::headers($api_key), 'body' => json_encode($body));
         $response = wp_remote_post(self::get_base_url() . $url, $args);
         $server_output = wp_remote_retrieve_body($response);
+        var_dump($server_output);
         self::isResponseOk($response);
         return json_decode($server_output, true);
     }

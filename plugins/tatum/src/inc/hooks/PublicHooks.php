@@ -2,6 +2,7 @@
 
 namespace Hathoriel\Tatum\hooks;
 
+use Hathoriel\Tatum\tatum\AddressValidator;
 use Hathoriel\Tatum\tatum\BlockchainLink;
 use Hathoriel\Tatum\tatum\Chains;
 use Hathoriel\Tatum\tatum\Ipfs;
@@ -27,12 +28,18 @@ class PublicHooks
             if ($api_key) {
                 $order = wc_get_order($order_id);
                 foreach ($order->get_items() as $order_item) {
-                    $product_id = $order_item->get_product_id();
-                    try {
-                        $url = Ipfs::storeProductImageToIpfs($product_id, $api_key);
-                        $this->mintProduct($product_id, $order_id, $api_key, $url);
-                    } catch (\Exception $e) {
-                        $this->resolveNftError($product_id, $order_id, $e->getMessage());
+                    for ($i = 0; $i < $order_item->get_quantity(); $i++) {
+                        $product_id = $order_item->get_product_id();
+                        $preparedNfts = $this->lazyMint->getPreparedByProduct($product_id);
+                        foreach ($preparedNfts as $preparedNft) {
+                            try {
+                                $url = Ipfs::storeProductImageToIpfs($product_id, $api_key);
+                                $this->mintProduct($product_id, $order_id, $api_key, $url);
+                            } catch (\Exception $e) {
+                                $recipient_address = get_post_meta($order_id, 'recipient_blockchain_address_' . $preparedNft->chain, true);
+                                $this->resolveNftError($order_id, $e->getMessage(), $preparedNft, $recipient_address);
+                            }
+                        }
                     }
                 }
             }
@@ -46,7 +53,7 @@ class PublicHooks
         $chains = array();
         foreach (($tmp = WC()) ? $tmp->cart->get_cart() : $tmp->cart->get_cart() as $cart_item_key => $cart_item) {
             $product_id = $cart_item['product_id'];
-            $NFTsToMint = $this->lazyMint->getByProduct($product_id);
+            $NFTsToMint = $this->lazyMint->getPreparedByProduct($product_id);
             foreach ($NFTsToMint as $nftToMint) {
                 array_push($chains, $nftToMint->chain);
             }
@@ -68,35 +75,38 @@ class PublicHooks
         }
     }
 
+    public function woocommerce_validate_address_checkout() {
+        foreach (Chains::getChainCodes() as $chain) {
+            $recipient_address = sanitize_text_field($_POST['recipient_blockchain_address_' . $chain]);
+            if (isset($_POST['recipient_blockchain_address_' . $chain]) && !AddressValidator::isETHAddress($recipient_address)) {
+                wc_add_notice(__('Please enter valid format of your ' . $chain . ' address.'), 'error');
+            }
+        }
+    }
+
     private function mintProduct($product_id, $order_id, $api_key, $url) {
-        $lazyMints = $this->lazyMint->getByProduct($product_id);
-        foreach ($lazyMints as $lazyMint) {
-            $recipient_address = get_post_meta($order_id, 'recipient_blockchain_address_' . $lazyMint->chain, true);
+        $preparedNfts = $this->lazyMint->getPreparedByProduct($product_id);
+        foreach ($preparedNfts as $preparedNft) {
+            $recipient_address = get_post_meta($order_id, 'recipient_blockchain_address_' . $preparedNft->chain, true);
 
             if ($recipient_address) {
-                $transfer_body = array('to' => $recipient_address, 'chain' => $lazyMint->chain, 'url' => "ipfs://$url");
-                if ($lazyMint->chain === 'CELO') {
+                $transfer_body = array('to' => $recipient_address, 'chain' => $preparedNft->chain, 'url' => "ipfs://$url");
+                if ($preparedNft->chain === 'CELO') {
                     $transfer_body['feeCurrency'] = 'CELO';
                 }
                 $response = Connector::mint_nft($transfer_body, $api_key);
 
                 if (isset($response['txId'])) {
-                    $this->lazyMint->updateByProductAndChain($product_id, $lazyMint->chain, array('transaction_id' => $response['txId'], 'order_id' => $order_id));
+                    $this->lazyMint->insertLazyNft($preparedNft->id, $order_id, $recipient_address, $response['txId']);
                 } else {
-                    $this->resolveNftError($product_id, $order_id, 'Cannot mint NFT. Check recipient address or contact support.');
+                    $this->resolveNftError($product_id, $order_id, 'Cannot mint NFT. Check recipient address or contact support.', $recipient_address);
                 }
             }
         }
     }
 
-    private function resolveNftError($product_id, $order_id, $error_message) {
-        foreach (Chains::getChainCodes() as $chain) {
-            if (get_post_meta($order_id, 'recipient_blockchain_address_' . $chain, true)) {
-                $recipient_address = get_post_meta($order_id, 'recipient_blockchain_address_' . $chain, true);
-                $this->lazyMint->updateByProductAndChain($product_id, $chain, array('error_cause' => $error_message, 'recipient_address' => $recipient_address, 'order_id' => $order_id));
-
-            }
-        }
+    private function resolveNftError($order_id, $error_message, $preparedNft, $recipient_address) {
+        $this->lazyMint->insertLazyNft($preparedNft->id, $order_id, $recipient_address, null, $error_message);
     }
 
     public function updateThankYouPage($thank_you_title, $order) {
@@ -104,7 +114,7 @@ class PublicHooks
         foreach ($order->get_items() as $order_item) {
             $product_id = $order_item->get_product_id();
             if ($product_id) {
-                $minted_nfts = $this->lazyMint->getByProduct($product_id);
+                $minted_nfts = $this->lazyMint->getLazyNftByProductAndOrder($product_id, $order->get_id());
                 foreach ($minted_nfts as $minted_nft) {
                     if ($minted_nft->transaction_id != "") {
                         $link = BlockchainLink::txLink($minted_nft->transaction_id, $minted_nft->chain);

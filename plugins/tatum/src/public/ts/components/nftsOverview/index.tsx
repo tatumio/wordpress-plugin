@@ -23,7 +23,7 @@ const NftItem = ({ nft, lazy }: { nft: Nft; lazy: boolean }) => {
                 <div className="nftInfo">
                     <div className="nftName">{nft.name}</div>
                     <div>Product ID: {nft.productId}</div>
-                    {!lazy && (
+                    {nft.transactionId && (
                         <div>
                             Tx ID:{" "}
                             <a target="_blank" rel="noreferrer" href={nft.transactionLink}>
@@ -32,7 +32,11 @@ const NftItem = ({ nft, lazy }: { nft: Nft; lazy: boolean }) => {
                         </div>
                     )}
                     <div>Chain: {nft.chain}</div>
-                    <div>Created: {new Date(nft.created.date).toLocaleString()}</div>
+                    {nft.transactionId || nft.errorCause ? (
+                        <div>Sold: {new Date(nft.sold.date).toLocaleString()}</div>
+                    ) : (
+                        <div>Created: {new Date(nft.created.date).toLocaleString()}</div>
+                    )}
                     {nft.errorCause && <div>Error cause: {nft.errorCause}</div>}
                 </div>
             </div>

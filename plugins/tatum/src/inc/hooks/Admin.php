@@ -72,26 +72,20 @@ class Admin
     public function add_product_data_fields($product_id) {
         echo '<div id="tatum_product_data" class="panel woocommerce_options_panel hidden">';
 
-        $checkedChains = $this->lazyMint->getByProduct(get_the_ID());
-        // TODO: enable minting multiple times to same product
+        $preparedNfts = $this->lazyMint->getPreparedByProduct(get_the_ID());
         // TODO: Add message to the major upgrade
-        $isBoughtOrFailed = LazyMintUtils::isBoughOrFailed($checkedChains);
-        if ($isBoughtOrFailed) {
-            $this->mintedProductDataFields($checkedChains);
-        } else {
-            $this->lazyMintedDataProductFields($checkedChains);
-        }
+        // TODO gitlab pipeline
 
+        $this->lazyMintedDataProductFields($preparedNfts);
         echo '</div>';
     }
 
-    private function lazyMintedDataProductFields($lazy_minted_nfts) {
+    private function lazyMintedDataProductFields($preparedNfts) {
         echo '<h4 style="margin-left: 10px;">Select the chain to mint your NFT on</h4>';
 
         $selectedChain = '';
         foreach (Chains::getChainLabels() as $chain => $label) {
-
-            foreach ($lazy_minted_nfts as $checkedChain) {
+            foreach ($preparedNfts as $checkedChain) {
                 if ($checkedChain->chain === $chain) {
                     $selectedChain = $chain;
                 }
@@ -106,16 +100,6 @@ class Admin
         ));
     }
 
-    private function mintedProductDataFields($minted_nfts) {
-
-        echo '<h4 style="margin-left: 10px;">Product is already minted with transaction hashes:</h4>';
-
-        foreach ($minted_nfts as $chain) {
-            $link = BlockchainLink::txLink($chain->transaction_id, $chain->chain);
-            echo "<p><span>$chain->chain</span>  <span>$link</span></p>";
-        }
-    }
-
     public function productSave($product_id) {
         $product = wc_get_product($product_id);
         if ($product === NULL || $product === false) {
@@ -127,8 +111,8 @@ class Admin
             // We'll get here only once! within 2 seconds for each product id;
             // run your code here!
             if (isset($_POST['tatum_chain'])) {
-                $this->lazyMint->deleteByProduct($product_id);
-                $this->lazyMint->insert($product_id, $_POST['tatum_chain']);
+                $this->lazyMint->deletePrepared($product_id);
+                $this->lazyMint->insertPrepared($product_id, $_POST['tatum_chain']);
             }
         }
         set_transient($updating_product_id, $product_id, 2); // change 2 seconds if not enough

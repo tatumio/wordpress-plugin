@@ -26,8 +26,12 @@ msgstr ""
 msgid "tatum.io"
 msgstr ""
 
-#: inc/Activator.php:86
+#: inc/Activator.php:95
 msgid "Tatum NFT chain"
+msgstr ""
+
+#: inc/hooks/PublicHooks.php:82
+msgid "Please enter valid format of your "
 msgstr ""
 
 #: inc/view/widget/Widget.php:24

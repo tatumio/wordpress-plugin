@@ -11,55 +11,74 @@ class LazyMint
 {
     use UtilsProvider;
 
-    private $tableName;
+    private $lazyNft;
+    private $preparedNft;
     private $wpdb;
 
     public function __construct() {
         global $wpdb;
         $this->wpdb = $wpdb;
-        $this->tableName = $this->getTableName("lazy_nft");
+        $this->lazyNft = $this->getTableName("lazy_nft");
+        $this->preparedNft = $this->getTableName("prepared_nft");
     }
 
-    public function insert($productId, $chain) {
-        $this->wpdb->insert($this->tableName, array('product_id' => $productId, 'chain' => $chain));
+    public function insertPrepared($productId, $chain) {
+        $this->wpdb->insert($this->preparedNft, array('product_id' => $productId, 'chain' => $chain));
     }
 
-    public function deleteByProduct($product_id) {
-        $this->wpdb->query("DELETE FROM $this->tableName WHERE product_id = $product_id AND transaction_id IS NULL;");
+    public function insertLazyNft($preparedId, $orderId, $recipientAddress, $transactionId = null, $errorCause = null) {
+        $this->wpdb->insert($this->lazyNft, array(
+            'prepared_nft_id' => $preparedId,
+            'order_id' => $orderId,
+            'transaction_id' => $transactionId,
+            'error_cause' => $errorCause,
+            'recipient_address' => $recipientAddress
+        ));
     }
 
-    public function updateByProductAndChain($product_id, $chain, $data) {
-        $this->wpdb->update($this->tableName, $data, array('product_id' => $product_id, 'chain' => $chain));
+    public function deletePrepared($product_id) {
+        $this->wpdb->query("DELETE FROM $this->preparedNft WHERE product_id = $product_id;");
     }
 
-    public function getLazyMintCount() {
-        $this->wpdb->get_results("SELECT * FROM $this->tableName");
+    public function getPreparedCount() {
+        $this->wpdb->get_results("SELECT * FROM $this->preparedNft;");
         return $this->wpdb->num_rows;
     }
 
-    public function getMintCount() {
-        $this->wpdb->get_results("SELECT * FROM $this->tableName WHERE transaction_id IS NOT NULL OR error_cause IS NOT NULL;");
+    public function getLazyNftCount() {
+        $this->wpdb->get_results("SELECT * FROM $this->lazyNft;");
         return $this->wpdb->num_rows;
     }
 
-    public function getByProduct($product_id) {
+    public function getPreparedByProduct($product_id) {
         if ($product_id === false) {
             return array();
         }
-        return $this->wpdb->get_results("SELECT * FROM $this->tableName WHERE product_id = $product_id");
+        return $this->wpdb->get_results("SELECT * FROM $this->preparedNft WHERE product_id = $product_id");
     }
 
-    public function getLazy() {
-        $nfts = $this->wpdb->get_results("SELECT * FROM $this->tableName WHERE transaction_id IS NULL AND error_cause IS NULL;");
-        return self::formatLazyNfts($nfts);
+    public function getLazyNftByProductAndOrder($product_id, $order_id) {
+        if ($product_id === false) {
+            return array();
+        }
+
+        if ($order_id === false) {
+            return array();
+        }
+        return $this->wpdb->get_results("SELECT * FROM $this->preparedNft INNER JOIN $this->lazyNft ON $this->lazyNft.prepared_nft_id = $this->preparedNft.id WHERE product_id = $product_id AND order_id = $order_id");
+    }
+
+    public function getPrepared() {
+        $nfts = $this->wpdb->get_results("SELECT * FROM $this->preparedNft;");
+        return self::formatPreparedNfts($nfts);
     }
 
     public function getMinted() {
-        $nfts = $this->wpdb->get_results("SELECT * FROM $this->tableName WHERE transaction_id IS NOT NULL OR error_cause IS NOT NULL;");
+        $nfts = $this->wpdb->get_results("SELECT * FROM $this->lazyNft INNER JOIN $this->preparedNft ON $this->lazyNft.prepared_nft_id = $this->preparedNft.id;");
         return self::formatMintedNfts($nfts);
     }
 
-    private static function formatLazyNfts($nfts) {
+    private static function formatPreparedNfts($nfts) {
         return array_map(function ($nft) {
             $product = wc_get_product($nft->product_id);
             $datetime_created = $product->get_date_created();

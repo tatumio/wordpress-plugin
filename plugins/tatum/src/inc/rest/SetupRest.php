@@ -92,7 +92,7 @@ class SetupRest
     public function getLazy() {
         self::checkNonce();
         $lazyNfts = new LazyMint();
-        return new WP_REST_Response(["nfts" => $lazyNfts->getLazy()]);
+        return new WP_REST_Response(["nfts" => $lazyNfts->getPrepared()]);
     }
 
     public function getMinted() {

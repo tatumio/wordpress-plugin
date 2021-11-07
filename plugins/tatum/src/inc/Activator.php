@@ -60,18 +60,27 @@ class Activator
         global $wpdb;
         $charset_collate = $wpdb->get_charset_collate();
 
-        $table_name = $this->getTableName("lazy_nft");
-        $sql = "CREATE TABLE IF NOT EXISTS $table_name (
+        $prepareNftName = $this->getTableName("prepared_nft");
+        $sql = "CREATE TABLE IF NOT EXISTS $prepareNftName (
             id bigint NOT NULL AUTO_INCREMENT,
             product_id bigint NOT NULL,
-            order_id bigint,
             chain ENUM('CELO', 'ETH', 'BSC', 'ONE', 'MATIC') NOT NULL,
-            transaction_id varchar(256),
-            recipient_address varchar(256),
-            error_cause varchar(256),
             UNIQUE KEY id (id),
             INDEX(product_id),
             CONSTRAINT UniqChainProductId UNIQUE (product_id, chain)
+        ) $charset_collate;";
+        dbDelta($sql);
+
+        $lazyNftName = $this->getTableName("lazy_nft");
+        $sql = "CREATE TABLE IF NOT EXISTS $lazyNftName (
+            id bigint NOT NULL AUTO_INCREMENT,
+            order_id bigint,
+            transaction_id varchar(256),
+            recipient_address varchar(256),
+            error_cause varchar(256),
+            prepared_nft_id bigint NOT NULL,
+            UNIQUE KEY id (id),
+            CONSTRAINT FK_LazyNft FOREIGN KEY (prepared_nft_id) REFERENCES $prepareNftName(id)
         ) $charset_collate;";
         dbDelta($sql);
     }

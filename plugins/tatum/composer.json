@@ -41,6 +41,7 @@
     }
   },
   "require": {
+    "kornrunner/keccak": "dev-master",
     "tatum/utils": "@dev"
   },
   "require-dev": {
@@ -51,7 +52,7 @@
     "metasyntactical/composer-plugin-license-check": "^0.5.0",
     "php-stubs/wordpress-stubs": "^5.3.2",
     "phpcompatibility/php-compatibility": "^9.3",
-    "phpdocumentor/phpdocumentor": "dev-master",
+    "phpdocumentor/phpdocumentor": "3.1.2",
     "phpunit/phpunit": "^7",
     "rregeer/phpunit-coverage-check": "^0.3.1",
     "slevomat/coding-standard": "^6.0@dev",

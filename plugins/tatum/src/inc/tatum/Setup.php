@@ -30,8 +30,8 @@ class Setup
                     'remainingCredits' => ($api_key_resp['creditLimit'] - $api_key_resp['usage']),
                     'creditLimit' => $api_key_resp['creditLimit'],
                     'usedCredits' => $api_key_resp['usage'],
-                    'nftCreated' => $lazyMint->getLazyMintCount(),
-                    'nftSold' => $lazyMint->getMintCount(),
+                    'nftCreated' => $lazyMint->getPreparedCount(),
+                    'nftSold' => $lazyMint->getLazyNftCount(),
                     'isTutorialDismissed' => get_option(TATUM_SLUG . '_is_tutorial_dismissed', false),
                     'version' => $api_key_resp['version']
                 ];
@@ -59,8 +59,8 @@ class Setup
                 'remainingCredits' => ($api_key['creditLimit'] - $api_key['usage']),
                 'creditLimit' => $api_key['creditLimit'],
                 'usedCredits' => $api_key['usage'],
-                'nftCreated' => $lazyMint->getLazyMintCount(),
-                'nftSold' => $lazyMint->getMintCount(),
+                'nftCreated' => $lazyMint->getPreparedCount(),
+                'nftSold' => $lazyMint->getLazyNftCount(),
                 'isTutorialDismissed' => get_option(TATUM_SLUG . '_is_tutorial_dismissed', false)
             ];
         }
