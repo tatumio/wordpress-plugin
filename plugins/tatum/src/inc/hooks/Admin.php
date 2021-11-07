@@ -73,7 +73,6 @@ class Admin
         echo '<div id="tatum_product_data" class="panel woocommerce_options_panel hidden">';
 
         $preparedNfts = $this->lazyMint->getPreparedByProduct(get_the_ID());
-        // TODO: Add message to the major upgrade
         // TODO gitlab pipeline
 
         $this->lazyMintedDataProductFields($preparedNfts);

@@ -8,10 +8,10 @@ ts config:
         paths:
             - .gitlab-ci.ts.yml
 
-trigger pipeline:
-    stage: test
+build production:
+    stage: deploy
     trigger:
         strategy: depend
         include:
-            - artifact: .gitlab-ci.ts.yml
-              job: ts config
+          - artifact: .gitlab-ci.ts.yml
+            job: ts config

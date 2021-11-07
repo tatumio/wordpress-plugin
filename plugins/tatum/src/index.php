@@ -5,7 +5,7 @@
  * @wordpress-plugin
  * Plugin Name: 	NFT Maker
  * Plugin URI:		https://tatum.io
- * Description: 	
+ * Description: 	NFT Maker is the easiest and fastest free plugin to work with NFTs without any blockchain development experience.
  * Author:          tatum.io
  * Author URI:		https://tatum.io
  * Version: 		2.0.0
@@ -28,7 +28,7 @@ define('TATUM_ROOT_SLUG', 'tatum');
 define('TATUM_SLUG', basename(TATUM_PATH));
 define('TATUM_INC', trailingslashit(path_join(TATUM_PATH, 'inc')));
 define('TATUM_MIN_PHP', '7.0.0'); // Minimum of PHP 5.3 required for autoloading and namespacing
-define('TATUM_MIN_WP', '5.2.0'); // Minimum of WordPress 5.0 required
+define('TATUM_MIN_WP', '5.5.0'); // Minimum of WordPress 5.0 required
 define('TATUM_NS', 'Hathoriel\\Tatum');
 define('TATUM_DB_PREFIX', 'tatum'); // The table name prefix wp_{prefix}
 define('TATUM_OPT_PREFIX', 'tatum'); // The option name prefix in wp_options
