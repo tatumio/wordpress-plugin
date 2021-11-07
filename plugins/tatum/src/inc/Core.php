@@ -41,6 +41,7 @@ class Core extends BaseCore {
         add_action('admin_enqueue_scripts', [$this->getAssets(), 'admin_enqueue_scripts']);
         add_action('wp_enqueue_scripts', [$this->getAssets(), 'wp_enqueue_scripts']);
         add_action('admin_menu', [Page::instance(), 'admin_menu']);
+        add_action('in_plugin_update_message-tatum/index.php', [Admin::instance(), 'update_message']);
 
         // Register woocommerce hooks
         add_action('admin_head', [Admin::instance(), 'add_product_data_icon']);

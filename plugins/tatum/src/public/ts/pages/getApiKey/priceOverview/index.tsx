@@ -53,19 +53,14 @@ export const PriceOverview = () => {
 
     return (
         <Card title="What plan do I need?">
-            <ParagraphHeader>What are credits for?</ParagraphHeader>
             <Paragraph>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ac dui arcu. Sed sed neque libero.
-                Aliquam consequat urna non bibendum pellentesque. Proin vitae turpis eleifend, placerat justo vitae,
-                congue lectus. Morbi molestie mi convallis condimentum convallis. Aliquam nec fermentum enim. Donec
-                sagittis lacus efficitur massa fringilla, in porttitor lorem iaculis.
+                All Tatum API plans carry the same functionalities - the only differences between them are the credits
+                and the amount of requests per second they can handle. The more you scale, the higher the plan you will
+                need to use. Paying for a more premium plan allows you to handle more users and traffic.
             </Paragraph>
-            <ParagraphHeader>How many NFTs can I potentionally sell per month per plan option?</ParagraphHeader>
             <Paragraph>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ac dui arcu. Sed sed neque libero.
-                Aliquam consequat urna non bibendum pellentesque. Proin vitae turpis eleifend, placerat justo vitae,
-                congue lectus. Morbi molestie mi convallis condimentum convallis. Aliquam nec fermentum enim. Donec
-                sagittis lacus efficitur massa fringilla, in porttitor lorem iaculis.
+                Check at the table below and see how many NFTs you can potentially mint, considering the current
+                blockchain transaction fees.
             </Paragraph>
             {/*// @ts-ignore*/}
             <Table columns={columns} dataSource={data} pagination={false} loading={!data} rowKey="key" />

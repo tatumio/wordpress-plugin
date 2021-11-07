@@ -157,6 +157,15 @@ class Admin
         }
     }
 
+    public function update_message($data) {
+        if (isset($data['upgrade_notice'])) {
+            printf(
+                '<div class="update-message">%s</div>',
+                wpautop($data['upgrade_notice'])
+            );
+        }
+    }
+
     public static function instance() {
         return new Admin();
     }
