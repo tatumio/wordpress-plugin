@@ -9,7 +9,7 @@ Stable tag: 1.0.5
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
-[Tatum](https://tatum.io/) is the easiest and fastest free plugin to work with NFTs without any blockchain development experience.
+[NFT Maker](https://tatum.io/) is the easiest and fastest free plugin to work with NFTs without any blockchain development experience.
 
 == Description ==
 
@@ -88,4 +88,4 @@ No. The plugin could be only used to sell the NFT created by Admin to the custom
 * No upgrade notice yet
 
 = 2.0.0 =
-* Version 2.0.0 and higher are not compatible with previous versions, if you update from 1.X.X all your data will be deleted
+* Warning! This new version is a complete upgrade and not compatible with the previous version 1. Please make sure you have securely stored your private keys before upgrading to version 2.0.0.

@@ -1,5 +1,7 @@
 <?php
+
 namespace Hathoriel\Tatum;
+
 use Hathoriel\Tatum\base\Core as BaseCore;
 use Hathoriel\Tatum\hooks\Admin;
 use Hathoriel\Tatum\hooks\PublicHooks;
@@ -15,7 +17,8 @@ defined('ABSPATH') or die('No script kiddies please!'); // Avoid direct file req
  * Singleton core class which handles the main system for plugin. It includes
  * registering of the autoload, all hooks (actions & filters) (see BaseCore class).
  */
-class Core extends BaseCore {
+class Core extends BaseCore
+{
     /**
      * Singleton instance.
      */
@@ -44,15 +47,17 @@ class Core extends BaseCore {
         add_action('in_plugin_update_message-tatum/index.php', [Admin::instance(), 'update_message']);
 
         // Register woocommerce hooks
-        add_action('admin_head', [Admin::instance(), 'add_product_data_icon']);
-        add_action('woocommerce_product_data_tabs', [Admin::instance(), 'add_product_data_tab']);
-        add_action('woocommerce_product_data_panels', [Admin::instance(), 'add_product_data_fields']);
-        add_action('woocommerce_update_product', [Admin::instance(), 'productSave']);
-        add_action('woocommerce_order_status_processing', [PublicHooks::instance(), 'woocommerce_order_set_to_processing']);
-        add_action('woocommerce_checkout_update_order_meta', [PublicHooks::instance(), 'woocommerce_save_address_checkout']);
-        add_action('woocommerce_checkout_process', [PublicHooks::instance(), 'woocommerce_validate_address_checkout']);
-        add_action('woocommerce_before_checkout_billing_form', [PublicHooks::instance(), 'woocommerce_add_address_checkout']);
-        add_action('woocommerce_thankyou_order_received_text', [PublicHooks::instance(), 'updateThankYouPage'], 10, 2);
+        if (get_option(TATUM_SLUG . '_api_key')) {
+            add_action('admin_head', [Admin::instance(), 'add_product_data_icon']);
+            add_action('woocommerce_product_data_tabs', [Admin::instance(), 'add_product_data_tab']);
+            add_action('woocommerce_product_data_panels', [Admin::instance(), 'add_product_data_fields']);
+            add_action('woocommerce_update_product', [Admin::instance(), 'productSave']);
+            add_action('woocommerce_order_status_processing', [PublicHooks::instance(), 'woocommerce_order_set_to_processing']);
+            add_action('woocommerce_checkout_update_order_meta', [PublicHooks::instance(), 'woocommerce_save_address_checkout']);
+            add_action('woocommerce_checkout_process', [PublicHooks::instance(), 'woocommerce_validate_address_checkout']);
+            add_action('woocommerce_before_checkout_billing_form', [PublicHooks::instance(), 'woocommerce_add_address_checkout']);
+            add_action('woocommerce_thankyou_order_received_text', [PublicHooks::instance(), 'updateThankYouPage'], 10, 2);
+        }
     }
 
     /**

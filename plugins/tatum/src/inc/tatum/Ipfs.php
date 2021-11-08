@@ -47,7 +47,7 @@ class Ipfs
         $uploads = wp_upload_dir();
         $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $attachment_url);
         if (file_exists($file_path)) {
-            if (filesize($file_path) <= 50000) {
+            if (filesize($file_path) <= 52428800) {
                 return array('name' => basename($attachment_url), 'content' => file_get_contents($file_path));
             }
             throw new \Exception('IPFS: Image is too big.');
