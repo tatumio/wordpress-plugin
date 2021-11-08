@@ -41,7 +41,7 @@
     }
   },
   "require": {
-    "kornrunner/keccak": "dev-master",
+    "kornrunner/keccak": "1.0.2",
     "tatum/utils": "@dev"
   },
   "require-dev": {
