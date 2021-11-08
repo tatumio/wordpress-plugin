@@ -20,12 +20,12 @@ const Title = () => {
                 NFT maker <span className="title-tatum">by Tatum.</span>
             </div>
             <div className="title-description">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ac dui arcu. Sed sed neque libero.
-                Aliquam consequat urna non bibendum pellentesque. Proin vitae turpis eleifend, placerat justo vitae,
-                congue lectus. Morbi molestie mi convallis condimentum convallis. Aliquam nec fermentum enim. Donec
-                sagittis lacus efficitur massa fringilla, in porttitor lorem iaculis. Nunc varius eu libero in semper.
-                Nulla feugiat sem vitae neque ornare auctor. Fusce posuere faucibus aliquet. Donec quis arcu tristique,
-                faucibus erat at, consectetur massa.
+                Who said that creating NFTs requires years of blockchain development experience? The NFT Maker by Tatum
+                allows you to turn your Woocommerce store into an NFT store with a simple plugin integration. Install
+                our plugin, follow your usual WordPress product publishing flow, and simply select the extra tickbox —
+                make NFT. Using the “lazy minting” feature your NFT is minted at the moment of purchase. You also get
+                free IPFS storage for your metadata but keep in mind it only supports up to 50mbs product images upload.
+                The plugin supports Ethereum, Binance Smart Chain, Polygon, Harmony and Celo.
             </div>
         </div>
     );

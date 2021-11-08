@@ -32,7 +32,7 @@ export const ApiKeyOverview = () => {
 
                     <CardGridItem
                         hoverable={true}
-                        title="Your Tatum api key"
+                        title="Your Tatum API key"
                         description={apiKeyStore.apiKey.apiKey}
                         onClick={() => pageStore.setPage(Page.GET_API_KEY)}
                     />
