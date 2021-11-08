@@ -3,7 +3,6 @@
 namespace Hathoriel\Tatum;
 
 use Hathoriel\Tatum\base\UtilsProvider;
-use Hathoriel\Tatum\tatum\Chains;
 use Hathoriel\Utils\Activator as UtilsActivator;
 
 // @codeCoverageIgnoreStart
@@ -24,7 +23,6 @@ class Activator
      */
     public function activate() {
         $this->initDatabase();
-        $this->initAttributes();
     }
 
     /**
@@ -83,25 +81,5 @@ class Activator
             CONSTRAINT FK_LazyNft FOREIGN KEY (prepared_nft_id) REFERENCES $prepareNftName(id)
         ) $charset_collate;";
         dbDelta($sql);
-    }
-
-    private function initAttributes() {
-        $attributes = wc_get_attribute_taxonomies();
-        $slugs = wp_list_pluck($attributes, 'attribute_name');
-
-        if (!in_array('tatum_nft_chain', $slugs)) {
-            $args = array(
-                'slug' => 'tatum_nft_chain',
-                'name' => __('Tatum NFT chain', 'tatum-nft-chain'),
-                'type' => 'select',
-                'orderby' => 'menu_order',
-                'has_archives' => false,
-            );
-
-            wc_create_attribute($args);
-        }
-        foreach (Chains::getChainCodes() as $chain) {
-            wp_insert_term($chain, 'pa_tatum_nft_chain');
-        }
     }
 }

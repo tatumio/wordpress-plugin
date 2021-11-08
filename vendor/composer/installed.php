@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '8417cf14590df3807af3451d2b1836b260fb20aa',
+        'reference' => '203695e76cf3e3d0ea1e072df8bc57b9a75424fb',
         'name' => '__root__',
         'dev' => false,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '8417cf14590df3807af3451d2b1836b260fb20aa',
+            'reference' => '203695e76cf3e3d0ea1e072df8bc57b9a75424fb',
             'dev_requirement' => false,
         ),
         'kornrunner/keccak' => array(
