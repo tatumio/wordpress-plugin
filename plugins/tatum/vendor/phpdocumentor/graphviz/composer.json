@@ -1,0 +1,43 @@
+{
+    "name": "phpdocumentor/graphviz",
+    "description": "Wrapper for Graphviz",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mike van Riel",
+            "email": "mike.vanriel@naenius.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2 || 8.0.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "phpDocumentor\\GraphViz\\": "src/phpDocumentor/GraphViz",
+            "phpDocumentor\\GraphViz\\PHPStan\\": "./src/phpDocumentor/PHPStan"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "phpDocumentor\\GraphViz\\Test\\": "./tests/phpDocumentor/GraphViz/Test",
+            "phpDocumentor\\GraphViz\\PHPStan\\": "./tests/phpDocumentor/PHPStan"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "7.2.3"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.2 || ^9.2",
+        "mockery/mockery": "^1.2",
+        "phpstan/phpstan": "^0.12",
+        "ext-simplexml": "*"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.x-dev"
+        }
+    }
+}

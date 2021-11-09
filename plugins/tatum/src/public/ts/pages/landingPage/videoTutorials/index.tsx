@@ -1,7 +1,7 @@
 import { Card } from "antd";
 import React from "react";
 import { CardGridItem } from "../../../components/CardGridItem";
-import { Container } from "../../../components/container";
+import { Container } from "../../../components/Container";
 
 export const VideoTutorials = () => {
     return (

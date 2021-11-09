@@ -1,0 +1,23 @@
+{
+  "name": "rregeer/phpunit-coverage-check",
+  "description": "Check the code coverage using the clover report of phpunit",
+  "keywords": [
+    "Testing",
+    "PHP",
+    "phpunit",
+    "Unittest",
+    "CI",
+    "Code coverage"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Richard Regeer",
+      "email": "rich2309@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.0.0"
+  },
+  "bin": ["bin/coverage-check"]
+}

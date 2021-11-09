@@ -1,7 +1,7 @@
 import { Button, Card } from "antd";
 import React from "react";
-import { CardGridItem } from "../../../components/CardGridItem";
-import { Container } from "../../../components/container";
+import { CardGridItem } from "../../../components";
+import { Container } from "../../../components";
 import { useStores } from "../../../store";
 
 export const GetTatumApiKey = () => {

@@ -326,8 +326,6 @@ function applyPluginRunnerConfiguration(grunt: IGrunt) {
                 "clean:buildDir",
                 "libs:copy",
                 "libs:cachebuster",
-                "yarn:disclaimer",
-                "composer:disclaimer",
                 "copy:buildSrc",
                 "copy:buildNonSrc",
                 "build:post",
