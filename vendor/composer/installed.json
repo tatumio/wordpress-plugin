@@ -58,7 +58,7 @@
             "dist": {
                 "type": "path",
                 "url": "../../../../packages/utils",
-                "reference": "31dfcd06068fbae5e901c0b2f8ecbe10af750db3"
+                "reference": "64fc529e04e495b4e1187b655296d2a430fce91b"
             },
             "require-dev": {
                 "10up/wp_mock": "^0.4.2",
