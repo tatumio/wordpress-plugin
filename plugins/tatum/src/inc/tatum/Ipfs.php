@@ -46,15 +46,39 @@ class Ipfs
         $attachment_url = wp_get_attachment_url($product->get_image_id());
         $uploads = wp_upload_dir();
         $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $attachment_url);
-        if (file_exists($file_path)) {
-            if (filesize($file_path) <= 52428800) {
-                return array('name' => basename($attachment_url), 'content' => file_get_contents($file_path));
+        if (substr($file_path, 0, 4) === "http") {
+            if (self::urlFileExists($file_path)) {
+                if (self::urlFileSize($file_path) <= 52428800) {
+                    return array('name' => basename($attachment_url), 'content' => file_get_contents($file_path));
+                }
+                throw new \Exception('IPFS: Image is too big.');
             }
-            throw new \Exception('IPFS: Image is too big.');
+        } else {
+            if (file_exists($file_path)) {
+                if (filesize($file_path) <= 52428800) {
+                    return array('name' => basename($attachment_url), 'content' => file_get_contents($file_path));
+                }
+                throw new \Exception('IPFS: Image is too big.');
+            }
         }
         throw new \Exception('IPFS: Cannot find image.');
     }
 
+    private static function urlFileExists($url) {
+        $options['http'] = array(
+            'method' => "HEAD",
+            'ignore_errors' => 1,
+            'max_redirects' => 0
+        );
+        $body = file_get_contents($url, NULL, stream_context_create($options));
+        sscanf($http_response_header[0], 'HTTP/%*d.%*d %d', $code);
+        return $code === 200;
+    }
+
+    private static function urlFileSize($url) {
+        $headers = get_headers($url, true);
+        return $headers['Content-Length'];
+    }
 
     private static function buildDataFiles($boundary, $file) {
         $data = '';
