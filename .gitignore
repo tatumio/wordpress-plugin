@@ -37,6 +37,7 @@ pids
 
 # Dependency directories
 node_modules
+vendor
 vendor-temp
 
 # Cache directories

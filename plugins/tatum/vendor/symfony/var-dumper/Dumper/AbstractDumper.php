@@ -35,7 +35,7 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
     protected $indentPad = '  ';
     protected $flags;
 
-    private string $charset = '';
+    private $charset = '';
 
     /**
      * @param callable|resource|string|null $output  A line dumper callable, an opened stream or an output path, defaults to static::$defaultOutput
@@ -84,7 +84,7 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
      *
      * @return string The previous charset
      */
-    public function setCharset(string $charset): string
+    public function setCharset(string $charset)
     {
         $prev = $this->charset;
 
@@ -103,7 +103,7 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
      *
      * @return string The previous indent pad
      */
-    public function setIndentPad(string $pad): string
+    public function setIndentPad(string $pad)
     {
         $prev = $this->indentPad;
         $this->indentPad = $pad;
@@ -118,7 +118,7 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
      *
      * @return string|null The dump as string when $output is true
      */
-    public function dump(Data $data, $output = null): ?string
+    public function dump(Data $data, $output = null)
     {
         $this->decimalPoint = localeconv();
         $this->decimalPoint = $this->decimalPoint['decimal_point'];
@@ -179,8 +179,10 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
 
     /**
      * Converts a non-UTF-8 string to UTF-8.
+     *
+     * @return string|null
      */
-    protected function utf8Encode(?string $s): ?string
+    protected function utf8Encode(?string $s)
     {
         if (null === $s || preg_match('//u', $s)) {
             return $s;

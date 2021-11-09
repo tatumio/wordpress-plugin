@@ -12,6 +12,7 @@
 namespace Symfony\Bridge\Monolog\Handler\FingersCrossed;
 
 use Monolog\Handler\FingersCrossed\ActivationStrategyInterface;
+use Monolog\Handler\FingersCrossed\ErrorLevelActivationStrategy;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -20,17 +21,28 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  *
  * @author Shaun Simmons <shaun@envysphere.com>
  * @author Pierrick Vignand <pierrick.vignand@gmail.com>
+ *
+ * @final
  */
-final class HttpCodeActivationStrategy implements ActivationStrategyInterface
+class HttpCodeActivationStrategy extends ErrorLevelActivationStrategy implements ActivationStrategyInterface
 {
+    private $inner;
+    private $exclusions;
+    private $requestStack;
+
     /**
-     * @param array $exclusions each exclusion must have a "code" and "urls" keys
+     * @param array                                  $exclusions each exclusion must have a "code" and "urls" keys
+     * @param ActivationStrategyInterface|int|string $inner      an ActivationStrategyInterface to decorate
      */
-    public function __construct(
-        private RequestStack $requestStack,
-        private array $exclusions,
-        private ActivationStrategyInterface $inner,
-    ) {
+    public function __construct(RequestStack $requestStack, array $exclusions, $inner)
+    {
+        if (!$inner instanceof ActivationStrategyInterface) {
+            trigger_deprecation('symfony/monolog-bridge', '5.2', 'Passing an actionLevel (int|string) as constructor\'s 3rd argument of "%s" is deprecated, "%s" expected.', __CLASS__, ActivationStrategyInterface::class);
+
+            $actionLevel = $inner;
+            $inner = new ErrorLevelActivationStrategy($actionLevel);
+        }
+
         foreach ($exclusions as $exclusion) {
             if (!\array_key_exists('code', $exclusion)) {
                 throw new \LogicException('An exclusion must have a "code" key.');
@@ -39,6 +51,10 @@ final class HttpCodeActivationStrategy implements ActivationStrategyInterface
                 throw new \LogicException('An exclusion must have a "urls" key.');
             }
         }
+
+        $this->inner = $inner;
+        $this->requestStack = $requestStack;
+        $this->exclusions = $exclusions;
     }
 
     public function isHandlerActivated(array $record): bool

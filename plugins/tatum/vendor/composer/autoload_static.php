@@ -89,6 +89,7 @@ class ComposerStaticInita7906ee4d8efd26bf30f58e2d8646554
             'Psr\\Cache\\' => 10,
             'Prophecy\\' => 9,
             'PhpParser\\' => 10,
+            'PackageVersions\\' => 16,
             'PHPStan\\PhpDocParser\\' => 21,
         ),
         'M' => 
@@ -336,6 +337,10 @@ class ComposerStaticInita7906ee4d8efd26bf30f58e2d8646554
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
+        'PackageVersions\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/package-versions-deprecated/src/PackageVersions',
+        ),
         'PHPStan\\PhpDocParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpstan/phpdoc-parser/src',
@@ -450,7 +455,6 @@ class ComposerStaticInita7906ee4d8efd26bf30f58e2d8646554
         'Comcast\\PhpLegalLicenses\\Console\\DependencyLicenseCommand' => __DIR__ . '/..' . '/comcast/php-legal-licenses/src/Comcast/PhpLegalLicenses/Command/DependencyLicenseCommand.php',
         'Comcast\\PhpLegalLicenses\\Console\\GenerateCommand' => __DIR__ . '/..' . '/comcast/php-legal-licenses/src/Comcast/PhpLegalLicenses/Command/GenerateCommand.php',
         'Comcast\\PhpLegalLicenses\\Console\\ShowCommand' => __DIR__ . '/..' . '/comcast/php-legal-licenses/src/Comcast/PhpLegalLicenses/Command/ShowCommand.php',
-        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Hamcrest\\Arrays\\IsArray' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArray.php',
         'Hamcrest\\Arrays\\IsArrayContaining' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArrayContaining.php',
         'Hamcrest\\Arrays\\IsArrayContainingInAnyOrder' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArrayContainingInAnyOrder.php',

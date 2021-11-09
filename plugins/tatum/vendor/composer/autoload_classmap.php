@@ -10,7 +10,6 @@ return array(
     'Comcast\\PhpLegalLicenses\\Console\\DependencyLicenseCommand' => $vendorDir . '/comcast/php-legal-licenses/src/Comcast/PhpLegalLicenses/Command/DependencyLicenseCommand.php',
     'Comcast\\PhpLegalLicenses\\Console\\GenerateCommand' => $vendorDir . '/comcast/php-legal-licenses/src/Comcast/PhpLegalLicenses/Command/GenerateCommand.php',
     'Comcast\\PhpLegalLicenses\\Console\\ShowCommand' => $vendorDir . '/comcast/php-legal-licenses/src/Comcast/PhpLegalLicenses/Command/ShowCommand.php',
-    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'Hamcrest\\Arrays\\IsArray' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArray.php',
     'Hamcrest\\Arrays\\IsArrayContaining' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArrayContaining.php',
     'Hamcrest\\Arrays\\IsArrayContainingInAnyOrder' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArrayContainingInAnyOrder.php',

@@ -23,9 +23,9 @@ use Symfony\Contracts\Service\ResetInterface;
  */
 class ConsoleCommandProcessor implements EventSubscriberInterface, ResetInterface
 {
-    private array $commandData;
-    private bool $includeArguments;
-    private bool $includeOptions;
+    private $commandData;
+    private $includeArguments;
+    private $includeOptions;
 
     public function __construct(bool $includeArguments = true, bool $includeOptions = false)
     {
@@ -35,7 +35,7 @@ class ConsoleCommandProcessor implements EventSubscriberInterface, ResetInterfac
 
     public function __invoke(array $records)
     {
-        if (isset($this->commandData) && !isset($records['extra']['command'])) {
+        if (null !== $this->commandData && !isset($records['extra']['command'])) {
             $records['extra']['command'] = $this->commandData;
         }
 
@@ -44,7 +44,7 @@ class ConsoleCommandProcessor implements EventSubscriberInterface, ResetInterfac
 
     public function reset()
     {
-        unset($this->commandData);
+        $this->commandData = null;
     }
 
     public function addCommandData(ConsoleEvent $event)
@@ -60,7 +60,7 @@ class ConsoleCommandProcessor implements EventSubscriberInterface, ResetInterfac
         }
     }
 
-    public static function getSubscribedEvents(): array
+    public static function getSubscribedEvents()
     {
         return [
             ConsoleEvents::COMMAND => ['addCommandData', 1],
