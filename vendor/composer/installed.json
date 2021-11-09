@@ -1,0 +1,150 @@
+{
+    "packages": [
+        {
+            "name": "kornrunner/keccak",
+            "version": "1.0.2",
+            "version_normalized": "1.0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kornrunner/php-keccak.git",
+                "reference": "b3cd83ded1acff7af40b4ca5b8ea76b164ed0c34"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kornrunner/php-keccak/zipball/b3cd83ded1acff7af40b4ca5b8ea76b164ed0c34",
+                "reference": "b3cd83ded1acff7af40b4ca5b8ea76b164ed0c34",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~7",
+                "satooshi/php-coveralls": "~2"
+            },
+            "time": "2018-03-05T10:32:01+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "kornrunner\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Boris Momcilovic",
+                    "homepage": "https://github.com/kornrunner/php-keccak"
+                }
+            ],
+            "description": "Pure PHP implementation of Keccak",
+            "keywords": [
+                "keccak",
+                "sha-3"
+            ],
+            "support": {
+                "issues": "https://github.com/kornrunner/php-keccak/issues",
+                "source": "https://github.com/kornrunner/php-keccak/tree/master"
+            },
+            "install-path": "../kornrunner/keccak"
+        },
+        {
+            "name": "tatum/utils",
+            "version": "2.0.0.x-dev",
+            "version_normalized": "2.0.0.9999999-dev",
+            "dist": {
+                "type": "path",
+                "url": "../../../../packages/utils",
+                "reference": "31dfcd06068fbae5e901c0b2f8ecbe10af750db3"
+            },
+            "require-dev": {
+                "10up/wp_mock": "^0.4.2",
+                "antecedent/patchwork": "^2.1.12",
+                "comcast/php-legal-licenses": "^1.1.2",
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
+                "metasyntactical/composer-plugin-license-check": "^0.5.0",
+                "php-stubs/wordpress-stubs": "^5.3.2",
+                "phpcompatibility/php-compatibility": "^9.3",
+                "phpunit/phpunit": "^7",
+                "rregeer/phpunit-coverage-check": "^0.3.1",
+                "slevomat/coding-standard": "^6.0@dev",
+                "squizlabs/php_codesniffer": "^3.5",
+                "wp-coding-standards/wpcs": "^2.2"
+            },
+            "type": "library",
+            "extra": {
+                "clean-all-except": [
+                    "src",
+                    "dist",
+                    "dev",
+                    "languages"
+                ],
+                "metasyntactical/composer-plugin-license-check": {
+                    "whitelist": [
+                        "MIT",
+                        "ISC",
+                        "BSD-2-Clause",
+                        "BSD-3-Clause",
+                        "BSD",
+                        "Apache-2.0",
+                        "Apache2",
+                        "Artistic-2.0",
+                        "WTFPL",
+                        "CC-0",
+                        "CC0-1.0",
+                        "MPL-2.0",
+                        "ZLib",
+                        "Unlicense",
+                        "GPL-2.0",
+                        "GPL-2.0-or-later",
+                        "GPL-3",
+                        "GPL-3.0-or-later",
+                        "LGPL-3.0-or-later"
+                    ],
+                    "blacklist": [
+                        "*"
+                    ],
+                    "packages": [
+                        "ignore-packages-here@1.0.0"
+                    ]
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Hathoriel\\Utils\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Hathoriel\\Utils\\Test\\": "test/phpunit/"
+                }
+            },
+            "archive": {
+                "exclude": [
+                    "lib",
+                    "tests"
+                ]
+            },
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Hathoriel"
+                }
+            ],
+            "description": "Utility functionality for all your WordPress plugins.",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            },
+            "install-path": "../tatum/utils"
+        }
+    ],
+    "dev": false,
+    "dev-package-names": []
+}
