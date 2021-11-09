@@ -15,7 +15,7 @@ jobs:
           node-version: '14'
 
       - name: Install root node_modules
-        run: yarn install
+        run: yarn bootstrap
 
       - name: Build plugin
         working-directory: ./plugins/tatum
