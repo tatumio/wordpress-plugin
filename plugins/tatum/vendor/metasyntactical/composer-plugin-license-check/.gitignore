@@ -1,7 +1,0 @@
-/build/
-/composer.*
-!/composer.json
-/phpunit.xml
-/.idea/
-/*.iml
-/vendor/
