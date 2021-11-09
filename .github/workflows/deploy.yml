@@ -20,3 +20,24 @@ jobs:
       - name: Build plugin
         working-directory: ./plugins/tatum
         run: yarn build
+
+      - name: Create directory for assets
+        working-directory: ./plugins/tatum/build/tatum
+        run: mkdir .wordpress-org
+
+      - name: Copy assets
+        run: cp ./plugins/tatum/wordpress.org/assets/* ./plugins/tatum/build/tatum/.wordpress-org/
+
+      - name: Copy assets
+        run: cp ./plugins/tatum/wordpress.org/assets/* ./plugins/tatum/build/tatum/.wordpress-org/
+
+      - name: Pushes to another repository
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: './plugins/tatum/build/tatum'
+          destination-github-username: 'tatumio'
+          destination-repository-name: 'wordpress-plugin'
+          user-email: lukas.kotol@tatum.io
+          target-branch: deploy

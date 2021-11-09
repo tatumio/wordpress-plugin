@@ -1,0 +1,5 @@
+{
+    "require-dev": {
+        "phpunit/php-file-iterator": "2.0.4"
+    }
+}

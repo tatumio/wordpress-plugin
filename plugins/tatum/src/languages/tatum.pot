@@ -1,8 +1,8 @@
-# Copyright (C) 2021 tatum.io
-# This file is distributed under the same license as the NFT Maker plugin.
+# Copyright (C) 2021 Tatum
+# This file is distributed under the MIT.
 msgid ""
 msgstr ""
-"Project-Id-Version: NFT Maker 2.0.0\n"
+"Project-Id-Version: NFT Maker 2.0.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,11 +27,7 @@ msgid "NFT Maker is the easiest and fastest free plugin to work with NFTs withou
 msgstr ""
 
 #. Author of the plugin
-msgid "tatum.io"
-msgstr ""
-
-#: inc/Activator.php:95
-msgid "Tatum NFT chain"
+msgid "Tatum"
 msgstr ""
 
 #: inc/hooks/PublicHooks.php:82

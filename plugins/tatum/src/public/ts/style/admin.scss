@@ -39,3 +39,12 @@ body {
 .ant-card-grid-hoverable {
   cursor: pointer;
 }
+
+.ant-card-bordered {
+  border: 1px solid #DDDEDE;
+}
+
+.ant-card-grid {
+  box-shadow: none;
+  border-bottom: 1px solid #DDDEDE;
+}
