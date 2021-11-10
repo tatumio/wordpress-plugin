@@ -74,7 +74,7 @@ class SetupRest
 
     public function estimate() {
         self::checkNonce();
-        return new WP_REST_Response(Estimate::estimateCountOfMintAllSupportedBlockchain());
+        return new WP_REST_Response(["estimates" => Estimate::estimateCountOfMintAllSupportedBlockchain()]);
     }
 
     public function getApiKey() {
@@ -103,7 +103,7 @@ class SetupRest
 
     public function getPreferences() {
         self::checkNonce();
-        return new WP_REST_Response(["fees" => Preferences::getFees(), "defaultChains" =>  Preferences::getDefaultChains()]);
+        return new WP_REST_Response(["fees" => Preferences::getFees(), "defaultChains" => Preferences::getDefaultChains()]);
     }
 
     public function setPreferences(WP_REST_Request $request) {
@@ -111,7 +111,7 @@ class SetupRest
         $data = $request->get_json_params();
         Preferences::setFees($data);
         Preferences::setDefaultChains($data);
-        return new WP_REST_Response(["fees" => Preferences::getFees(), "defaultChains" =>  Preferences::getDefaultChains()]);
+        return new WP_REST_Response(["fees" => Preferences::getFees(), "defaultChains" => Preferences::getDefaultChains()]);
     }
 
     /**

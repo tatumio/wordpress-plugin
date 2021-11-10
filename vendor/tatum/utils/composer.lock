@@ -844,12 +844,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "2c26b0e4a925d571d1ca2757a65c14c6dc00898f"
+                "reference": "2a7ec2a310e8dff274c8af3bf3005288f0b1b7f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/2c26b0e4a925d571d1ca2757a65c14c6dc00898f",
-                "reference": "2c26b0e4a925d571d1ca2757a65c14c6dc00898f",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/2a7ec2a310e8dff274c8af3bf3005288f0b1b7f6",
+                "reference": "2a7ec2a310e8dff274c8af3bf3005288f0b1b7f6",
                 "shasum": ""
             },
             "require": {
@@ -887,7 +887,7 @@
                 "issues": "https://github.com/phpDocumentor/TypeResolver/issues",
                 "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.x"
             },
-            "time": "2021-10-30T18:36:17+00:00"
+            "time": "2021-11-09T20:01:14+00:00"
         },
         {
             "name": "phpspec/prophecy",

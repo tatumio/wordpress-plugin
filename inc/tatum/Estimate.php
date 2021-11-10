@@ -23,11 +23,12 @@ class Estimate
             'basic' => round(5000000 / $credits),
             'advanced' => round(25000000 / $credits),
             'chain' => $chain,
+            'label' => Chains::getChainLabels()[$chain]
         ];
     }
 
     public static function estimateCountOfMintAllSupportedBlockchain() {
-        $chains = ['ETH', 'BSC', 'MATIC', 'ONE', 'CELO'];
+        $chains = Chains::getChainCodes();
         $estimates = [];
         foreach ($chains as $chain) {
             $estimates[] = self::estimateMintPerMonthInCredits($chain);

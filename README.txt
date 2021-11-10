@@ -5,16 +5,18 @@ Tags: tatum, blockchain, nft, erc721, ethereum, celo, bsc, mint
 Requires at least: 5.5
 Requires PHP: 7.0
 Tested up to: 5.7.1
-Stable tag: 2.0.9
+Stable tag: 2.0.8
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
 [NFT Maker](https://tatum.io/) is the easiest and fastest free plugin to work with NFTs without any blockchain development experience.
 
 == Description ==
+If you want to sell NFTs but don’t want to build an entire NFT marketplace from scratch, then NFT Maker is the plugin you’ve been waiting for.
 
-Who said that creating NFTs requires years of blockchain development experience? The NFT Maker by Tatum allows you to turn your Woocommerce store into an NFT store with a simple plugin integration. Install our plugin, follow your usual WordPress product publishing flow, and simply select the extra tickbox — make NFT. Using the “lazy minting” feature your NFT is minted at the moment of purchase.
-You also get free IPFS storage for your metadata but keep in mind it only supports up to 50mbs product images upload. The plugin supports Ethereum, Binance Smart Chain, Polygon, Harmony and Celo.
+Lazy Minting. Free IPFS Storage. Forever. Supports Ethereum, Polygon, Binance Smart Chain, Celo, and Harmony.
+
+NFT Maker by Tatum allows you to turn your Woocommerce store into an NFT store with a simple plugin. Install our plugin, follow your usual WordPress product publishing flow, and only tick an extra box — make NFT.
 
 You are welcome to add your pull request to the [repository](https://github.com/tatumio/woocommerce-plugin). If you have any questions just shoot [Discord](https://discord.gg/Mg2vdtD4JQ)
 Or feel free to contact developer via [Telegram](https://t.me/LukasKotol).
