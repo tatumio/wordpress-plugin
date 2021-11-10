@@ -35,7 +35,7 @@ export const PasteApiKey = () => {
         <Container isGridCard={true}>
             <Card title="Step 2 - Paste your API key below (Final step)">
                 <Card.Grid hoverable={false} style={gridStyle}>
-                    <div>Paste your API key</div>
+                    <div className="paste-api-key">Paste your API key</div>
                     <div className="input-container">
                         <Input
                             onChange={(event) => setApiKey(event.target.value)}

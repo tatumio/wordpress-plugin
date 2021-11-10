@@ -34,7 +34,7 @@ export const CardGridItem = ({
             <div className="card-item-grid-content grid-table" onClick={onClick}>
                 <CardItemText title={title} description={description} secondDescription={secondDescription} />
                 {buttonText && (
-                    <Button type={buttonType} disabled={buttonDisabled}>
+                    <Button type={buttonType} disabled={buttonDisabled} color="#4D37FD">
                         <a href={buttonLink} target="_blank" rel="noreferrer">
                             {buttonText}
                         </a>

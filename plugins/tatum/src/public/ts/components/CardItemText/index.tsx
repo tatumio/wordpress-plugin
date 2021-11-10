@@ -13,12 +13,12 @@ export const CardItemText = ({
     <>
         {description ? (
             <div>
-                <div>{title}</div>
+                <div className="tatum–card-title">{title}</div>
                 <div className="tatum-card-description-text">{description}</div>
                 <div className="tatum-card-description-text">{secondDescription}</div>
             </div>
         ) : (
-            <div>{title}</div>
+            <div className="tatum-sigle–card-title">{title}</div>
         )}
     </>
 );

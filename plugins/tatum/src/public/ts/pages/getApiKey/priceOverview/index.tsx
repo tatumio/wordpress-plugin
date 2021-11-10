@@ -7,6 +7,7 @@ import ETH from "../../../assets/ETH.svg";
 import MATIC from "../../../assets/MATIC.svg";
 import ONE from "../../../assets/ONE.svg";
 import { Paragraph, ParagraphHeader } from "../../../components";
+import { Estimates } from "../../../models/estimates";
 
 export const PriceOverview = () => {
     const chains: Record<string, string> = {
@@ -22,9 +23,10 @@ export const PriceOverview = () => {
             dataIndex: "chain",
             key: "chain",
             render: (chain: string) => {
+                const label = data.estimates.find((estimate) => estimate.chain === chain)?.label;
                 return (
                     <>
-                        <img src={chains[chain]} className="chainImage" /> {chain}
+                        <img src={chains[chain]} className="chainImage" /> {label}
                     </>
                 );
             }
@@ -49,21 +51,18 @@ export const PriceOverview = () => {
         }
     ];
 
-    const { data } = useGet("/estimate");
+    const { data } = useGet<Estimates>("/estimate");
 
     return (
         <Card title="What plan do I need?">
             <Paragraph>
-                All Tatum API plans carry the same functionalities - the only differences between them are the credits
-                and the amount of requests per second they can handle. The more you scale, the higher the plan you will
-                need to use. Paying for a more premium plan allows you to handle more users and traffic.
-            </Paragraph>
-            <Paragraph>
-                Check at the table below and see how many NFTs you can potentially mint, considering the current
-                blockchain transaction fees.
+                Your monthly plan is used to pay for the gas fees necessary to mint NFTs. Some blockchains have higher
+                gas fees, some have lower, so the number of NFTs you can mint per month will depend on the blockchain
+                you are minting on. Check at the table below and see how many NFTs you can potentially mint, considering
+                the current blockchain transaction fees.
             </Paragraph>
             {/*// @ts-ignore*/}
-            <Table columns={columns} dataSource={data} pagination={false} loading={!data} rowKey="key" />
+            <Table columns={columns} dataSource={data?.estimates} pagination={false} loading={!data} rowKey="key" />
         </Card>
     );
 };
