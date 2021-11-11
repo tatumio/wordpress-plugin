@@ -2,13 +2,22 @@ import { Nft } from "../../models/nft";
 import { Card } from "antd";
 import React from "react";
 import { Container } from "../Container";
+import "./index.scss";
 
 export const NftsOverview = ({ nfts, lazy, title }: { nfts: Nft[]; lazy: boolean; title: string }) => {
     return (
         <Container isGridCard={true}>
-            <Card title={title}>{nfts && nfts.map((nft, index) => <NftItem nft={nft} key={index} lazy={lazy} />)}</Card>
+            <Card title={title}>{nfts.length === 0 ? <NoNFTs /> : <Nfts nfts={nfts} lazy={lazy} />}</Card>
         </Container>
     );
+};
+
+const Nfts = ({ nfts, lazy }: { nfts: Nft[]; lazy: boolean }) => {
+    return <>{nfts && nfts.map((nft, index) => <NftItem nft={nft} key={index} lazy={lazy} />)}</>;
+};
+
+const NoNFTs = () => {
+    return <div className="no-nfts">No NFTs yet.</div>;
 };
 
 const NftItem = ({ nft, lazy }: { nft: Nft; lazy: boolean }) => {

@@ -13,33 +13,29 @@ export const MoreTatum = () => {
                 <Card.Grid hoverable={false} style={gridStyle} className="more-tatum-container">
                     <div>
                         Leverage Tatum’s infrastructure, SDK, and powerful unified API to build blockchain apps quickly
-                        and
-                        easily. You don't need to worry about blockchain node configuration or maintenance, and you
-                        don't
-                        need to learn to code for individual blockchains. Code once, and deploy to any blockchain.
+                        and easily. You don't need to worry about blockchain node configuration or maintenance, and you
+                        don't need to learn to code for individual blockchains. Code once, and deploy to any blockchain.
                     </div>
                     <div className="social-links">Social Links</div>
-                    <div>
-                        <a target="_blank" rel="noreferrer" href="https://discord.gg/7ZKCRD5bG3">Discord</a>
-                    </div>
-                    <div>
-                        <a target="_blank" rel="noreferrer" href="https://www.reddit.com/r/tatum_io/">Reddit</a>
-                    </div>
-                    <div>
-                        <a target="_blank" rel="noreferrer" href="https://t.me/tatumio">Telegram</a>
-                    </div>
-                    <div>
-                        <a target="_blank" rel="noreferrer" href="https://twitter.com/tatum_io">Twitter</a>
-                    </div>
-                    <div>
-                        <a target="_blank" rel="noreferrer" href="https://www.youtube.com/channel/UCF-OAfXNJ9h3U2ycHE1NGNw">Youtube</a>
-                    </div>
-                    <div>
-                        <a target="_blank" rel="noreferrer" href="https://www.linkedin.com/company/tatumio/">LinkedIn</a>
-                    </div>
+
+                    <SocLink href="https://discord.gg/7ZKCRD5bG3" label="Discord" />
+                    <SocLink href="https://www.reddit.com/r/tatum_io/" label="Reddit" />
+                    <SocLink href="https://t.me/tatumio" label="Telegram" />
+                    <SocLink href="https://twitter.com/tatum_io" label="Twitter" />
+                    <SocLink href="https://www.youtube.com/channel/UCF-OAfXNJ9h3U2ycHE1NGNw" label="Youtube" />
+                    <SocLink href="https://www.linkedin.com/company/tatumio/" label="LinkedIn" />
                 </Card.Grid>
             </Card>
-
         </Container>
+    );
+};
+
+const SocLink = ({ href, label }: { href: string; label: string }) => {
+    return (
+        <div>
+            <a className="soc-link" target="_blank" rel="noreferrer" href={href}>
+                {label}
+            </a>
+        </div>
     );
 };

@@ -26,7 +26,7 @@ export const PriceOverview = () => {
                 const label = data.estimates.find((estimate) => estimate.chain === chain)?.label;
                 return (
                     <>
-                        <img src={chains[chain]} className="chainImage" /> {label}
+                        <img src={chains[chain]} className="chainImage" /> <span className="table-column">{label}</span>
                     </>
                 );
             }
