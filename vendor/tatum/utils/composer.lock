@@ -1747,12 +1747,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "6b853149eab67d4da22291d36f5b0631c0fd856e"
+                "reference": "9860ed02a8b4bbd6783aa6aaa1a8dc6383b98d78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/6b853149eab67d4da22291d36f5b0631c0fd856e",
-                "reference": "6b853149eab67d4da22291d36f5b0631c0fd856e",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/9860ed02a8b4bbd6783aa6aaa1a8dc6383b98d78",
+                "reference": "9860ed02a8b4bbd6783aa6aaa1a8dc6383b98d78",
                 "shasum": ""
             },
             "require": {
@@ -1816,7 +1816,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-11-30T07:47:53+00:00"
+            "time": "2021-11-11T12:33:13+00:00"
         },
         {
             "name": "sebastian/global-state",

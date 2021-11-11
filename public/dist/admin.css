@@ -20,9 +20,10 @@ body{background-color:#f9f9f9}.ant-message{z-index:101000000}.ant-card-grid{box-
 .paragraph{margin-bottom:30px;font-size:16px;font-weight:400;color:#5c5c5c}
 .whyApiKey{font-weight:600;font-size:16px;color:#111}.description{color:#5c5c5c;font-size:16px;font-weight:400}.header-logo{width:125px;height:26px}
 .ant-input{padding:4px 11px!important;line-height:1.5715!important;min-height:0!important;box-shadow:none!important;box-sizing:border-box!important;margin:0!important;font-variant:tabular-nums!important;list-style:none!important;font-feature-settings:"tnum"!important;position:relative!important;display:inline-block!important;width:100%!important;min-width:0!important;color:#000000d9!important;font-size:14px!important;background-color:#fff!important;background-image:none!important;border:1px solid #d9d9d9!important;border-radius:2px!important;transition:all .3s!important}.ant-input:focus{border-color:#40a9ff!important;border-right-width:1px!important;outline:0!important;box-shadow:0 0 0 2px rgba(24,144,255,.2)!important}.input-container{margin-top:10px;margin-bottom:20px}.paste-api-key{font-weight:600;color:#000}
-.chainImage{margin-right:15px}
-.more-tatum-container{color:#757575}.more-tatum-container .social-links{font-weight:600;font-size:16px;color:#111;margin-top:16px}
+.chainImage{margin-right:15px}.table-column{color:#757575;font-size:16px}
+.more-tatum-container{color:#757575;font-size:16px}.more-tatum-container .social-links{font-weight:600;font-size:16px;color:#111;margin-top:16px}.more-tatum-container .soc-link{font-size:16px;color:#757575}
 .nftItem{display:flex;flex-direction:row;justify-content:flex-start}.nftItem .nftImage{width:100px;height:100px;padding-right:20px}.nftItem .nftName{font-weight:500}
+.no-nfts{text-align:center;margin-top:30px;margin-bottom:30px}
 .nftItem{display:flex;flex-direction:row;justify-content:flex-start}.nftItem .nftImage{width:100px;height:100px;padding-right:20px}.nftItem .nftName{font-weight:500}
 
 /*# sourceMappingURL=admin.css.map*/
