@@ -5,7 +5,7 @@ Tags: tatum, blockchain, nft, erc721, ethereum, celo, bsc, mint
 Requires at least: 5.5
 Requires PHP: 7.0
 Tested up to: 5.7.1
-Stable tag: 2.0.10
+Stable tag: 2.0.11
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -83,6 +83,9 @@ No. The plugin could be only used to sell the NFT created by Admin to the custom
 
 = 2.0.0 =
 * Completely new version with IPFS and lazy minting support
+
+= 2.0.11 =
+* Fixed Safari date bug
 
 == Upgrade Notice ==
 
