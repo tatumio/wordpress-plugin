@@ -42,9 +42,9 @@ const NftItem = ({ nft, lazy }: { nft: Nft; lazy: boolean }) => {
                     )}
                     <div>Chain: {nft.chain}</div>
                     {nft.transactionId || nft.errorCause ? (
-                        <div>Sold: {new Date(nft.sold.date).toLocaleString()}</div>
+                        <div>Sold: {new Date(nft.sold.date.replace(/ /g, "T")).toLocaleString()}</div>
                     ) : (
-                        <div>Created: {new Date(nft.created.date).toLocaleString()}</div>
+                        <div>Created: {new Date(nft.created.date.replace(/ /g, "T")).toLocaleString()}</div>
                     )}
                     {nft.errorCause && <div>Error cause: {nft.errorCause}</div>}
                 </div>
