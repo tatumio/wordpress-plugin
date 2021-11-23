@@ -111,7 +111,12 @@ class Admin
             // run your code here!
             if (isset($_POST['tatum_chain'])) {
                 $this->lazyMint->deletePrepared($product_id);
-                $this->lazyMint->insertPrepared($product_id, $_POST['tatum_chain']);
+
+                if (empty($this->lazyMint->getPreparedByProduct($product_id))) {
+                    $this->lazyMint->insertPrepared($product_id, $_POST['tatum_chain']);
+                } else {
+                    $this->lazyMint->updatePrepared($product_id, $_POST['tatum_chain']);
+                }
             }
         }
         set_transient($updating_product_id, $product_id, 2); // change 2 seconds if not enough

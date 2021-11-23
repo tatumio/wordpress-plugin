@@ -40,18 +40,25 @@ class Activator
      * @param boolean $errorlevel If true throw errors
      */
     public function dbDelta($errorlevel) {
-        // TODO: remove tatum options from DB
-        // Your table installation here...
-        /*$table_name = $this->getTableName();
-        $sql = "CREATE TABLE $table_name (
-            id mediumint(9) NOT NULL AUTO_INCREMENT,
-            UNIQUE KEY id (id)
-        ) $charset_collate;";
-        dbDelta( $sql );
+        global $wpdb;
+
+        $lazy_nft_name = $this->getTableName("lazy_nft");
+        $prepared_nft_name = $this->getTableName("prepared_nft");
+        $sql = "ALTER TABLE $lazy_nft_name ADD COLUMN chain ENUM('CELO', 'ETH', 'BSC', 'ONE', 'MATIC');";
+        $wpdb->query($sql);
+
+        $sql = "SELECT * FROM $prepared_nft_name;";
+
+        $prepared_nfts = $wpdb->get_results($sql);
+
+        foreach ($prepared_nfts as $prepared_nft) {
+            $sql = "UPDATE $lazy_nft_name SET chain = '" . $prepared_nft->chain . "' WHERE prepared_nft_id = " . $prepared_nft->id . ";";
+            $wpdb->query($sql);
+        }
 
         if ($errorlevel) {
             $wpdb->print_error();
-        }*/
+        }
     }
 
     private function initDatabase() {

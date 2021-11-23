@@ -8,7 +8,7 @@
  * Description: 	NFT Maker is the easiest and fastest free plugin to work with NFTs without any blockchain development experience.
  * Author:          Tatum
  * Author URI:		https://tatum.io
- * Version: 		2.0.11
+ * Version: 		2.0.12
  * Text Domain:		tatum
  * Domain Path:		/languages
  * License:         MIT

@@ -13,8 +13,8 @@ body{background-color:#f9f9f9}.ant-message{z-index:101000000}.ant-card-grid{box-
 .tatum-card-description-text{font-weight:400;font-size:14px;color:#757575}.tatum–card-title{font-size:14px;font-weight:600;color:#000}.tatum-sigle–card-title{font-size:14px;font-weight:400;color:#757575}
 .container{margin-top:20px;margin-bottom:20px}.gridTable .ant-card-body{padding:0}
 .title-container{white-space:normal}.title-container .title{font-size:16px;margin-bottom:13px;margin-top:13px}.title-container .title .title-tatum{color:#5c5c5c}.title-container .title-description{color:#5c5c5c;font-weight:400;font-size:16px}
-.header-overview{width:100%;margin-bottom:32px}
 .card-item-grid-content{display:flex;justify-content:space-between;align-items:center}
+.header-overview{width:100%;margin-bottom:32px}
 .needHelpContainer{display:flex;justify-content:right;margin-top:20px}.needHelpContainer .needHelp{color:#9a9a9a;cursor:pointer}
 .paragraphHeader{font-weight:500;font-size:15px}
 .paragraph{margin-bottom:30px;font-size:16px;font-weight:400;color:#5c5c5c}

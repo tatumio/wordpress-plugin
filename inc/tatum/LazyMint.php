@@ -26,13 +26,18 @@ class LazyMint
         $this->wpdb->insert($this->preparedNft, array('product_id' => $productId, 'chain' => $chain));
     }
 
-    public function insertLazyNft($preparedId, $orderId, $recipientAddress, $transactionId = null, $errorCause = null) {
+    public function updatePrepared($productId, $chain) {
+        $this->wpdb->update($this->preparedNft, array('chain' => $chain), array('product_id' => $productId));
+    }
+
+    public function insertLazyNft($preparedId, $orderId, $recipientAddress, $chain, $transactionId = null, $errorCause = null) {
         $this->wpdb->insert($this->lazyNft, array(
             'prepared_nft_id' => $preparedId,
             'order_id' => $orderId,
             'transaction_id' => $transactionId,
             'error_cause' => $errorCause,
-            'recipient_address' => $recipientAddress
+            'recipient_address' => $recipientAddress,
+            'chain' => $chain
         ));
     }
 
@@ -74,7 +79,7 @@ class LazyMint
     }
 
     public function getMinted() {
-        $nfts = $this->wpdb->get_results("SELECT * FROM $this->lazyNft INNER JOIN $this->preparedNft ON $this->lazyNft.prepared_nft_id = $this->preparedNft.id;");
+        $nfts = $this->wpdb->get_results("SELECT * FROM $this->preparedNft INNER JOIN $this->lazyNft ON $this->lazyNft.prepared_nft_id = $this->preparedNft.id;");
         return self::formatMintedNfts($nfts);
     }
 
