@@ -21,13 +21,13 @@ const Title = () => {
                 is the plugin you’ve been waiting for.
                 <br />
                 <br />
-                Lazy Minting. Free IPFS Storage. Forever. Supports Ethereum, Polygon, Binance Smart Chain, Celo, and
+                Lazy Minting. Free IPFS Storage, forever. Supports Ethereum, Polygon, Binance Smart Chain, Celo, and
                 Harmony.
                 <br />
                 <br />
                 NFT Maker by Tatum allows you to turn your Woocommerce store into an NFT store with a simple plugin.
-                Install our plugin, follow your usual WordPress product publishing flow, and only tick an extra box —
-                make NFT.
+                Install our plugin, follow your usual WordPress product publishing flow, and just tick which blockchain
+                you’d like to mint your NFTs on.
             </div>
         </div>
     );

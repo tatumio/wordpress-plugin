@@ -15,6 +15,7 @@ export const Tutorial = ({ dismissTutorial }: { dismissTutorial: () => void }) =
                     title="How to upload your first NFT on your webshop"
                     description="Learn how to use your product upload flow and create NFTs"
                     buttonText="Watch tutorial"
+                    buttonLink="https://www.youtube.com/watch?v=QHl7NoFY7ts"
                 />
                 <Card.Grid hoverable={false} style={gridStyle}>
                     <Button onClick={dismissTutorial}>Dismiss</Button>

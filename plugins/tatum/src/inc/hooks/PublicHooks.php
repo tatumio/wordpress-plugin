@@ -90,23 +90,22 @@ class PublicHooks
             $recipient_address = get_post_meta($order_id, 'recipient_blockchain_address_' . $preparedNft->chain, true);
 
             if ($recipient_address) {
-                $transfer_body = array('to' => $recipient_address, 'chain' => $preparedNft->chain, 'url' => "ipfs://$url");
+                $mint_body = array('to' => $recipient_address, 'chain' => $preparedNft->chain, 'url' => "ipfs://$url");
                 if ($preparedNft->chain === 'CELO') {
-                    $transfer_body['feeCurrency'] = 'CELO';
+                    $mint_body['feeCurrency'] = 'CELO';
                 }
-                $response = Connector::mint_nft($transfer_body, $api_key);
-
+                $response = Connector::mint_nft($mint_body, $api_key);
                 if (isset($response['txId'])) {
-                    $this->lazyMint->insertLazyNft($preparedNft->id, $order_id, $recipient_address, $response['txId']);
+                    $this->lazyMint->insertLazyNft($preparedNft->id, $order_id, $recipient_address, $preparedNft->chain, $response['txId']);
                 } else {
-                    $this->resolveNftError($product_id, $order_id, 'Cannot mint NFT. Check recipient address or contact support.', $recipient_address);
+                    $this->resolveNftError($product_id, $order_id, $preparedNft->chain, 'Cannot mint NFT. Check recipient address or contact support.', $recipient_address);
                 }
             }
         }
     }
 
-    private function resolveNftError($order_id, $error_message, $preparedNft, $recipient_address) {
-        $this->lazyMint->insertLazyNft($preparedNft->id, $order_id, $recipient_address, null, $error_message);
+    private function resolveNftError($order_id, $error_message, $chain, $preparedNft, $recipient_address) {
+        $this->lazyMint->insertLazyNft($preparedNft->id, $order_id, $recipient_address, $chain, null, $error_message);
     }
 
     public function updateThankYouPage($thank_you_title, $order) {
