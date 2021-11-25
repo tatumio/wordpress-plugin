@@ -40,25 +40,7 @@ class Activator
      * @param boolean $errorlevel If true throw errors
      */
     public function dbDelta($errorlevel) {
-        global $wpdb;
 
-        $lazy_nft_name = $this->getTableName("lazy_nft");
-        $prepared_nft_name = $this->getTableName("prepared_nft");
-        $sql = "ALTER TABLE $lazy_nft_name ADD COLUMN chain ENUM('CELO', 'ETH', 'BSC', 'ONE', 'MATIC');";
-        $wpdb->query($sql);
-
-        $sql = "SELECT * FROM $prepared_nft_name;";
-
-        $prepared_nfts = $wpdb->get_results($sql);
-
-        foreach ($prepared_nfts as $prepared_nft) {
-            $sql = "UPDATE $lazy_nft_name SET chain = '" . $prepared_nft->chain . "' WHERE prepared_nft_id = " . $prepared_nft->id . ";";
-            $wpdb->query($sql);
-        }
-
-        if ($errorlevel) {
-            $wpdb->print_error();
-        }
     }
 
     private function initDatabase() {
