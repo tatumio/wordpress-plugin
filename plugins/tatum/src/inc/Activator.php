@@ -82,6 +82,7 @@ class Activator
             order_id bigint,
             transaction_id varchar(256),
             recipient_address varchar(256),
+            chain ENUM('CELO', 'ETH', 'BSC', 'ONE', 'MATIC') NOT NULL,
             error_cause varchar(256),
             prepared_nft_id bigint NOT NULL,
             UNIQUE KEY id (id),
