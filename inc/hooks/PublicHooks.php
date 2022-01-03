@@ -37,7 +37,7 @@ class PublicHooks
                                 $this->mintProduct($product_id, $order_id, $api_key, $url);
                             } catch (\Exception $e) {
                                 $recipient_address = get_post_meta($order_id, 'recipient_blockchain_address_' . $preparedNft->chain, true);
-                                $this->resolveNftError($order_id, $e->getMessage(), $preparedNft, $recipient_address);
+                                $this->resolveNftError($order_id, $e->getMessage(), $preparedNft->chain, $preparedNft, $recipient_address);
                             }
                         }
                     }
