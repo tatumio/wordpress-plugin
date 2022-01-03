@@ -5,6 +5,8 @@ name: WordPress Plugin Deploy
 # Controls when the workflow will run
 on:
   push:
+    branches:
+    - deploy
     tags:
     - "*"
 
