@@ -42,13 +42,26 @@ const NftItem = ({ nft, lazy }: { nft: Nft; lazy: boolean }) => {
                     )}
                     <div>Chain: {nft.chain}</div>
                     {nft.transactionId || nft.errorCause ? (
-                        <div>Sold: {new Date(nft.sold.date.replace(/ /g, "T")).toLocaleString()}</div>
+                        <DateFormatted label="Sold" date={nft?.sold?.date} />
                     ) : (
-                        <div>Created: {new Date(nft.created.date.replace(/ /g, "T")).toLocaleString()}</div>
+                        <DateFormatted label="Created" date={nft?.created?.date} />
                     )}
                     {nft.errorCause && <div>Error cause: {nft.errorCause}</div>}
                 </div>
             </div>
         </Card.Grid>
+    );
+};
+
+const DateFormatted = ({ date, label }: { label: string; date?: string }) => {
+    if (!date) {
+        return <></>;
+    }
+
+    const localizedDate = new Date(date.replace(/ /g, "T"));
+    return (
+        <div>
+            {label} {localizedDate.toLocaleString()}
+        </div>
     );
 };

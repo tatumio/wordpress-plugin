@@ -1,0 +1,26 @@
+# This is a basic workflow to help you get started with Actions
+
+name: WordPress Plugin Deploy
+
+# Controls when the workflow will run
+on:
+  push:
+    tags:
+      - "*"
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  tag:
+    name: Deploy to SVN
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: WordPress Plugin Deploy
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SLUG: tatum

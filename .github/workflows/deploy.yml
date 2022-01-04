@@ -28,8 +28,12 @@ jobs:
       - name: Copy assets
         run: cp ./plugins/tatum/wordpress.org/assets/* ./plugins/tatum/build/tatum/.wordpress-org/
 
-      - name: Copy assets
-        run: cp ./plugins/tatum/wordpress.org/assets/* ./plugins/tatum/build/tatum/.wordpress-org/
+      - name: Create deployment directory
+        working-directory: ./plugins/tatum/build/tatum
+        run: mkdir -p .github/workflows
+
+      - name: Copy deployment
+        run: cp ./plugins/tatum/wordpress.org/main.yml ./plugins/tatum/build/tatum/.github/workflows
 
       - name: Pushes to another repository
         uses: cpina/github-action-push-to-another-repository@main
