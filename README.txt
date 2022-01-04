@@ -5,7 +5,7 @@ Tags: tatum, blockchain, nft, erc721, ethereum, celo, bsc, mint
 Requires at least: 5.5
 Requires PHP: 7.0
 Tested up to: 5.8.2
-Stable tag: 2.0.15
+Stable tag: 2.0.16
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
