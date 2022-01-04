@@ -5,7 +5,7 @@ Tags: tatum, blockchain, nft, erc721, ethereum, celo, bsc, mint
 Requires at least: 5.5
 Requires PHP: 7.0
 Tested up to: 5.8.2
-Stable tag: 2.0.16
+Stable tag: 2.0.20
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -118,6 +118,9 @@ For a complete guide on how to build the backend to an NFT marketplace from scra
 
 = 2.0.15 =
 * Tested with WordPress 5.8.2
+
+= 2.0.20 =
+* Fixed error with sold and created date
 
 == Upgrade Notice ==
 
