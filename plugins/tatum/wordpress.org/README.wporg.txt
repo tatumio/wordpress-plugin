@@ -5,18 +5,46 @@ Tags: tatum, blockchain, nft, erc721, ethereum, celo, bsc, mint
 Requires at least: 5.5
 Requires PHP: 7.0
 Tested up to: 5.8.2
-Stable tag: 2.0.20
+Stable tag: 2.0.21
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
-[NFT Maker](https://tatum.io/) is the easiest and fastest free plugin to work with NFTs without any blockchain development experience.
+If you want to sell NFTs but don’t want to build an entire NFT marketplace from scratch, then [NFT Maker](https://tatum.io/) is the plugin you’ve been waiting for.
 
 == Description ==
-If you want to sell NFTs but don’t want to build an entire NFT marketplace from scratch, then NFT Maker is the plugin you’ve been waiting for.
+If you want to sell NFTs but don’t want to build an entire NFT marketplace from scratch, then NFT Maker is the plugin you’ve been waiting for. Lazy Minting. WordPress integration. Free IPFS Storage, forever. 
 
-Lazy Minting. Free IPFS Storage, forever. Supports Ethereum, Polygon, Binance Smart Chain, Celo, and Harmony.
+NFT Maker supports the following blockchains:
 
-NFT Maker by Tatum allows you to turn your Woocommerce store into an NFT store with a simple plugin. Install our plugin, follow your usual WordPress product publishing flow, and just tick which blockchain you’d like to mint your NFTs on.
+**Ethereum**
+**Polygon**
+**Binance Smart Chain**
+**Celo**
+**Harmony**
+
+NFT Maker by Tatum allows you to turn your Woocommerce store into an NFT store with a simple plugin. Just install, follow your usual WordPress product publishing flow, and tick which blockchain you’d like to mint your NFTs on. It’s so easy, you’ll be up and running in no time!
+
+**Lazy Minting**
+Put simply, lazy minting is when an NFT is available off the blockchain and only gets minted when someone buys it. This means that you, the seller, don’t have to pay any upfront gas fees to mint your NFTs. Gas fees are only paid once the NFT is purchased and then minted on the blockchain.
+
+**Free IPFS Storage, forever.**
+With native IPFS integration, you can store your images, videos, audio files, or whatever other metadata you’d like to include in your NFT at no cost whatsoever. Like the NFTs themselves, files stored on IPFS cannot be tampered with or changed, so your NFT will always be connected to their original metadata, forever.
+
+> **NFT Maker Tutorial**
+Check out our [full video tutorial on how to get started.](https://discord.gg/Mg2vdtD4JQ).
+
+Here’s it works:
+1. Install the plugin.
+2. Sign up for a paid Tatum plan. The credits from your plan are used to pay for the gas fees to mint NFTs.
+3. Create your NFT by uploading an image. This won’t consume any credits until someone buys it.
+4. When someone buys your NFT, the metadata is uploaded to IPFS, and the NFT is minted to the blockchain address provided by the customer at checkout.
+5. Credits to pay the gas fees for minting are deducted from your paid Tatum plan.
+
+
+
+
+
+
 
 You are welcome to add your pull request to our Github [repository](https://github.com/tatumio/woocommerce-plugin). If you have any questions just drop us a line on the Tatum [Discord](https://discord.gg/Mg2vdtD4JQ).
 Or feel free to contact developer via [Telegram](https://t.me/LukasKotol).
@@ -48,6 +76,39 @@ This section describes how to install the Tatum plugin and get it working.
 = Why do I need an API key? =
 Normally, to create NFTs on different blockchains, you would need to have access to blockchain nodes and create wallets on each blockchain.
 With NFT Maker, you can simply use an API key to connect to different blockchains through Tatum, and everything else is taken care of for you.
+
+= What are credits used for? =
+Credits are used to pay for the gas fees on the blockchain on which you are minting NFTs. Each time you mint an NFT, credits are deducted from your monthly credit amount.
+
+= How many NFTs can I mint with each type of plan on each blockchain? =
+This depends on the current gas prices on each blockchain. In general, Harmony and Celo are very cheap, Polygon and BSC are somewhere in the middle, and Ethereum is extremely expensive.
+
+= Do I have to pay any other fees? = 
+No, your plan covers all fees.
+
+= Can I create a multi-vendor peer-to-peer NFT marketplace with the plugin? = 
+No, you can only create and sell NFTs directly to your users with the plugin.
+
+= Is there a file size limit to the files I upload? =
+Yes, the file limit is 50MB.
+
+= Does NFT Maker support royalty NFTs? =
+No, it only supports standard ERC-721 NFTs.
+
+= Can I modify the NFT Maker plugin? =
+Yes, the plugin is open source. You can [download the source code here](https://github.com/tatumio/woocommerce-plugin) and modify anything you like.
+
+= Can NFT Maker generate wallets? =
+No, the plugin cannot generate wallets, it just mints your NFTs to the addresses your users provide.
+
+= Can users connect their own MetaMask wallets to the plugin? = 
+No, there would be no reason for this. They can simply provide the address of their wallet and the NFT will be minted to that address.
+
+= What blockchains do you support? =
+Ethereum, Polygon, Binance Smart Chain, Celo, Harmony
+
+= Can I change the collection name? = 
+No, the name of the collection is in the smart contract on each blockchain and cannot be changed.
 
 = Do I need to generate a blockchain wallet on each blockchain I want to mint NFTs on? =
 No, since NFTs are lazy-minted, you do not need to create wallets on any blockchain. Once an NFT is purchased, it is minted directly to the buyer’s blockchain address.
@@ -121,6 +182,9 @@ For a complete guide on how to build the backend to an NFT marketplace from scra
 
 = 2.0.20 =
 * Fixed error with sold and created date
+
+= 2.0.21 =
+* More FAQ added
 
 == Upgrade Notice ==
 
