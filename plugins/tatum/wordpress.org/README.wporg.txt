@@ -30,8 +30,8 @@ Put simply, lazy minting is when an NFT is available off the blockchain and only
 **Free IPFS Storage, forever.**
 With native IPFS integration, you can store your images, videos, audio files, or whatever other metadata you’d like to include in your NFT at no cost whatsoever. Like the NFTs themselves, files stored on IPFS cannot be tampered with or changed, so your NFT will always be connected to their original metadata, forever.
 
-> **NFT Maker Tutorial**
-Check out our [full video tutorial on how to get started.](https://discord.gg/Mg2vdtD4JQ).
+**NFT Maker Tutorial**
+Check out our [full video tutorial on how to get started.](https://www.youtube.com/watch?v=V830p6DwnIw).
 
 Here’s it works:
 1. Install the plugin.
