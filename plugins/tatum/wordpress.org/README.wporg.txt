@@ -35,7 +35,7 @@ Check out our [full video tutorial on how to get started.](https://www.youtube.c
 
 Here’s it works:
 1. Install the plugin.
-2. Sign up for a paid Tatum plan. The credits from your plan are used to pay for the gas fees to mint NFTs.
+2. Sign up for a paid Tatum plan. The credits from your plan are used to pay for the gas fees to mint NFTs. **NFT Maker does not work with Free plans or Test API keys.**
 3. Create your NFT by uploading an image. This won’t consume any credits until someone buys it.
 4. When someone buys your NFT, the metadata is uploaded to IPFS, and the NFT is minted to the blockchain address provided by the customer at checkout.
 5. Credits to pay the gas fees for minting are deducted from your paid Tatum plan.
