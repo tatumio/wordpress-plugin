@@ -24,7 +24,7 @@ class Connector
     }
 
     private static function get($url, $api_key, $base = null) {
-        $args = array('headers' => self::headers($api_key));
+        $args = array('headers' => self::headers($api_key), 'timeout' => 20);
         $baseUrl = $base === null ? self::get_base_url() : $base;
         $response = wp_remote_get($baseUrl . $url, $args);
         $server_output = wp_remote_retrieve_body($response);
@@ -33,7 +33,7 @@ class Connector
     }
 
     private static function post($url, $body, $api_key) {
-        $args = array('headers' => self::headers($api_key), 'body' => json_encode($body));
+        $args = array('headers' => self::headers($api_key), 'body' => json_encode($body), 'timeout' => 20);
         $response = wp_remote_post(self::get_base_url() . $url, $args);
         $server_output = wp_remote_retrieve_body($response);
         self::isResponseOk($response);
