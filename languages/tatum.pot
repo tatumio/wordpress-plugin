@@ -1,8 +1,8 @@
-# Copyright (C) 2021 Tatum
+# Copyright (C) 2022 Tatum
 # This file is distributed under the MIT.
 msgid ""
 msgstr ""
-"Project-Id-Version: NFT Maker 2.0.12\n"
+"Project-Id-Version: NFT Maker 2.0.20\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
