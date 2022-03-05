@@ -3,4 +3,4 @@ if (!\function_exists('xdebug_set_filter')) {
     return;
 }
 
-\xdebug_set_filter(\XDEBUG_FILTER_CODE_COVERAGE, \XDEBUG_PATH_WHITELIST, [realpath(__DIR__ . '/../src')]);
+\xdebug_set_filter(256, 1, [realpath(__DIR__ . '/../src')]);

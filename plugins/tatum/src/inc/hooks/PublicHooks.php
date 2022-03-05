@@ -24,7 +24,6 @@ class PublicHooks
     public function woocommerce_order_set_to_processing($order_id) {
         try {
             $api_key = get_option(TATUM_SLUG . '_api_key');
-
             if ($api_key) {
                 $order = wc_get_order($order_id);
                 foreach ($order->get_items() as $order_item) {
@@ -44,6 +43,7 @@ class PublicHooks
                 }
             }
         } catch (\Exception $exception) {
+            var_dump($exception);
             echo '{"result":"failure","messages":"<ul class=\"woocommerce-error\" role=\"alert\">\n\t\t\t<li>\n\t\t\tNFT minting error occurred. Please try again or contact administrator.\t\t<\/li>\n\t<\/ul>\n","refresh":false,"reload":false}';
             exit();
         }

@@ -12,6 +12,9 @@
     <testsuites>
         <testsuite name="default">
             <directory suffix="Test.php">phpunit</directory>
+            <exclude>./phpunit/ActivatorTest.php</exclude>
+            <exclude>./phpunit/AssetsTest.php</exclude>
+            <exclude>./phpunit/CoreTest.php</exclude>
         </testsuite>
     </testsuites>
     <filter>
