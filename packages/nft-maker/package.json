@@ -34,7 +34,7 @@
         "lint:eslint": "eslint \"{lib,scripts,test}/**/*.{js,jsx,tsx,ts}\"",
         "lint:phpcs": "./vendor/bin/phpcs src/ --standard=../../common/phpcs.xml",
         "test": "yarn test:phpunit && yarn test:jest --ci",
-        "test:phpunit": "yarn --silent phpunit",
+        "test:phpunit": "yarn phpunit",
         "test:phpunit:coverage": "yarn --silent test:phpunit --coverage-text --coverage-html coverage/phpunit --coverage-clover coverage/phpunit/clover.xml && ./vendor/bin/coverage-check coverage/phpunit/clover.xml $npm_package_phpunit_coverage_threshold --only-percentage",
         "test:jest": "yarn --silent jest --passWithNoTests",
         "test:jest:coverage": "yarn --silent test:jest --coverage",
