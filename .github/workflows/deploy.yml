@@ -25,7 +25,11 @@ jobs:
       - name: Install root node_modules
         run: yarn bootstrap
 
-      - name: Build plugin
+      - name: Composer install package
+        working-directory: ./packages/nft-maker
+        run: COMPOSER_MEMORY_LIMIT=-1 composer --ignore-platform-reqs install
+
+      - name: Build package
         working-directory: ./packages/nft-maker
         run: yarn build
 
