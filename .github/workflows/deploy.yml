@@ -17,6 +17,10 @@ jobs:
       - name: Install root node_modules
         run: yarn bootstrap
 
+      - name: Run package tests
+        working-directory: ./packages/nft-maker
+        run: yarn test:phpunit
+
       - name: Build plugin
         working-directory: ./plugins/tatum
         run: yarn build
