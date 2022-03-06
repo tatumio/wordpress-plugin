@@ -33,10 +33,6 @@ jobs:
         working-directory: ./packages/nft-maker
         run: yarn build
 
-      - name: Build package
-        working-directory: ./packages/nft-maker
-        run: ls vendor
-
       - name: Run package tests
         working-directory: ./packages/nft-maker
         run: yarn test:phpunit
