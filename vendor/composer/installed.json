@@ -43,25 +43,26 @@
         "keywords": [
             "keccak",
             "sha-3"
-        ]
+        ],
+        "support": {
+            "issues": "https://github.com/kornrunner/php-keccak/issues",
+            "source": "https://github.com/kornrunner/php-keccak/tree/master"
+        }
     },
     {
         "name": "tatum/nft-maker",
-        "version": "2.0.0.x-dev",
-        "version_normalized": "2.0.0.9999999-dev",
+        "version": "dev-feature/php-unit",
+        "version_normalized": "dev-feature/php-unit",
         "dist": {
             "type": "path",
             "url": "../../../../packages/nft-maker",
-            "reference": "b45941e78c8ff09f9396da6e2526a6272ed943d3"
+            "reference": "59e46144cb5a0f93fb00f62e51eab227f5e0740d"
         },
         "archive": {
             "exclude": [
                 "lib",
                 "tests"
             ]
-        },
-        "require": {
-            "kornrunner/keccak": "1.0.2"
         },
         "require-dev": {
             "10up/wp_mock": "^0.4.2",
