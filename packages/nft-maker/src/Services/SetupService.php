@@ -4,7 +4,7 @@ namespace Hathoriel\NftMaker\Services;
 
 use Hathoriel\NftMaker\connectors\DbConnector;
 use Hathoriel\NftMaker\Connectors\TatumConnector;
-use Hathoriel\Tatum\base\UtilsProvider;
+use Hathoriel\NftMaker\Utils\UtilsProvider;
 
 
 class SetupService
