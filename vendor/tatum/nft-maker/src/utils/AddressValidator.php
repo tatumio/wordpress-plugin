@@ -1,7 +1,9 @@
 <?php
 
-namespace Hathoriel\Tatum\tatum;
+namespace Hathoriel\NftMaker\Utils;
+
 use kornrunner\Keccak;
+
 class AddressValidator
 {
     public static function isETHAddress(string $address): bool {

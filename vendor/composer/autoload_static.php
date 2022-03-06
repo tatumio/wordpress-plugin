@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit9fc61ca2f902723427438009a5765e7e
+class ComposerStaticInit86c840572956fbd3a5b7402bb8aa84d2
 {
     public static $prefixLengthsPsr4 = array (
         'k' => 
@@ -15,6 +15,7 @@ class ComposerStaticInit9fc61ca2f902723427438009a5765e7e
         array (
             'Hathoriel\\Utils\\' => 16,
             'Hathoriel\\Tatum\\' => 16,
+            'Hathoriel\\NftMaker\\' => 19,
         ),
     );
 
@@ -32,28 +33,24 @@ class ComposerStaticInit9fc61ca2f902723427438009a5765e7e
             0 => __DIR__ . '/../..' . '/inc',
             1 => __DIR__ . '/../..' . '/src/inc',
         ),
+        'Hathoriel\\NftMaker\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/tatum/nft-maker/src',
+        ),
     );
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Hathoriel\\NftMaker\\connectors\\DbConnector' => __DIR__ . '/..' . '/tatum/nft-maker/src/connectors/DbConnector.php',
+        'Hathoriel\\NftMaker\\hooks\\AdminHooks' => __DIR__ . '/..' . '/tatum/nft-maker/src/hooks/AdminHooks.php',
+        'Hathoriel\\NftMaker\\hooks\\PublicHooks' => __DIR__ . '/..' . '/tatum/nft-maker/src/hooks/PublicHooks.php',
         'Hathoriel\\Tatum\\Activator' => __DIR__ . '/../..' . '/inc/Activator.php',
         'Hathoriel\\Tatum\\Assets' => __DIR__ . '/../..' . '/inc/Assets.php',
         'Hathoriel\\Tatum\\Core' => __DIR__ . '/../..' . '/inc/Core.php',
         'Hathoriel\\Tatum\\Localization' => __DIR__ . '/../..' . '/inc/Localization.php',
         'Hathoriel\\Tatum\\base\\Core' => __DIR__ . '/../..' . '/inc/base/Core.php',
         'Hathoriel\\Tatum\\base\\UtilsProvider' => __DIR__ . '/../..' . '/inc/base/UtilsProvider.php',
-        'Hathoriel\\Tatum\\hooks\\Admin' => __DIR__ . '/../..' . '/inc/hooks/Admin.php',
-        'Hathoriel\\Tatum\\hooks\\PublicHooks' => __DIR__ . '/../..' . '/inc/hooks/PublicHooks.php',
         'Hathoriel\\Tatum\\rest\\SetupRest' => __DIR__ . '/../..' . '/inc/rest/SetupRest.php',
-        'Hathoriel\\Tatum\\tatum\\AddressValidator' => __DIR__ . '/../..' . '/inc/tatum/AddressValidator.php',
-        'Hathoriel\\Tatum\\tatum\\BlockchainLink' => __DIR__ . '/../..' . '/inc/tatum/BlockchainLink.php',
-        'Hathoriel\\Tatum\\tatum\\Chains' => __DIR__ . '/../..' . '/inc/tatum/Chains.php',
-        'Hathoriel\\Tatum\\tatum\\Connector' => __DIR__ . '/../..' . '/inc/tatum/Connector.php',
-        'Hathoriel\\Tatum\\tatum\\Estimate' => __DIR__ . '/../..' . '/inc/tatum/Estimate.php',
-        'Hathoriel\\Tatum\\tatum\\Ipfs' => __DIR__ . '/../..' . '/inc/tatum/Ipfs.php',
-        'Hathoriel\\Tatum\\tatum\\LazyMint' => __DIR__ . '/../..' . '/inc/tatum/LazyMint.php',
-        'Hathoriel\\Tatum\\tatum\\Preferences' => __DIR__ . '/../..' . '/inc/tatum/Preferences.php',
-        'Hathoriel\\Tatum\\tatum\\Setup' => __DIR__ . '/../..' . '/inc/tatum/Setup.php',
         'Hathoriel\\Tatum\\view\\menu\\Page' => __DIR__ . '/../..' . '/inc/view/menu/Page.php',
         'Hathoriel\\Tatum\\view\\widget\\Widget' => __DIR__ . '/../..' . '/inc/view/widget/Widget.php',
         'Hathoriel\\Utils\\Activator' => __DIR__ . '/..' . '/tatum/utils/src/Activator.php',
@@ -70,9 +67,9 @@ class ComposerStaticInit9fc61ca2f902723427438009a5765e7e
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit9fc61ca2f902723427438009a5765e7e::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit9fc61ca2f902723427438009a5765e7e::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit9fc61ca2f902723427438009a5765e7e::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit86c840572956fbd3a5b7402bb8aa84d2::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit86c840572956fbd3a5b7402bb8aa84d2::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit86c840572956fbd3a5b7402bb8aa84d2::$classMap;
 
         }, null, ClassLoader::class);
     }

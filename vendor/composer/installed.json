@@ -52,6 +52,102 @@
             "install-path": "../kornrunner/keccak"
         },
         {
+            "name": "tatum/nft-maker",
+            "version": "2.0.0.x-dev",
+            "version_normalized": "2.0.0.9999999-dev",
+            "dist": {
+                "type": "path",
+                "url": "../../../../packages/nft-maker",
+                "reference": "b45941e78c8ff09f9396da6e2526a6272ed943d3"
+            },
+            "require": {
+                "kornrunner/keccak": "1.0.2"
+            },
+            "require-dev": {
+                "10up/wp_mock": "^0.4.2",
+                "antecedent/patchwork": "^2.1.12",
+                "comcast/php-legal-licenses": "^1.1.2",
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
+                "metasyntactical/composer-plugin-license-check": "^0.5.0",
+                "php-stubs/wordpress-stubs": "^5.3.2",
+                "phpcompatibility/php-compatibility": "^9.3",
+                "phpunit/phpunit": "^7",
+                "rregeer/phpunit-coverage-check": "^0.3.1",
+                "slevomat/coding-standard": "^6.0@dev",
+                "squizlabs/php_codesniffer": "^3.5",
+                "wp-coding-standards/wpcs": "^2.2"
+            },
+            "type": "library",
+            "extra": {
+                "clean-all-except": [
+                    "src",
+                    "dist",
+                    "dev",
+                    "languages"
+                ],
+                "metasyntactical/composer-plugin-license-check": {
+                    "whitelist": [
+                        "MIT",
+                        "ISC",
+                        "BSD-2-Clause",
+                        "BSD-3-Clause",
+                        "BSD",
+                        "Apache-2.0",
+                        "Apache2",
+                        "Artistic-2.0",
+                        "WTFPL",
+                        "CC-0",
+                        "CC0-1.0",
+                        "MPL-2.0",
+                        "ZLib",
+                        "Unlicense",
+                        "GPL-2.0",
+                        "GPL-2.0-or-later",
+                        "GPL-3",
+                        "GPL-3.0-or-later",
+                        "LGPL-3.0-or-later"
+                    ],
+                    "blacklist": [
+                        "*"
+                    ],
+                    "packages": [
+                        "ignore-packages-here@1.0.0"
+                    ]
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Hathoriel\\NftMaker\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Hathoriel\\NftMaker\\Test\\": "test/phpunit/"
+                }
+            },
+            "archive": {
+                "exclude": [
+                    "lib",
+                    "tests"
+                ]
+            },
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Hathoriel"
+                }
+            ],
+            "description": "Core functions for the NFT Maker plugin",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            },
+            "install-path": "../tatum/nft-maker"
+        },
+        {
             "name": "tatum/utils",
             "version": "2.0.0.x-dev",
             "version_normalized": "2.0.0.9999999-dev",

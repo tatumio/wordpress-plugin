@@ -9,4 +9,5 @@ return array(
     'kornrunner\\' => array($vendorDir . '/kornrunner/keccak/src'),
     'Hathoriel\\Utils\\' => array($vendorDir . '/tatum/utils/src'),
     'Hathoriel\\Tatum\\' => array($baseDir . '/inc', $baseDir . '/src/inc'),
+    'Hathoriel\\NftMaker\\' => array($vendorDir . '/tatum/nft-maker/src'),
 );
