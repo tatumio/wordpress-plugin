@@ -1,0 +1,89 @@
+{
+    "name": "tatum/nft-maker",
+    "description": "Core functions for the NFT Maker plugin",
+    "type": "library",
+    "license": "GPL-3.0-or-later",
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "metasyntactical/composer-plugin-license-check": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "archive": {
+        "exclude": [
+            "lib",
+            "tests"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Hathoriel"
+        }
+    ],
+    "extra": {
+        "clean-all-except": [
+            "src",
+            "dist",
+            "dev",
+            "languages"
+        ],
+        "metasyntactical/composer-plugin-license-check": {
+            "whitelist": [
+                "MIT",
+                "ISC",
+                "BSD-2-Clause",
+                "BSD-3-Clause",
+                "BSD",
+                "Apache-2.0",
+                "Apache2",
+                "Artistic-2.0",
+                "WTFPL",
+                "CC-0",
+                "CC0-1.0",
+                "MPL-2.0",
+                "ZLib",
+                "Unlicense",
+                "GPL-2.0",
+                "GPL-2.0-or-later",
+                "GPL-3",
+                "GPL-3.0-or-later",
+                "LGPL-3.0-or-later"
+            ],
+            "blacklist": [
+                "*"
+            ],
+            "packages": [
+                "ignore-packages-here@1.0.0"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Hathoriel\\NftMaker\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Hathoriel\\NftMaker\\Test\\": "test/phpunit/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require-dev": {
+        "10up/wp_mock": "^0.4.2",
+        "antecedent/patchwork": "^2.1.12",
+        "comcast/php-legal-licenses": "^1.1.2",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
+        "metasyntactical/composer-plugin-license-check": "^0.5.0",
+        "php-stubs/wordpress-stubs": "^5.3.2",
+        "phpcompatibility/php-compatibility": "^9.3",
+        "phpunit/phpunit": "^7",
+        "rregeer/phpunit-coverage-check": "^0.3.1",
+        "slevomat/coding-standard": "^6.0@dev",
+        "squizlabs/php_codesniffer": "^3.5",
+        "wp-coding-standards/wpcs": "^2.2"
+    },
+    "require": {
+        "kornrunner/keccak": "1.0.2"
+    }
+}

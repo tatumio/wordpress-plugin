@@ -1,37 +1,37 @@
 <?php
 
-namespace Hathoriel\Tatum\tatum;
+namespace Hathoriel\NftMaker\connectors;
 
+use Hathoriel\NftMaker\Utils\BlockchainLink;
 use Hathoriel\Tatum\base\UtilsProvider;
-use Hathoriel\Tatum\tatum\Ipfs;
-use Hathoriel\Tatum\tatum\BlockchainLink;
+use Hathoriel\Utils\Base;
 
 
-class LazyMint
+class DbConnector
 {
     use UtilsProvider;
 
-    private $lazyNft;
-    private $preparedNft;
+    private $lazyNftName;
+    private $preparedNftName;
     private $wpdb;
 
     public function __construct() {
         global $wpdb;
         $this->wpdb = $wpdb;
-        $this->lazyNft = $this->getTableName("lazy_nft");
-        $this->preparedNft = $this->getTableName("prepared_nft");
+        $this->lazyNftName = $this->getTableName("lazy_nft");
+        $this->preparedNftName = $this->getTableName("prepared_nft");
     }
 
     public function insertPrepared($productId, $chain) {
-        $this->wpdb->insert($this->preparedNft, array('product_id' => $productId, 'chain' => $chain));
+        $this->wpdb->insert($this->preparedNftName, array('product_id' => $productId, 'chain' => $chain));
     }
 
     public function updatePrepared($productId, $chain) {
-        $this->wpdb->update($this->preparedNft, array('chain' => $chain), array('product_id' => $productId));
+        $this->wpdb->update($this->preparedNftName, array('chain' => $chain), array('product_id' => $productId));
     }
 
     public function insertLazyNft($preparedId, $orderId, $recipientAddress, $chain, $transactionId = null, $errorCause = null) {
-        $this->wpdb->insert($this->lazyNft, array(
+        $this->wpdb->insert($this->lazyNftName, array(
             'prepared_nft_id' => $preparedId,
             'order_id' => $orderId,
             'transaction_id' => $transactionId,
@@ -42,16 +42,16 @@ class LazyMint
     }
 
     public function deletePrepared($product_id) {
-        $this->wpdb->query("DELETE FROM $this->preparedNft WHERE product_id = $product_id;");
+        $this->wpdb->query("DELETE FROM $this->preparedNftName WHERE product_id = $product_id;");
     }
 
     public function getPreparedCount() {
-        $nfts = $this->wpdb->get_results("SELECT * FROM $this->preparedNft;");
+        $nfts = $this->wpdb->get_results("SELECT * FROM $this->preparedNftName;");
         return count(self::formatPreparedNfts($nfts));
     }
 
     public function getLazyNftCount() {
-        $nfts = $this->wpdb->get_results("SELECT * FROM $this->lazyNft INNER JOIN $this->preparedNft ON $this->lazyNft.prepared_nft_id = $this->preparedNft.id;");
+        $nfts = $this->wpdb->get_results("SELECT * FROM $this->lazyNftName INNER JOIN $this->preparedNftName ON $this->lazyNftName.prepared_nft_id = $this->preparedNftName.id;");
         return count(self::formatMintedNfts($nfts));
     }
 
@@ -59,7 +59,7 @@ class LazyMint
         if ($product_id === false) {
             return array();
         }
-        return $this->wpdb->get_results("SELECT * FROM $this->preparedNft WHERE product_id = $product_id");
+        return $this->wpdb->get_results("SELECT * FROM $this->preparedNftName WHERE product_id = $product_id");
     }
 
     public function getLazyNftByProductAndOrder($product_id, $order_id) {
@@ -70,16 +70,16 @@ class LazyMint
         if ($order_id === false) {
             return array();
         }
-        return $this->wpdb->get_results("SELECT * FROM $this->preparedNft INNER JOIN $this->lazyNft ON $this->lazyNft.prepared_nft_id = $this->preparedNft.id WHERE product_id = $product_id AND order_id = $order_id");
+        return $this->wpdb->get_results("SELECT * FROM $this->preparedNftName INNER JOIN $this->lazyNftName ON $this->lazyNftName.prepared_nft_id = $this->preparedNftName.id WHERE product_id = $product_id AND order_id = $order_id");
     }
 
     public function getPrepared() {
-        $nfts = $this->wpdb->get_results("SELECT * FROM $this->preparedNft;");
+        $nfts = $this->wpdb->get_results("SELECT * FROM $this->preparedNftName;");
         return self::formatPreparedNfts($nfts);
     }
 
     public function getMinted() {
-        $nfts = $this->wpdb->get_results("SELECT * FROM $this->preparedNft INNER JOIN $this->lazyNft ON $this->lazyNft.prepared_nft_id = $this->preparedNft.id;");
+        $nfts = $this->wpdb->get_results("SELECT * FROM $this->preparedNftName INNER JOIN $this->lazyNftName ON $this->lazyNftName.prepared_nft_id = $this->preparedNftName.id;");
         return self::formatMintedNfts($nfts);
     }
 

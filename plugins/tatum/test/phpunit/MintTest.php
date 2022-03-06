@@ -37,9 +37,7 @@ final class MintTest extends TestCase
         $this->lazy->shouldReceive('getPreparedByProduct')->times(1)->andReturn(1);
         $this->setProtectedProperty($mint, 'lazyMint', $this->lazy);
 
-        $mock = \Mockery::mock('alias:Ipfs');
-
-        $this->assertEquals(1, $mint->woocommerce_order_set_to_processing(43));
+        $this->assertEquals(\Hathoriel\NftMaker\utils\BlockchainLink::tx('asd', 'CELO'), $mint->woocommerce_order_set_to_processing(43));
     }
 
     public function setProtectedProperty($object, $property, $value) {

@@ -5,6 +5,11 @@
     "sort-packages": true,
     "platform": {
       "php": "7.3"
+    },
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "metasyntactical/composer-plugin-license-check": true,
+      "symfony/flex": true
     }
   },
   "authors": [
@@ -45,6 +50,7 @@
   },
   "require": {
     "kornrunner/keccak": "1.0.2",
+    "tatum/nft-maker": "@dev",
     "tatum/utils": "@dev"
   },
   "require-dev": {

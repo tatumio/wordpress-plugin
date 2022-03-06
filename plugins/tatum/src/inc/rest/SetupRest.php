@@ -2,14 +2,13 @@
 
 namespace Hathoriel\Tatum\rest;
 
-use Hathoriel\Tatum\tatum\Preferences;
-use Hathoriel\Tatum\tatum\LazyMint;
+use Hathoriel\NftMaker\connectors\DbConnector;
+use Hathoriel\NftMaker\Services\EstimateService;
+use Hathoriel\NftMaker\Services\SetupService;
 use Hathoriel\Utils\Service;
 use Hathoriel\Tatum\base\UtilsProvider;
 use WP_REST_Response;
 use WP_REST_Request;
-use Hathoriel\Tatum\tatum\Setup;
-use Hathoriel\Tatum\tatum\Estimate;
 
 // @codeCoverageIgnoreStart
 defined('ABSPATH') or die('No script kiddies please!'); // Avoid direct file request
@@ -24,26 +23,30 @@ class SetupRest
 {
     use UtilsProvider;
 
+    public $estimateService;
+    public $setupService;
+    public $dbConnector;
+
     /**
      * C'tor.
      */
     private function __construct() {
-        // Silence is golden.
+        $this->estimateService = new EstimateService();
+        $this->setupService = new SetupService();
+        $this->dbConnector = new DbConnector();
     }
 
     /**
      * Register endpoints.
      */
     public function rest_api_init() {
-        $this->registerRoute('/setup', 'GET', 'getSetup');
-        $this->registerRoute('/api-key', 'POST', 'setApiKey');
-        $this->registerRoute('/estimate', 'GET', 'estimate');
-        $this->registerRoute('/api-key', 'GET', 'getApiKey');
-        $this->registerRoute('/dismiss-tutorial', 'POST', 'dismissTutorial');
-        $this->registerRoute('/nfts/lazy', 'GET', 'getLazy');
-        $this->registerRoute('/nfts/minted', 'GET', 'getMinted');
-//        $this->registerRoute('/preferences', 'GET', 'getPreferences');
-//        $this->registerRoute('/preferences', 'POST', 'setPreferences');
+//        $this->registerRoute('/setup', 'GET', 'getSetup');
+//        $this->registerRoute('/api-key', 'POST', 'setApiKey');
+//        $this->registerRoute('/estimate', 'GET', 'estimate');
+//        $this->registerRoute('/api-key', 'GET', 'getApiKey');
+//        $this->registerRoute('/dismiss-tutorial', 'POST', 'dismissTutorial');
+//        $this->registerRoute('/nfts/lazy', 'GET', 'getLazy');
+//        $this->registerRoute('/nfts/minted', 'GET', 'getMinted');
     }
 
     /**
@@ -60,59 +63,44 @@ class SetupRest
      * }
      * @apiVersion 0.1.0
      */
-    public function getSetup() {
-        self::checkNonce();
-        return new WP_REST_Response(Setup::getSetup());
-    }
-
-    public function setApiKey(WP_REST_Request $request) {
-        self::checkNonce();
-        $data = $request->get_json_params();
-        $response = Setup::setApiKey($data['apiKey']);
-        return new WP_REST_Response($response);
-    }
-
-    public function estimate() {
-        self::checkNonce();
-        return new WP_REST_Response(["estimates" => Estimate::estimateCountOfMintAllSupportedBlockchain()]);
-    }
-
-    public function getApiKey() {
-        self::checkNonce();
-        $api_key = Setup::getApiKey();
-        return new WP_REST_Response($api_key);
-    }
-
-    public function dismissTutorial() {
-        self::checkNonce();
-        Setup::dismissTutorial();
-        return new WP_REST_Response([]);
-    }
-
-    public function getLazy() {
-        self::checkNonce();
-        $lazyNfts = new LazyMint();
-        return new WP_REST_Response(["nfts" => $lazyNfts->getPrepared()]);
-    }
-
-    public function getMinted() {
-        self::checkNonce();
-        $lazyNfts = new LazyMint();
-        return new WP_REST_Response(["nfts" => $lazyNfts->getMinted()]);
-    }
-
-    public function getPreferences() {
-        self::checkNonce();
-        return new WP_REST_Response(["fees" => Preferences::getFees(), "defaultChains" => Preferences::getDefaultChains()]);
-    }
-
-    public function setPreferences(WP_REST_Request $request) {
-        self::checkNonce();
-        $data = $request->get_json_params();
-        Preferences::setFees($data);
-        Preferences::setDefaultChains($data);
-        return new WP_REST_Response(["fees" => Preferences::getFees(), "defaultChains" => Preferences::getDefaultChains()]);
-    }
+//    public function getSetup() {
+//        self::checkNonce();
+//        return new WP_REST_Response(SetupService::getSetup());
+//    }
+//
+//    public function setApiKey(WP_REST_Request $request) {
+//        self::checkNonce();
+//        $data = $request->get_json_params();
+//        $response = $this->setupService->setApiKey($data['apiKey']);
+//        return new WP_REST_Response($response);
+//    }
+//
+//    public function estimate() {
+//        self::checkNonce();
+//        return new WP_REST_Response(["estimates" => $this->estimateService->estimateCountOfMintAllSupportedBlockchain()]);
+//    }
+//
+//    public function getApiKey() {
+//        self::checkNonce();
+//        $api_key = $this->setupService->getApiKey();
+//        return new WP_REST_Response($api_key);
+//    }
+//
+//    public function dismissTutorial() {
+//        self::checkNonce();
+//        SetupService::dismissTutorial();
+//        return new WP_REST_Response([]);
+//    }
+//
+//    public function getLazy() {
+//        self::checkNonce();
+//        return new WP_REST_Response(["nfts" => $this->dbConnector->getPrepared()]);
+//    }
+//
+//    public function getMinted() {
+//        self::checkNonce();
+//        return new WP_REST_Response(["nfts" => $this->dbConnector->getMinted()]);
+//    }
 
     /**
      * New instance.
