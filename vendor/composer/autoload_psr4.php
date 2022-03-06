@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'kornrunner\\' => array($vendorDir . '/kornrunner/keccak/src'),
     'Hathoriel\\Utils\\' => array($vendorDir . '/tatum/utils/src'),
+    'Hathoriel\\Tatum\\Test\\' => array($baseDir . '/test/phpunit'),
     'Hathoriel\\Tatum\\' => array($baseDir . '/inc', $baseDir . '/src/inc'),
     'Hathoriel\\NftMaker\\' => array($vendorDir . '/tatum/nft-maker/src'),
 );

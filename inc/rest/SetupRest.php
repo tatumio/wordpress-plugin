@@ -2,7 +2,7 @@
 
 namespace Hathoriel\Tatum\rest;
 
-use Hathoriel\NftMaker\connectors\DbConnector;
+use Hathoriel\NftMaker\Connectors\DbConnector;
 use Hathoriel\NftMaker\Services\EstimateService;
 use Hathoriel\NftMaker\Services\SetupService;
 use Hathoriel\Utils\Service;

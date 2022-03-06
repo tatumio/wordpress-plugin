@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit86c840572956fbd3a5b7402bb8aa84d2
+class ComposerStaticInit02e1f0a3e8bdaa47b667a020820b5e83
 {
     public static $prefixLengthsPsr4 = array (
         'k' => 
@@ -14,6 +14,7 @@ class ComposerStaticInit86c840572956fbd3a5b7402bb8aa84d2
         'H' => 
         array (
             'Hathoriel\\Utils\\' => 16,
+            'Hathoriel\\Tatum\\Test\\' => 21,
             'Hathoriel\\Tatum\\' => 16,
             'Hathoriel\\NftMaker\\' => 19,
         ),
@@ -28,6 +29,10 @@ class ComposerStaticInit86c840572956fbd3a5b7402bb8aa84d2
         array (
             0 => __DIR__ . '/..' . '/tatum/utils/src',
         ),
+        'Hathoriel\\Tatum\\Test\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/test/phpunit',
+        ),
         'Hathoriel\\Tatum\\' => 
         array (
             0 => __DIR__ . '/../..' . '/inc',
@@ -40,10 +45,26 @@ class ComposerStaticInit86c840572956fbd3a5b7402bb8aa84d2
     );
 
     public static $classMap = array (
-        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'Hathoriel\\NftMaker\\connectors\\DbConnector' => __DIR__ . '/..' . '/tatum/nft-maker/src/connectors/DbConnector.php',
-        'Hathoriel\\NftMaker\\hooks\\AdminHooks' => __DIR__ . '/..' . '/tatum/nft-maker/src/hooks/AdminHooks.php',
-        'Hathoriel\\NftMaker\\hooks\\PublicHooks' => __DIR__ . '/..' . '/tatum/nft-maker/src/hooks/PublicHooks.php',
+        'Hathoriel\\NftMaker\\Connectors\\DbConnector' => __DIR__ . '/..' . '/tatum/nft-maker/src/Connectors/DbConnector.php',
+        'Hathoriel\\NftMaker\\Connectors\\IpfsConnector' => __DIR__ . '/..' . '/tatum/nft-maker/src/Connectors/IpfsConnector.php',
+        'Hathoriel\\NftMaker\\Connectors\\TatumConnector' => __DIR__ . '/..' . '/tatum/nft-maker/src/Connectors/TatumConnector.php',
+        'Hathoriel\\NftMaker\\Hooks\\AdminHooks' => __DIR__ . '/..' . '/tatum/nft-maker/src/Hooks/AdminHooks.php',
+        'Hathoriel\\NftMaker\\Hooks\\PublicHooks' => __DIR__ . '/..' . '/tatum/nft-maker/src/Hooks/PublicHooks.php',
+        'Hathoriel\\NftMaker\\Services\\EstimateService' => __DIR__ . '/..' . '/tatum/nft-maker/src/Services/EstimateService.php',
+        'Hathoriel\\NftMaker\\Services\\MintService' => __DIR__ . '/..' . '/tatum/nft-maker/src/Services/MintService.php',
+        'Hathoriel\\NftMaker\\Services\\SetupService' => __DIR__ . '/..' . '/tatum/nft-maker/src/Services/SetupService.php',
+        'Hathoriel\\NftMaker\\Utils\\AddressValidator' => __DIR__ . '/..' . '/tatum/nft-maker/src/Utils/AddressValidator.php',
+        'Hathoriel\\NftMaker\\Utils\\BlockchainLink' => __DIR__ . '/..' . '/tatum/nft-maker/src/Utils/BlockchainLink.php',
+        'Hathoriel\\NftMaker\\Utils\\Chains' => __DIR__ . '/..' . '/tatum/nft-maker/src/Utils/Chains.php',
+        'Hathoriel\\NftMaker\\Utils\\UtilsProvider' => __DIR__ . '/..' . '/tatum/nft-maker/src/Utils/UtilsProvider.php',
+        'Hathoriel\\NftMaker\\Utils\\Utils\\Activator' => __DIR__ . '/..' . '/tatum/nft-maker/src/Utils/Utils/Activator.php',
+        'Hathoriel\\NftMaker\\Utils\\Utils\\Assets' => __DIR__ . '/..' . '/tatum/nft-maker/src/Utils/Utils/Assets.php',
+        'Hathoriel\\NftMaker\\Utils\\Utils\\Base' => __DIR__ . '/..' . '/tatum/nft-maker/src/Utils/Utils/Base.php',
+        'Hathoriel\\NftMaker\\Utils\\Utils\\Core' => __DIR__ . '/..' . '/tatum/nft-maker/src/Utils/Utils/Core.php',
+        'Hathoriel\\NftMaker\\Utils\\Utils\\Localization' => __DIR__ . '/..' . '/tatum/nft-maker/src/Utils/Utils/Localization.php',
+        'Hathoriel\\NftMaker\\Utils\\Utils\\PackageLocalization' => __DIR__ . '/..' . '/tatum/nft-maker/src/Utils/Utils/PackageLocalization.php',
+        'Hathoriel\\NftMaker\\Utils\\Utils\\PluginReceiver' => __DIR__ . '/..' . '/tatum/nft-maker/src/Utils/Utils/PluginReceiver.php',
+        'Hathoriel\\NftMaker\\Utils\\Utils\\Service' => __DIR__ . '/..' . '/tatum/nft-maker/src/Utils/Utils/Service.php',
         'Hathoriel\\Tatum\\Activator' => __DIR__ . '/../..' . '/inc/Activator.php',
         'Hathoriel\\Tatum\\Assets' => __DIR__ . '/../..' . '/inc/Assets.php',
         'Hathoriel\\Tatum\\Core' => __DIR__ . '/../..' . '/inc/Core.php',
@@ -67,9 +88,9 @@ class ComposerStaticInit86c840572956fbd3a5b7402bb8aa84d2
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit86c840572956fbd3a5b7402bb8aa84d2::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit86c840572956fbd3a5b7402bb8aa84d2::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit86c840572956fbd3a5b7402bb8aa84d2::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit02e1f0a3e8bdaa47b667a020820b5e83::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit02e1f0a3e8bdaa47b667a020820b5e83::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit02e1f0a3e8bdaa47b667a020820b5e83::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Hathoriel\NftMaker\hooks;
+namespace Hathoriel\NftMaker\Hooks;
 
 use Hathoriel\NftMaker\Connectors\DbConnector;
 use Hathoriel\NftMaker\Utils\AddressValidator;

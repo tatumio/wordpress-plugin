@@ -6,5 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Hathoriel\\Utils\\Test\\' => array($baseDir . '/test/phpunit'),
     'Hathoriel\\Utils\\' => array($baseDir . '/src'),
 );

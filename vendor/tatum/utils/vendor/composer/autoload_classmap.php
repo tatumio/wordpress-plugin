@@ -6,7 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'Hathoriel\\Utils\\Activator' => $baseDir . '/src/Activator.php',
     'Hathoriel\\Utils\\Assets' => $baseDir . '/src/Assets.php',
     'Hathoriel\\Utils\\Base' => $baseDir . '/src/Base.php',

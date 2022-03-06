@@ -1,6 +1,6 @@
 <?php
 
-namespace Hathoriel\NftMaker\connectors;
+namespace Hathoriel\NftMaker\Connectors;
 
 use Hathoriel\NftMaker\Utils\BlockchainLink;
 use Hathoriel\NftMaker\Utils\UtilsProvider;
