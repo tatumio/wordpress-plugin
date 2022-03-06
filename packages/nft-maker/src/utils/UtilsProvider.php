@@ -1,7 +1,7 @@
 <?php
-namespace Hathoriel\NftMaker\utils;
+namespace Hathoriel\NftMaker\Utils;
 
-use Hathoriel\Utils\Base;
+use Hathoriel\NftMaker\Utils\Utils\Base;
 
 defined('ABSPATH') or die('No script kiddies please!'); // Avoid direct file request
 

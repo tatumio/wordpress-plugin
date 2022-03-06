@@ -3,8 +3,7 @@
 namespace Hathoriel\NftMaker\connectors;
 
 use Hathoriel\NftMaker\Utils\BlockchainLink;
-use Hathoriel\Tatum\base\UtilsProvider;
-use Hathoriel\Utils\Base;
+use Hathoriel\NftMaker\Utils\UtilsProvider;
 
 
 class DbConnector

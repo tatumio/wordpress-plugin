@@ -7,8 +7,8 @@ use Hathoriel\Tatum\rest\SetupRest;
 use Hathoriel\Tatum\view\menu\Page;
 use Hathoriel\Tatum\view\widget\Widget;
 use Hathoriel\NftMaker\Services\MintService;
-use Hathoriel\NftMaker\Hooks\PublicHooks;
-use Hathoriel\NftMaker\Hooks\AdminHooks;
+use Hathoriel\NftMaker\hooks\PublicHooks;
+use Hathoriel\NftMaker\hooks\AdminHooks;
 
 // @codeCoverageIgnoreStart
 defined('ABSPATH') or die('No script kiddies please!'); // Avoid direct file request

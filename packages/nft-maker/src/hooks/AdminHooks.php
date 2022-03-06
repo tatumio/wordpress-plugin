@@ -4,6 +4,7 @@ namespace Hathoriel\NftMaker\hooks;
 
 
 use Hathoriel\NftMaker\Connectors\DbConnector;
+use Hathoriel\NftMaker\Utils\Chains;
 
 class AdminHooks
 {

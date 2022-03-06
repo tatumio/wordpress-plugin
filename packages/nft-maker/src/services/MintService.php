@@ -29,7 +29,7 @@ class MintService
                         foreach ($preparedNfts as $preparedNft) {
                             try {
                                 $url = $this->ipfsConnector->storeProductImageToIpfs($product_id);
-                                $this->mintProduct($product_id, $order_id, $url);
+                                return $this->mintProduct($product_id, $order_id, $url);
                             } catch (\Exception $e) {
                                 $recipient_address = get_post_meta($order_id, 'recipient_blockchain_address_' . $preparedNft->chain, true);
                                 $this->resolveNftError($order_id, $e->getMessage(), $preparedNft->chain, $preparedNft, $recipient_address);
@@ -62,6 +62,7 @@ class MintService
                 $response = $this->tatumConnector->mintNft($mint_body);
                 if (isset($response['txId'])) {
                     $this->dbConnector->insertLazyNft($preparedNft->id, $order_id, $recipient_address, $preparedNft->chain, $response['txId']);
+                    return $response;
                 } else {
                     $this->resolveNftError($product_id, $order_id, $preparedNft->chain, 'Cannot mint NFT. Check recipient address or contact support.', $recipient_address);
                 }

@@ -40,13 +40,13 @@ class SetupRest
      * Register endpoints.
      */
     public function rest_api_init() {
-//        $this->registerRoute('/setup', 'GET', 'getSetup');
-//        $this->registerRoute('/api-key', 'POST', 'setApiKey');
-//        $this->registerRoute('/estimate', 'GET', 'estimate');
-//        $this->registerRoute('/api-key', 'GET', 'getApiKey');
-//        $this->registerRoute('/dismiss-tutorial', 'POST', 'dismissTutorial');
-//        $this->registerRoute('/nfts/lazy', 'GET', 'getLazy');
-//        $this->registerRoute('/nfts/minted', 'GET', 'getMinted');
+        $this->registerRoute('/setup', 'GET', 'getSetup');
+        $this->registerRoute('/api-key', 'POST', 'setApiKey');
+        $this->registerRoute('/api-key', 'GET', 'getApiKey');
+        $this->registerRoute('/estimate', 'GET', 'estimate');
+        $this->registerRoute('/dismiss-tutorial', 'POST', 'dismissTutorial');
+        $this->registerRoute('/nfts/lazy', 'GET', 'getLazy');
+        $this->registerRoute('/nfts/minted', 'GET', 'getMinted');
     }
 
     /**
@@ -63,44 +63,44 @@ class SetupRest
      * }
      * @apiVersion 0.1.0
      */
-//    public function getSetup() {
-//        self::checkNonce();
-//        return new WP_REST_Response(SetupService::getSetup());
-//    }
-//
-//    public function setApiKey(WP_REST_Request $request) {
-//        self::checkNonce();
-//        $data = $request->get_json_params();
-//        $response = $this->setupService->setApiKey($data['apiKey']);
-//        return new WP_REST_Response($response);
-//    }
-//
-//    public function estimate() {
-//        self::checkNonce();
-//        return new WP_REST_Response(["estimates" => $this->estimateService->estimateCountOfMintAllSupportedBlockchain()]);
-//    }
-//
-//    public function getApiKey() {
-//        self::checkNonce();
-//        $api_key = $this->setupService->getApiKey();
-//        return new WP_REST_Response($api_key);
-//    }
-//
-//    public function dismissTutorial() {
-//        self::checkNonce();
-//        SetupService::dismissTutorial();
-//        return new WP_REST_Response([]);
-//    }
-//
-//    public function getLazy() {
-//        self::checkNonce();
-//        return new WP_REST_Response(["nfts" => $this->dbConnector->getPrepared()]);
-//    }
-//
-//    public function getMinted() {
-//        self::checkNonce();
-//        return new WP_REST_Response(["nfts" => $this->dbConnector->getMinted()]);
-//    }
+    public function getSetup() {
+        self::checkNonce();
+        return new WP_REST_Response(SetupService::getSetup());
+    }
+
+    public function setApiKey(WP_REST_Request $request) {
+        self::checkNonce();
+        $data = $request->get_json_params();
+        $response = $this->setupService->setApiKey($data['apiKey']);
+        return new WP_REST_Response($response);
+    }
+
+    public function estimate() {
+        self::checkNonce();
+        return new WP_REST_Response(["estimates" => $this->estimateService->estimateCountOfMintAllSupportedBlockchain()]);
+    }
+
+    public function getApiKey() {
+        self::checkNonce();
+        $api_key = $this->setupService->getApiKey();
+        return new WP_REST_Response($api_key);
+    }
+
+    public function dismissTutorial() {
+        self::checkNonce();
+        SetupService::dismissTutorial();
+        return new WP_REST_Response([]);
+    }
+
+    public function getLazy() {
+        self::checkNonce();
+        return new WP_REST_Response(["nfts" => $this->dbConnector->getPrepared()]);
+    }
+
+    public function getMinted() {
+        self::checkNonce();
+        return new WP_REST_Response(["nfts" => $this->dbConnector->getMinted()]);
+    }
 
     /**
      * New instance.

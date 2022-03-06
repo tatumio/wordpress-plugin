@@ -12,7 +12,7 @@ class IpfsConnector
 
     public function storeProductImageToIpfs($product_id) {
         $image = self::getProductImageNameAndContent($product_id);
-        if ($image !== false && $image['name'] != '' && $image['content'] != false) {
+        if ($image != false && $image['name'] != '' && $image['content'] != false) {
             $responseImage = $this->storeIpfsFile($image);
             $json = self::createMetadataJson($image, rawurldecode($responseImage['ipfsHash']));
             $responseMetadata = $this->storeIpfsFile(array('name' => 'metadata.json', 'content' => $json));
@@ -29,7 +29,7 @@ class IpfsConnector
         $post_data = self::buildDataFiles($boundary, $data_files);
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => Connector::get_base_url() . '/v3/ipfs',
+            CURLOPT_URL => TatumConnector::getBaseUrl(). '/v3/ipfs',
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_MAXREDIRS => 10,
             CURLOPT_TIMEOUT => 30,
