@@ -14,6 +14,14 @@ jobs:
         with:
           node-version: '14'
 
+      # PHPUnit errors with latest PHP 8.X build.
+      # This specifically sets PHP version to 7.4.
+      - name: Setup PHP with tools
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          tools: phpunit
+
       - name: Install root node_modules
         run: yarn bootstrap
 
