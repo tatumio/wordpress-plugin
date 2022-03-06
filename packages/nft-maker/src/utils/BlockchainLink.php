@@ -1,6 +1,6 @@
 <?php
 
-namespace Hathoriel\Tatum\tatum;
+namespace Hathoriel\NftMaker\Utils;
 
 class BlockchainLink
 {

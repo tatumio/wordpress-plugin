@@ -12,17 +12,11 @@
     <testsuites>
         <testsuite name="default">
             <directory suffix="Test.php">phpunit</directory>
-            <exclude>./phpunit/ActivatorTest.php</exclude>
-            <exclude>./phpunit/AssetsTest.php</exclude>
-            <exclude>./phpunit/CoreTest.php</exclude>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">../src/inc/</directory>
-            <exclude>
-                <directory suffix=".php">../src/inc/base/others</directory>
-            </exclude>
+            <directory suffix=".php">../src</directory>
         </whitelist>
     </filter>
 

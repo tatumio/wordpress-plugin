@@ -1,21 +1,27 @@
 <?php
 
-namespace Hathoriel\Tatum\tatum;
+namespace Hathoriel\NftMaker\Connectors;
 
-class Ipfs
+class IpfsConnector
 {
-    public static function storeProductImageToIpfs($product_id, $api_key) {
+    private $apiKey;
+
+    public function __construct() {
+        $this->apiKey = get_option(TATUM_SLUG . '_api_key');
+    }
+
+    public function storeProductImageToIpfs($product_id) {
         $image = self::getProductImageNameAndContent($product_id);
-        if ($image !== false && $image['name'] != '' && $image['content'] != false) {
-            $responseImage = self::storeIpfsFile($image, $api_key);
+        if ($image != false && $image['name'] != '' && $image['content'] != false) {
+            $responseImage = $this->storeIpfsFile($image);
             $json = self::createMetadataJson($image, rawurldecode($responseImage['ipfsHash']));
-            $responseMetadata = self::storeIpfsFile(array('name' => 'metadata.json', 'content' => $json), $api_key);
+            $responseMetadata = $this->storeIpfsFile(array('name' => 'metadata.json', 'content' => $json));
             return rawurldecode($responseMetadata['ipfsHash']);
         }
         throw new \Exception('IPFS: Cannot upload image.');
     }
 
-    private static function storeIpfsFile($data_files, $api_key) {
+    private function storeIpfsFile($data_files) {
         $curl = curl_init();
         $boundary = uniqid();
         $delimiter = '-------------' . $boundary;
@@ -23,7 +29,7 @@ class Ipfs
         $post_data = self::buildDataFiles($boundary, $data_files);
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => Connector::get_base_url() . '/v3/ipfs',
+            CURLOPT_URL => TatumConnector::getBaseUrl(). '/v3/ipfs',
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_MAXREDIRS => 10,
             CURLOPT_TIMEOUT => 30,
@@ -33,7 +39,7 @@ class Ipfs
             CURLOPT_HTTPHEADER => array(
                 "Content-Type: multipart/form-data; boundary=" . $delimiter,
                 "Content-Length: " . strlen($post_data),
-                "x-api-key: $api_key"
+                "x-api-key: $this->apiKey"
             ),
         ));
 
