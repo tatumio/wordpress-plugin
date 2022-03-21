@@ -40,8 +40,10 @@ Here’s it works:
 4. When someone buys your NFT, the metadata is uploaded to IPFS, and the NFT is minted to the blockchain address provided by the customer at checkout.
 5. Credits to pay the gas fees for minting are deducted from your paid Tatum plan.
 
+**IMPORTANT NOTICE**
+NFT Maker requires a PAID Tatum plan to work. This is because the plugin only works on blockchain mainnets, and you must pay for the gas fees to mint your NFTs from your Tatum plan. We are working on a free testnet version of the plugin, we will update here when it is ready. Until then, a paid Tatum plan is currently required to use the plugin.
 
-
+Please note, you can cancel your plan at any time, but **Tatum DOES NOT offer refunds for received payments**. Again, we are currently working on a free testnet version of the plan to solve this issue in the future. Thanks for your understanding, and happy minting!
 
 
 
