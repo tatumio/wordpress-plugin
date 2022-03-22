@@ -2,7 +2,7 @@
 
 namespace Hathoriel\NftMaker\Services;
 
-use Hathoriel\NftMaker\connectors\DbConnector;
+use Hathoriel\NftMaker\Connectors\DbConnector;
 use Hathoriel\NftMaker\Connectors\TatumConnector;
 use Hathoriel\NftMaker\Utils\UtilsProvider;
 
