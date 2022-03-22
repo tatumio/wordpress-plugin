@@ -11,10 +11,14 @@ class IpfsConnector
     }
 
     public function storeProductImageToIpfs($product_id) {
-        $image = self::getProductImageNameAndContent($product_id);
+        $product = wc_get_product($product_id);
+        if(!$product) {
+            throw new \Exception("IPFS: Product $product_id was not found.");
+        }
+        $image = self::getProductImageNameAndContent($product);
         if ($image != false && $image['name'] != '' && $image['content'] != false) {
             $responseImage = $this->storeIpfsFile($image);
-            $json = self::createMetadataJson($image, rawurldecode($responseImage['ipfsHash']));
+            $json = self::createMetadataJson($product, rawurldecode($responseImage['ipfsHash']));
             $responseMetadata = $this->storeIpfsFile(array('name' => 'metadata.json', 'content' => $json));
             return rawurldecode($responseMetadata['ipfsHash']);
         }
@@ -47,8 +51,7 @@ class IpfsConnector
         return json_decode($response, true);
     }
 
-    private static function getProductImageNameAndContent($product_id) {
-        $product = wc_get_product($product_id);
+    private static function getProductImageNameAndContent($product) {
         $attachment_url = wp_get_attachment_url($product->get_image_id());
         $uploads = wp_upload_dir();
         $file_path = str_replace($uploads['baseurl'], $uploads['basedir'], $attachment_url);
@@ -109,10 +112,10 @@ class IpfsConnector
         return $data;
     }
 
-    private static function createMetadataJson($image_content, $hash) {
-        $name = $image_content['name'];
+    private static function createMetadataJson($product, $hash) {
         return json_encode(array(
-            'name' => $name,
+            'name' => $product->get_title(),
+            'description' => $product->get_description(),
             'image' => "ipfs://$hash"
         ), JSON_UNESCAPED_SLASHES);
     }
