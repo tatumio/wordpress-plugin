@@ -40,8 +40,8 @@ export const Layout = observer(() => {
                     <Col span={8} offset={8} style={{ display: "flex", justifyContent: "flex-end" }}>
                         <div>
                             A plugin by{" "}
-                            <a target="_blank" rel="noreferrer" href="https://tatum.io">
-                                Tatum
+                            <a target="_blank" rel="noreferrer" href="https://t.me/LukasKotol">
+                                Lukas Kotol
                             </a>
                         </div>
                     </Col>
