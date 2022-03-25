@@ -4,11 +4,11 @@
  *
  * @wordpress-plugin
  * Plugin Name: 	NFT Maker
- * Plugin URI:		https://tatum.io
+ * Plugin URI:		https://wordpress.org/plugins/tatum
  * Description: 	NFT Maker is the easiest and fastest free plugin to work with NFTs without any blockchain development experience.
- * Author:          Tatum
- * Author URI:		https://tatum.io
- * Version: 		2.0.25
+ * Author:          Lukas Kotol
+ * Author URI:		https://t.me/LukasKotol
+ * Version: 		2.0.26
  * Text Domain:		tatum
  * Domain Path:		/languages
  * License:         MIT
