@@ -2,8 +2,8 @@
 
 namespace Hathoriel\Tatum\rest;
 
-use Hathoriel\NftMaker\Connectors\DbConnector;
 use Hathoriel\NftMaker\Services\EstimateService;
+use Hathoriel\NftMaker\Services\NftService;
 use Hathoriel\NftMaker\Services\SetupService;
 use Hathoriel\Utils\Service;
 use Hathoriel\Tatum\base\UtilsProvider;
@@ -25,7 +25,7 @@ class SetupRest
 
     public $estimateService;
     public $setupService;
-    public $dbConnector;
+    public $nftService;
 
     /**
      * C'tor.
@@ -33,7 +33,7 @@ class SetupRest
     private function __construct() {
         $this->estimateService = new EstimateService();
         $this->setupService = new SetupService();
-        $this->dbConnector = new DbConnector();
+        $this->nftService = new NftService();
     }
 
     /**
@@ -94,12 +94,12 @@ class SetupRest
 
     public function getLazy() {
         self::checkNonce();
-        return new WP_REST_Response(["nfts" => $this->dbConnector->getPrepared()]);
+        return new WP_REST_Response(["nfts" => $this->nftService->getPrepared()]);
     }
 
     public function getMinted() {
         self::checkNonce();
-        return new WP_REST_Response(["nfts" => $this->dbConnector->getMinted()]);
+        return new WP_REST_Response(["nfts" => $this->nftService->getMinted()]);
     }
 
     /**

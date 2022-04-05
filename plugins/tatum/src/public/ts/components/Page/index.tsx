@@ -16,7 +16,7 @@ import { NftsOverviewLazy } from "../../pages/nftsOverviewLazy";
 import { NftsOverviewMinted } from "../../pages/nftsOverviewMinted";
 
 export const Layout = observer(() => {
-    const { Header, Footer, Content: AntdContent } = AntdLayout;
+    const { Header, Content: AntdContent } = AntdLayout;
     const { page, header } = usePageContent();
     const { data } = useGet<ApiKey>("/api-key");
     const { pageStore, apiKeyStore } = useStores();

@@ -8,6 +8,7 @@ use Hathoriel\NftMaker\Connectors\IpfsConnector;
 use Hathoriel\NftMaker\Connectors\TatumConnector;
 use Hathoriel\NftMaker\Connectors\DbConnector;
 use Hathoriel\NftMaker\Services\MintService;
+use Hathoriel\NftMaker\Services\SetupService;
 use Mockery;
 use ReflectionClass;
 use WP_Mock;
@@ -18,6 +19,7 @@ final class MintTest extends TestCase
     private $dbConnector;
     private $tatumConnector;
     private $ipfsConnector;
+    private $setupService;
 
     public function setUp(): void {
         define("TATUM_SLUG", "TATUM");
@@ -25,11 +27,12 @@ final class MintTest extends TestCase
         $this->dbConnector = Mockery::mock(DbConnector::class);
         $this->tatumConnector = Mockery::mock(TatumConnector::class);
         $this->ipfsConnector = Mockery::mock(IpfsConnector::class);
+        $this->setupService = Mockery::mock(SetupService::class);
     }
 
     public function testMintCelo() {
         $this->tatumConnector->shouldReceive('hasValidApiKey')->andReturn(true);
-
+        $this->setupService->shouldReceive('isTestnet')->andReturn(true);
         WP_Mock::userFunction('get_option', [
             'return' => '7dd5bcaf-f22c-4be8-8cf7-43175828c8aa'
         ]);
@@ -63,6 +66,7 @@ final class MintTest extends TestCase
         $this->setProtectedProperty($mintService, 'dbConnector', $this->dbConnector);
         $this->setProtectedProperty($mintService, 'tatumConnector', $this->tatumConnector);
         $this->setProtectedProperty($mintService, 'ipfsConnector', $this->ipfsConnector);
+        $this->setProtectedProperty($mintService, 'setupService', $this->setupService);
 
         $this->assertEquals($transactionResult, $mintService->mintOrder(43));
     }

@@ -17,12 +17,12 @@ export const useGet = <T extends ResponseError>(path: string) => {
                 });
 
                 if (result?.status === "error" && result.message) {
-                    showError(result.message);
+                    showError(result);
                 }
 
                 setData(result);
             } catch (e) {
-                showError("An error occurred. Please contact support.");
+                showError({ message: "An error occurred. Please contact support." });
             }
         }
 

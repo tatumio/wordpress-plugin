@@ -25,7 +25,7 @@ export const PasteApiKey = () => {
                 okText: "Mint your first NFT!",
                 onOk: () => {
                     apiKeyStore.setApiKey(data);
-                    pageStore.setPage(Page.API_KEY_DETAIL);
+                    window.location.reload();
                 }
             });
         }

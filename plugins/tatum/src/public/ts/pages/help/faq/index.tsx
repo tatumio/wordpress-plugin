@@ -1,7 +1,87 @@
-import { Card } from "antd";
+import { Card, Table } from "antd";
 import { Container, Paragraph, ParagraphHeader } from "../../../components";
 
 export const Faq = () => {
+    const dataSource = [
+        {
+            key: "1",
+            chain: "MATIC",
+            network: "Testnet",
+            smartContractAddress: "0xCd2AdA00c48A27FAa5Cc67F9A1ed55B89dDf7F77"
+        },
+        {
+            key: "2",
+            chain: "BSC",
+            network: "Testnet",
+            smartContractAddress: "0xF73075aa67561791352fbEe8278115487Fd90ab6"
+        },
+        {
+            key: "3",
+            chain: "ONE",
+            network: "Testnet",
+            smartContractAddress: "0x427ddbe3ad5e1e77e010c02e61e9bdef82dcaeea"
+        },
+        {
+            key: "4",
+            chain: "ETH",
+            network: "Testnet",
+            smartContractAddress: "0xAe7D8842D0295B1f24a8842cBd5eB83Ae2fd0946"
+        },
+        {
+            key: "5",
+            chain: "CELO",
+            network: "Testnet",
+            smartContractAddress: "0x45871ED5F15203C0ce791eFE5f4B5044833aE10e"
+        },
+        {
+            key: "6",
+            chain: "MATIC",
+            network: "Mainnet",
+            smartContractAddress: "0x03582C4C2cc7fC8dEd9377A3f8e94a4C9f72ecCe"
+        },
+        {
+            key: "7",
+            chain: "BSC",
+            network: "Mainnet",
+            smartContractAddress: "0x4f83793245abE92cc8B978a16C898005c69e5e27"
+        },
+        {
+            key: "8",
+            chain: "ONE",
+            network: "Mainnet",
+            smartContractAddress: "0x559f11123bb892159cd33f652624e40e8b43d4ad"
+        },
+        {
+            key: "9",
+            chain: "ETH",
+            network: "Mainnet",
+            smartContractAddress: "0x789c00ed7ddd72a806dbac40df926df32fde3c2f"
+        },
+        {
+            key: "10",
+            chain: "CELO",
+            network: "Mainnet",
+            smartContractAddress: "0x5F35fd593243B059cBf580D0335B1c21881a248b"
+        }
+    ];
+
+    const columns = [
+        {
+            title: "Chain",
+            dataIndex: "chain",
+            key: "chain"
+        },
+        {
+            title: "Mainnet/Testnet",
+            dataIndex: "network",
+            key: "network"
+        },
+        {
+            title: "Smart Contract Address",
+            dataIndex: "smartContractAddress",
+            key: "smartContractAddress"
+        }
+    ];
     return (
         <Container>
             <Card title="FAQ">
@@ -34,7 +114,9 @@ export const Faq = () => {
                         Tatum Dashboard
                     </a>
                     . Each paid plan has different credit amounts, and credits will be consumed when your NFTs are
-                    purchased and minted to the blockchain, based on the current gas fees of the given blockchain.
+                    purchased and minted to the blockchain, based on the current gas fees of the given blockchain. You
+                    can try NFT Maker with Test API keys for free, but NFTs minted with Test API keys will not have any
+                    value, because they are minted on Testnet network.
                 </Paragraph>
                 <ParagraphHeader>
                     If I don’t use all my credits within a month, do they carry over to the next month?
@@ -63,6 +145,11 @@ export const Faq = () => {
                     >
                         How to build NFT marketplaces part 2 - Backend guide.{" "}
                     </a>
+                </Paragraph>
+                <ParagraphHeader>Which smart contract are used for minting NFTs?</ParagraphHeader>
+                <Paragraph>
+                    We are using following smart contracts:
+                    <Table dataSource={dataSource} columns={columns} pagination={false} />
                 </Paragraph>
                 Need more support, ask us on our{" "}
                 <a target="_blank" rel="noreferrer" href="https://discord.gg/7ZKCRD5bG3">
