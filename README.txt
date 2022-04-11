@@ -1,11 +1,11 @@
 === NFT Maker ===
 Contributors: lukaskotol
 Donate link: lukas.kotol@gmail.com
-Tags: tatum, blockchain, nft, erc721, ethereum, celo, bsc, mint
+Tags: nft, erc721, ethereum, celo, bsc, polygon, harmony, mint, tatum, blockchain, smart contract, opensea
 Requires at least: 5.5
 Requires PHP: 7.0
 Tested up to: 5.8.2
-Stable tag: 2.0.26
+Stable tag: 2.0.27
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -35,18 +35,19 @@ Check out our [full video tutorial on how to get started.](https://www.youtube.c
 
 Here’s it works:
 1. Install the plugin.
-2. Sign up for a paid [Tatum plan](https://dashboard.tatum.io/). The Tatum is an external service which provides access for the blockchain infrastructure. The credits from your plan are used to pay for the gas fees to mint NFTs. **NFT Maker does not work with Free plans or Test API keys.**
+2. Sign up for a paid [Tatum plan](https://dashboard.tatum.io/). The Tatum is an external service which provides access for the blockchain infrastructure. The credits from your plan are used to pay for the gas fees to mint NFTs. **You can try NFT Maker with Test API keys for free, but NFT minted with Test API keys will not have any value, because they are minted on Testnet network.**
 3. Create your NFT by uploading an image. This won’t consume any credits until someone buys it.
 4. When someone buys your NFT, the metadata is uploaded to IPFS, and the NFT is minted to the blockchain address provided by the customer at checkout.
-5. Credits to pay the gas fees for minting are deducted from your paid Tatum plan.
+5. Credits to pay the gas fees for minting are deducted from your Tatum plan.
 
 **IMPORTANT NOTICE**
-NFT Maker requires a PAID Tatum plan to work. This is because the plugin only works on blockchain mainnets, and you must pay for the gas fees to mint your NFTs from your Tatum plan. We are working on a free testnet version of the plugin, we will update here when it is ready. Until then, a paid Tatum plan is currently required to use the plugin.
+NFT Maker requires a PAID Tatum plan to work with blockchain Mainnet networks, and you must pay for the gas fees to mint your NFTs from your Tatum plan.
+You can try NFT Maker with Test API keys for free, but NFTs minted with Test API keys will not have any value, because they are minted on Testnet network.
+Please note, you can cancel your plan at any time, but **Tatum DOES NOT offer refunds for received payments**.
 
-Please note, you can cancel your plan at any time, but **Tatum DOES NOT offer refunds for received payments**. Again, we are currently working on a free testnet version of the plan to solve this issue in the future. Thanks for your understanding, and happy minting!
+**Due to high ETH fees, minting NFTs with ETH is available only with enterprise API keys.**
 
-
-
+If you want to know which smart contracts are used for minting NFTs you can find them inside the admin section of the NFT Maker plugin in the help section.
 
 You are welcome to add your pull request to our Github [repository](https://github.com/tatumio/woocommerce-plugin). If you have any questions just drop us a line on the Tatum [Discord](https://discord.gg/Mg2vdtD4JQ).
 Or feel free to contact developer via [Telegram](https://t.me/LukasKotol).
@@ -122,6 +123,7 @@ You can select one blockchain per product, but you can also create multiple NFTs
 = Is the plugin free? =
 Yes, the NFT Maker plugin itself is completely free. However, in order to pay for the gas fees necessary to mint NFTs, you must buy a paid plan in the [Tatum Dashboard](https://dashboard.tatum.io/).
 Each paid plan has different credit amounts, and credits will be consumed when your NFTs are purchased and minted to the blockchain, based on the current gas fees of the given blockchain.
+For testing purposes you can try NFT Maker with Test API keys for free, but NFTs minted with Test API keys will not have any value, because they are minted on Testnet network.
 
 = If I don’t use all my credits within a month, do they carry over to the next month? =
 At the moment, no, unused credits do not carry over to the following month.
@@ -196,6 +198,9 @@ For a complete guide on how to build the backend to an NFT marketplace from scra
 
 = 2.0.26 =
 Changed author of the plugin
+
+= 2.0.27 =
+Added support for Testnet & detailed info about minted NFTs
 
 == Upgrade Notice ==
 

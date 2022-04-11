@@ -5,6 +5,7 @@ namespace Hathoriel\NftMaker\Hooks;
 
 use Hathoriel\NftMaker\Connectors\DbConnector;
 use Hathoriel\NftMaker\Utils\Chains;
+use Hathoriel\NftMaker\Utils\Constants;
 
 class AdminHooks
 {
@@ -81,7 +82,7 @@ class AdminHooks
         echo '<h4 style="margin-left: 10px;">Select the chain to mint your NFT on</h4>';
 
         $selectedChain = '';
-        foreach (Chains::getChainLabels() as $chain => $label) {
+        foreach (Constants::CHAIN_LABELS as $chain => $label) {
             foreach ($preparedNfts as $checkedChain) {
                 if ($checkedChain->chain === $chain) {
                     $selectedChain = $chain;
@@ -93,7 +94,7 @@ class AdminHooks
             'id' => 'tatum_chain',
             'label' => __('', 'woocommerce'),
             'value' => $selectedChain,
-            'options' => Chains::getChainLabels()
+            'options' => Constants::CHAIN_LABELS
         ));
     }
 

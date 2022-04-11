@@ -2,19 +2,19 @@
 
 namespace Hathoriel\NftMaker\Services;
 
-use Hathoriel\NftMaker\Connectors\DbConnector;
 use Hathoriel\NftMaker\Connectors\TatumConnector;
+use Hathoriel\NftMaker\Utils\Constants;
 use Hathoriel\NftMaker\Utils\UtilsProvider;
 
 
 class SetupService
 {
     private $tatumConnector;
-    private $dbConnector;
+    private $nftService;
 
     public function __construct() {
         $this->tatumConnector = new TatumConnector();
-        $this->dbConnector = new DbConnector();
+        $this->nftService = new NftService();
     }
 
     use UtilsProvider;
@@ -31,7 +31,7 @@ class SetupService
         try {
             $this->tatumConnector->setApiKey($api_key);
             $api_key_resp = $this->tatumConnector->getApiVersion();
-            if ($api_key_resp['testnet'] === false && $api_key_resp['price'] !== 0 && $api_key_resp['status'] === 'ACTIVE' && $api_key_resp['expiration'] >= round(microtime(true) * 1000)) {
+            if ($api_key_resp['status'] === 'ACTIVE' && $api_key_resp['expiration'] >= round(microtime(true) * 1000)) {
                 update_option(TATUM_SLUG . '_api_key', $api_key);
                 return [
                     'apiKey' => $api_key,
@@ -39,15 +39,16 @@ class SetupService
                     'remainingCredits' => ($api_key_resp['creditLimit'] - $api_key_resp['usage']),
                     'creditLimit' => $api_key_resp['creditLimit'],
                     'usedCredits' => $api_key_resp['usage'],
-                    'nftCreated' => $this->dbConnector->getPreparedCount(),
-                    'nftSold' => $this->dbConnector->getLazyNftCount(),
+                    'nftCreated' => $this->nftService->getPreparedCount(),
+                    'nftSold' => $this->nftService->getMintedCount(),
                     'isTutorialDismissed' => get_option(TATUM_SLUG . '_is_tutorial_dismissed', false),
-                    'version' => $api_key_resp['version']
+                    'version' => $api_key_resp['version'],
+                    'testnet' => $api_key['testnet']
                 ];
             }
             return [
                 'status' => 'error',
-                'message' => 'You API key must be paid, mainnet type, active and not expired. If you dont have one, you can buy paid subscription at Tatum dashboard!'
+                'errorCode' => 'tatum.not.active.api.key'
             ];
         } catch (\Exception $e) {
             return [
@@ -59,7 +60,7 @@ class SetupService
 
     public function getApiKey() {
         $api_key_uuid = $this->tatumConnector->getApiKey();
-        if ($api_key_uuid && $api_key_uuid !== TatumConnector::DEFAULT_API_KEY) {
+        if ($api_key_uuid && $api_key_uuid !== Constants::DEFAULT_API_KEY) {
             $api_key = $this->tatumConnector->getApiVersion();
             return [
                 'apiKey' => $api_key_uuid,
@@ -67,9 +68,10 @@ class SetupService
                 'remainingCredits' => ($api_key['creditLimit'] - $api_key['usage']),
                 'creditLimit' => $api_key['creditLimit'],
                 'usedCredits' => $api_key['usage'],
-                'nftCreated' => $this->dbConnector->getPreparedCount(),
-                'nftSold' => $this->dbConnector->getLazyNftCount(),
-                'isTutorialDismissed' => get_option(TATUM_SLUG . '_is_tutorial_dismissed', false)
+                'nftCreated' => $this->nftService->getPreparedCount(),
+                'nftSold' => $this->nftService->getMintedCount(),
+                'isTutorialDismissed' => get_option(TATUM_SLUG . '_is_tutorial_dismissed', false),
+                'testnet' => $api_key['testnet']
             ];
         }
         return array();
@@ -77,5 +79,13 @@ class SetupService
 
     public static function dismissTutorial() {
         update_option(TATUM_SLUG . '_is_tutorial_dismissed', true);
+    }
+
+    public function isTestnet() {
+        $apiKey = $this->getApiKey();
+        if (!empty($apiKey)) {
+            return $apiKey['testnet'];
+        }
+        throw new \Exception('API key is not set.');
     }
 }

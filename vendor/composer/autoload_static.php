@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInita7b353a84c59ac4f3c7da0c4a00f49e5
+class ComposerStaticInitfd0c7de7605be1ba9ac621a44426efe8
 {
     public static $prefixLengthsPsr4 = array (
         'k' => 
@@ -52,10 +52,11 @@ class ComposerStaticInita7b353a84c59ac4f3c7da0c4a00f49e5
         'Hathoriel\\NftMaker\\Hooks\\PublicHooks' => __DIR__ . '/..' . '/tatum/nft-maker/src/Hooks/PublicHooks.php',
         'Hathoriel\\NftMaker\\Services\\EstimateService' => __DIR__ . '/..' . '/tatum/nft-maker/src/Services/EstimateService.php',
         'Hathoriel\\NftMaker\\Services\\MintService' => __DIR__ . '/..' . '/tatum/nft-maker/src/Services/MintService.php',
+        'Hathoriel\\NftMaker\\Services\\NftService' => __DIR__ . '/..' . '/tatum/nft-maker/src/Services/NftService.php',
         'Hathoriel\\NftMaker\\Services\\SetupService' => __DIR__ . '/..' . '/tatum/nft-maker/src/Services/SetupService.php',
         'Hathoriel\\NftMaker\\Utils\\AddressValidator' => __DIR__ . '/..' . '/tatum/nft-maker/src/Utils/AddressValidator.php',
         'Hathoriel\\NftMaker\\Utils\\BlockchainLink' => __DIR__ . '/..' . '/tatum/nft-maker/src/Utils/BlockchainLink.php',
-        'Hathoriel\\NftMaker\\Utils\\Chains' => __DIR__ . '/..' . '/tatum/nft-maker/src/Utils/Chains.php',
+        'Hathoriel\\NftMaker\\Utils\\Constants' => __DIR__ . '/..' . '/tatum/nft-maker/src/Utils/Constants.php',
         'Hathoriel\\NftMaker\\Utils\\UtilsProvider' => __DIR__ . '/..' . '/tatum/nft-maker/src/Utils/UtilsProvider.php',
         'Hathoriel\\NftMaker\\Utils\\Utils\\Activator' => __DIR__ . '/..' . '/tatum/nft-maker/src/Utils/Utils/Activator.php',
         'Hathoriel\\NftMaker\\Utils\\Utils\\Assets' => __DIR__ . '/..' . '/tatum/nft-maker/src/Utils/Utils/Assets.php',
@@ -88,9 +89,9 @@ class ComposerStaticInita7b353a84c59ac4f3c7da0c4a00f49e5
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInita7b353a84c59ac4f3c7da0c4a00f49e5::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInita7b353a84c59ac4f3c7da0c4a00f49e5::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInita7b353a84c59ac4f3c7da0c4a00f49e5::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitfd0c7de7605be1ba9ac621a44426efe8::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitfd0c7de7605be1ba9ac621a44426efe8::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitfd0c7de7605be1ba9ac621a44426efe8::$classMap;
 
         }, null, ClassLoader::class);
     }

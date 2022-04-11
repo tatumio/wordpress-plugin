@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit61787a8b8851a0769e15b1340d7c0055
+class ComposerStaticInit554641eb723ad3b1a8043a966e63ac54
 {
     public static $prefixLengthsPsr4 = array (
         'k' => 
@@ -41,10 +41,11 @@ class ComposerStaticInit61787a8b8851a0769e15b1340d7c0055
         'Hathoriel\\NftMaker\\Hooks\\PublicHooks' => __DIR__ . '/../..' . '/src/Hooks/PublicHooks.php',
         'Hathoriel\\NftMaker\\Services\\EstimateService' => __DIR__ . '/../..' . '/src/Services/EstimateService.php',
         'Hathoriel\\NftMaker\\Services\\MintService' => __DIR__ . '/../..' . '/src/Services/MintService.php',
+        'Hathoriel\\NftMaker\\Services\\NftService' => __DIR__ . '/../..' . '/src/Services/NftService.php',
         'Hathoriel\\NftMaker\\Services\\SetupService' => __DIR__ . '/../..' . '/src/Services/SetupService.php',
         'Hathoriel\\NftMaker\\Utils\\AddressValidator' => __DIR__ . '/../..' . '/src/Utils/AddressValidator.php',
         'Hathoriel\\NftMaker\\Utils\\BlockchainLink' => __DIR__ . '/../..' . '/src/Utils/BlockchainLink.php',
-        'Hathoriel\\NftMaker\\Utils\\Chains' => __DIR__ . '/../..' . '/src/Utils/Chains.php',
+        'Hathoriel\\NftMaker\\Utils\\Constants' => __DIR__ . '/../..' . '/src/Utils/Constants.php',
         'Hathoriel\\NftMaker\\Utils\\UtilsProvider' => __DIR__ . '/../..' . '/src/Utils/UtilsProvider.php',
         'Hathoriel\\NftMaker\\Utils\\Utils\\Activator' => __DIR__ . '/../..' . '/src/Utils/Utils/Activator.php',
         'Hathoriel\\NftMaker\\Utils\\Utils\\Assets' => __DIR__ . '/../..' . '/src/Utils/Utils/Assets.php',
@@ -60,9 +61,9 @@ class ComposerStaticInit61787a8b8851a0769e15b1340d7c0055
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit61787a8b8851a0769e15b1340d7c0055::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit61787a8b8851a0769e15b1340d7c0055::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit61787a8b8851a0769e15b1340d7c0055::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit554641eb723ad3b1a8043a966e63ac54::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit554641eb723ad3b1a8043a966e63ac54::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit554641eb723ad3b1a8043a966e63ac54::$classMap;
 
         }, null, ClassLoader::class);
     }

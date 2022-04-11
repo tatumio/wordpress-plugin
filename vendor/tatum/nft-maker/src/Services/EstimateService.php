@@ -4,6 +4,7 @@ namespace Hathoriel\NftMaker\Services;
 
 use Hathoriel\NftMaker\Connectors\TatumConnector;
 use Hathoriel\NftMaker\Utils\Chains;
+use Hathoriel\NftMaker\Utils\Constants;
 
 class EstimateService
 {
@@ -25,12 +26,12 @@ class EstimateService
             'basic' => round(5000000 / $credits),
             'advanced' => round(25000000 / $credits),
             'chain' => $chain,
-            'label' => Chains::getChainLabels()[$chain]
+            'label' => Constants::CHAIN_LABELS[$chain]
         ];
     }
 
     public function estimateCountOfMintAllSupportedBlockchain() {
-        $chains = Chains::getChainCodes();
+        $chains = Constants::CHAIN_CODES;
         $estimates = [];
         foreach ($chains as $chain) {
             $estimates[] = $this->estimateMintPerMonthInCredits($chain);
