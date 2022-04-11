@@ -10,6 +10,7 @@ import { ResponseError } from "../../../models/reponseError";
 import { getImageUrl } from "../../../utils/image";
 import "./index.scss";
 import { Page } from "../../../models";
+import { TestnetWarning } from "../testnetWarning";
 
 export const ApiKeyOverview = () => {
     const { apiKeyStore, pageStore } = useStores();
@@ -26,6 +27,7 @@ export const ApiKeyOverview = () => {
     return (
         <>
             {!isDismissed && <Tutorial dismissTutorial={dismissTutorial} />}
+            {apiKeyStore.apiKey.testnet && <TestnetWarning />}
             <Container isGridCard={true}>
                 <Card title={<img className="header-overview" src={getImageUrl("header-overview.png")} />}>
                     <CardGridItem title="Your Tatum plan" description={apiKeyStore.apiKey.plan} />
@@ -35,6 +37,10 @@ export const ApiKeyOverview = () => {
                         title="Your Tatum API key"
                         description={apiKeyStore.apiKey.apiKey}
                         onClick={() => pageStore.setPage(Page.GET_API_KEY)}
+                    />
+                    <CardGridItem
+                        title="Network"
+                        description={`${apiKeyStore.apiKey.testnet ? "Testnet" : "Mainnet"}`}
                     />
                     <CardGridItem
                         title="Remaining credits for month"

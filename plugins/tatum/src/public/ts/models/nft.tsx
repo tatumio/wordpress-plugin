@@ -10,6 +10,8 @@ export interface Nft {
     transactionLink: string | null;
     errorCause: string | null;
     imageUrl: string | null;
+    openSeaUrl: string | null;
+    tokenId: string | null;
     chain: string;
     productId: string;
     sold: Date;

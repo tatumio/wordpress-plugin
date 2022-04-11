@@ -10,4 +10,5 @@ export interface ApiKey extends ResponseError {
     nftSold: number;
     isTutorialDismissed: boolean;
     version: string;
+    testnet: boolean;
 }

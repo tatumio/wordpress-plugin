@@ -1,8 +1,8 @@
-# Copyright (C) 2022 Tatum
+# Copyright (C) 2022 Lukas Kotol
 # This file is distributed under the MIT.
 msgid ""
 msgstr ""
-"Project-Id-Version: NFT Maker 2.0.24\n"
+"Project-Id-Version: NFT Maker 2.0.26\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/src\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -11,15 +11,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: n/a\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.5.0\n"
+"X-Generator: WP-CLI 2.6.0\n"
 
 #. Plugin Name of the plugin
 msgid "NFT Maker"
 msgstr ""
 
 #. Plugin URI of the plugin
-#. Author URI of the plugin
-msgid "https://tatum.io"
+msgid "https://wordpress.org/plugins/tatum"
 msgstr ""
 
 #. Description of the plugin
@@ -27,7 +26,11 @@ msgid "NFT Maker is the easiest and fastest free plugin to work with NFTs withou
 msgstr ""
 
 #. Author of the plugin
-msgid "Tatum"
+msgid "Lukas Kotol"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://t.me/LukasKotol"
 msgstr ""
 
 #: inc/view/widget/Widget.php:24

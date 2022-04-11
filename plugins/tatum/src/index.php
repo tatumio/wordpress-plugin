@@ -8,11 +8,12 @@
  * Description: 	NFT Maker is the easiest and fastest free plugin to work with NFTs without any blockchain development experience.
  * Author:          Lukas Kotol
  * Author URI:		https://t.me/LukasKotol
- * Version: 		2.0.26
+ * Version: 		2.0.27
  * Text Domain:		tatum
  * Domain Path:		/languages
  * License:         MIT
  * License URI:     https://opensource.org/licenses/MIT
+ *
  */
 
 defined('ABSPATH') or die( 'No script kiddies please!' ); // Avoid direct file request

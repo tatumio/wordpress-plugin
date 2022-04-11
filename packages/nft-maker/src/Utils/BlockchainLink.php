@@ -4,32 +4,30 @@ namespace Hathoriel\NftMaker\Utils;
 
 class BlockchainLink
 {
-    public static function txLink($txHash, $chain) {
-        $prefixes = self::getExplorerPrefixes();
+    public static function txLink($txHash, $chain, $testnet = true) {
+        $prefixes = self::getExplorerPrefixes($testnet);
         return self::formatLink($txHash, $prefixes[$chain] . 'tx/' . $txHash);
     }
 
-    public static function tx($txHash, $chain) {
-        $prefixes = self::getExplorerPrefixes();
+    public static function tx($txHash, $chain, $testnet = true) {
+        $prefixes = self::getExplorerPrefixes($testnet);
         return $prefixes[$chain] . 'tx/' . $txHash;
     }
 
-    public static function address($address, $chain) {
-        $prefixes = self::getExplorerPrefixes();
-        return self::formatLink($address, $prefixes[$chain] . 'address/' . $address);
+    public static function openSea($tokenId, $chain, $testnet = true) {
+        $isTestnet = $testnet ? 'TESTNET' : 'MAINNET';
+        $openSeaUrl = Constants::OPEN_SEA_BASE_URL[$isTestnet];
+        if ($chain === 'ETH') {
+            return $openSeaUrl . "assets/" . Constants::CONTRACT_ADDRESS[$isTestnet][$chain] . "/" . $tokenId;
+        }
+        return $openSeaUrl . "assets/" . Constants::OPEN_SEA_CHAIN_MAPPING[$isTestnet][$chain] . "/" . Constants::CONTRACT_ADDRESS[$isTestnet][$chain] . "/" . $tokenId;
     }
 
-    private static function formatLink($text, $linkUrl) {
+    public static function formatLink($text, $linkUrl) {
         return "<a href='$linkUrl' target='_blank'>$text</a>";
     }
 
-    private static function getExplorerPrefixes() {
-        return array(
-            'ETH' => "https://etherscan.io/",
-            'CELO' => "https://explorer.celo.org/",
-            'BSC' => "https://bscscan.com/",
-            'MATIC' => "https://polygonscan.com/",
-            'ONE' => "https://explorer.harmony.one/"
-        );
+    private static function getExplorerPrefixes($testnet) {
+        return Constants::EXPLORER[$testnet ? 'TESTNET' : 'MAINNET'];
     }
 }

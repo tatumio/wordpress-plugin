@@ -2,16 +2,10 @@
 
 namespace Hathoriel\NftMaker\Connectors;
 
+use Hathoriel\NftMaker\Utils\Constants;
+
 class TatumConnector
 {
-    public const DEFAULT_API_KEY = '4ce2274723354471a7b65d1f726a8a68_100';
-    public const TATUM_URL = [
-        'eu1' => 'https://api-eu1.tatum.io',
-        'us1' => 'https://api-us-west1.tatum.io'
-    ];
-
-    const BLOCKCHAIN_URL_MAPPING = array('ETH' => 'ethereum', 'CELO' => 'celo', 'BSC' => 'bsc', 'MATIC' => 'polygon', 'ONE' => 'one');
-
     private $apiKey;
 
     /**
@@ -33,18 +27,22 @@ class TatumConnector
         if (get_option(TATUM_SLUG . '_api_key')) {
             $this->apiKey = get_option(TATUM_SLUG . '_api_key');
         } else {
-            $this->apiKey = self::DEFAULT_API_KEY;
+            $this->apiKey = Constants::DEFAULT_API_KEY;
         }
     }
 
     public function hasValidApiKey() {
-        return $this->apiKey !== self::DEFAULT_API_KEY;
+        return $this->apiKey !== Constants::DEFAULT_API_KEY;
     }
 
     private static function isResponseOk($response) {
         $server_output = json_decode(wp_remote_retrieve_body($response), true);
         if (isset($server_output['errorCode']) && $server_output['errorCode'] === 'api.key.invalid') {
             throw new \Exception('Invalid API key.');
+        }
+
+        if (isset($server_output['errorCode']) && $server_output['errorCode'] === 'credit.exhausted') {
+            throw new \Exception('Minting this NFT will cause credit exhaustion. Buy higher or enterprise (in case of ETH) API key plan at <a href="https://dashboard.tatum.io" target="_blank" rel="noreferrer">Tatum dashboard.</a>');
         }
 
         $code = wp_remote_retrieve_response_code($response);
@@ -74,10 +72,10 @@ class TatumConnector
         $region = get_option(TATUM_SLUG . '_region');
 
         if (!$region) {
-            return self::TATUM_URL['eu1'];
+            return Constants::TATUM_URL['eu1'];
         }
 
-        return self::TATUM_URL[$region];
+        return Constants::TATUM_URL[$region];
     }
 
     private function headers(): array {
@@ -86,14 +84,14 @@ class TatumConnector
 
     public function getApiVersion() {
         try {
-            $eu = $this->get('/v3/tatum/version', self::TATUM_URL['eu1']);
+            $eu = $this->get('/v3/tatum/version', Constants::TATUM_URL['eu1']);
             update_option(TATUM_SLUG . '_region', 'eu1');
             return $eu;
         } catch (\Exception $e) {
         }
 
         try {
-            $us = $this->get('/v3/tatum/version', self::TATUM_URL['us1']);
+            $us = $this->get('/v3/tatum/version', Constants::TATUM_URL['us1']);
             update_option(TATUM_SLUG . '_region', 'us1');
             return $us;
         } catch (\Exception $e) {
@@ -103,15 +101,15 @@ class TatumConnector
     }
 
     public function generateWallet($chain) {
-        return $this->get('/v3/' . self::BLOCKCHAIN_URL_MAPPING[$chain] . '/wallet');
+        return $this->get('/v3/' . Constants::BLOCKCHAIN_URL_MAPPING[$chain] . '/wallet');
     }
 
     public function generateAccount($chain, $xpub, $index) {
-        return $this->get('/v3/' . self::BLOCKCHAIN_URL_MAPPING[$chain] . '/address/' . $xpub . '/' . $index);
+        return $this->get('/v3/' . Constants::BLOCKCHAIN_URL_MAPPING[$chain] . '/address/' . $xpub . '/' . $index);
     }
 
     public function generatePrivateKey($chain, $body) {
-        return $this->post('/v3/' . self::BLOCKCHAIN_URL_MAPPING[$chain] . '/wallet/priv/', $body);
+        return $this->post('/v3/' . Constants::BLOCKCHAIN_URL_MAPPING[$chain] . '/wallet/priv/', $body);
     }
 
     public function deployNftSmartContract($body) {
@@ -123,15 +121,19 @@ class TatumConnector
     }
 
     public function getBalance($chain, $address) {
-        return $this->get('/v3/' . self::BLOCKCHAIN_URL_MAPPING[$chain] . '/account/balance/' . $address);
+        return $this->get('/v3/' . Constants::BLOCKCHAIN_URL_MAPPING[$chain] . '/account/balance/' . $address);
     }
 
     public function getTransaction($chain, $hash) {
-        return $this->get('/v3/' . self::BLOCKCHAIN_URL_MAPPING[$chain] . '/transaction/' . $hash);
+        return $this->get('/v3/' . Constants::BLOCKCHAIN_URL_MAPPING[$chain] . '/transaction/' . $hash);
     }
 
     public function getNonce($chain, $address) {
-        return $this->get('/v3/' . self::BLOCKCHAIN_URL_MAPPING[$chain] . '/transaction/count/' . $address);
+        return $this->get('/v3/' . Constants::BLOCKCHAIN_URL_MAPPING[$chain] . '/transaction/count/' . $address);
+    }
+
+    public function getNftTransaction($chain, $hash) {
+        return $this->get('/v3/nft/transaction/' . $chain . '/' . $hash);
     }
 
     public function transferNftToken($body) {

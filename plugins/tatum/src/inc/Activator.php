@@ -40,7 +40,10 @@ class Activator
      * @param boolean $errorlevel If true throw errors
      */
     public function dbDelta($errorlevel) {
-
+        global $wpdb;
+        $lazyNftName = $this->getTableName("lazy_nft");
+        $sql = "ALTER TABLE $lazyNftName ADD `testnet` BOOLEAN NOT NULL AFTER `prepared_nft_id`;";
+        $wpdb->query($sql);
     }
 
     private function initDatabase() {

@@ -5,17 +5,21 @@ namespace Hathoriel\NftMaker\Services;
 use Hathoriel\NftMaker\Connectors\IpfsConnector;
 use Hathoriel\NftMaker\Connectors\TatumConnector;
 use Hathoriel\NftMaker\Connectors\DbConnector;
+use Hathoriel\NftMaker\Utils\BlockchainLink;
+use Hathoriel\NftMaker\Utils\Constants;
 
 class MintService
 {
     private $dbConnector;
     private $tatumConnector;
     private $ipfsConnector;
+    private $setupService;
 
     public function __construct() {
         $this->dbConnector = new DbConnector();
         $this->tatumConnector = new TatumConnector();
         $this->ipfsConnector = new IpfsConnector();
+        $this->setupService = new SetupService();
     }
 
     public function mintOrder($order_id) {
@@ -39,14 +43,14 @@ class MintService
                 }
             }
         } catch (\Exception $exception) {
-            var_dump($exception);
             echo '{"result":"failure","messages":"<ul class=\"woocommerce-error\" role=\"alert\">\n\t\t\t<li>\n\t\t\tNFT minting error occurred. Please try again or contact administrator.\t\t<\/li>\n\t<\/ul>\n","refresh":false,"reload":false}';
             exit();
         }
     }
 
     private function resolveNftError($order_id, $error_message, $chain, $preparedNft, $recipient_address) {
-        $this->dbConnector->insertLazyNft($preparedNft->id, $order_id, $recipient_address, $chain, null, $error_message);
+        $testnet = $this->setupService->isTestnet();
+        $this->dbConnector->insertLazyNft($preparedNft->id, $order_id, $recipient_address, $chain, $testnet, null, $error_message);
     }
 
     private function mintProduct($product_id, $order_id, $url) {
@@ -61,7 +65,8 @@ class MintService
                 }
                 $response = $this->tatumConnector->mintNft($mint_body);
                 if (isset($response['txId'])) {
-                    $this->dbConnector->insertLazyNft($preparedNft->id, $order_id, $recipient_address, $preparedNft->chain, $response['txId']);
+                    $testnet = $this->setupService->isTestnet();
+                    $this->dbConnector->insertLazyNft($preparedNft->id, $order_id, $recipient_address, $preparedNft->chain, $testnet, $response['txId']);
                     return $response;
                 } else {
                     $this->resolveNftError($product_id, $order_id, $preparedNft->chain, 'Cannot mint NFT. Check recipient address or contact support.', $recipient_address);

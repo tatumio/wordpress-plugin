@@ -25,6 +25,7 @@ const NftItem = ({ nft, lazy }: { nft: Nft; lazy: boolean }) => {
         width: "100%",
         align: "center"
     };
+    console.log(nft);
     return (
         <Card.Grid hoverable={false} style={gridStyle}>
             <div className="nftItem">
@@ -32,6 +33,7 @@ const NftItem = ({ nft, lazy }: { nft: Nft; lazy: boolean }) => {
                 <div className="nftInfo">
                     <div className="nftName">{nft.name}</div>
                     <div>Product ID: {nft.productId}</div>
+                    <div>Chain: {nft.chain}</div>
                     {nft.transactionId && (
                         <div>
                             Tx ID:{" "}
@@ -40,13 +42,29 @@ const NftItem = ({ nft, lazy }: { nft: Nft; lazy: boolean }) => {
                             </a>
                         </div>
                     )}
-                    <div>Chain: {nft.chain}</div>
+                    {nft.tokenId && (
+                        <div>
+                            Token ID:{" "}
+                            {nft.openSeaUrl ? (
+                                <span>
+                                    <a target="_blank" rel="noreferrer" href={nft.openSeaUrl}>
+                                        {nft.tokenId} (OpenSea) - wait till confirmation
+                                    </a>
+                                </span>
+                            ) : (
+                                nft.tokenId
+                            )}
+                        </div>
+                    )}
+
                     {nft.transactionId || nft.errorCause ? (
                         <DateFormatted label="Sold" date={nft?.sold?.date} />
                     ) : (
                         <DateFormatted label="Created" date={nft?.created?.date} />
                     )}
-                    {nft.errorCause && <div>Error cause: {nft.errorCause}</div>}
+                    {nft.errorCause && (
+                        <div dangerouslySetInnerHTML={{ __html: `Error cause: ${nft.errorCause}` }}></div>
+                    )}
                 </div>
             </div>
         </Card.Grid>
