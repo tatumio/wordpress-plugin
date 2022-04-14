@@ -35,14 +35,14 @@ Check out our [full video tutorial on how to get started.](https://www.youtube.c
 
 Here’s it works:
 1. Install the plugin.
-2. Sign up for a paid [Tatum plan](https://dashboard.tatum.io/). The Tatum is an external service which provides access for the blockchain infrastructure. The credits from your plan are used to pay for the gas fees to mint NFTs. **You can try NFT Maker with Test API keys for free, but NFT minted with Test API keys will not have any value, because they are minted on Testnet network.**
+2. Sign up for a [Tatum API key](https://dashboard.tatum.io/). The Tatum is an external service which provides access for the blockchain infrastructure. The credits from your plan are used to pay for the gas fees to mint NFTs. **You can try NFT Maker with Test API keys for free, but NFT minted with Test API keys will not have any value, because they are minted on Testnet network.**
 3. Create your NFT by uploading an image. This won’t consume any credits until someone buys it.
 4. When someone buys your NFT, the metadata is uploaded to IPFS, and the NFT is minted to the blockchain address provided by the customer at checkout.
 5. Credits to pay the gas fees for minting are deducted from your Tatum plan.
 
 **IMPORTANT NOTICE**
-NFT Maker requires a PAID Tatum plan to work with blockchain Mainnet networks, and you must pay for the gas fees to mint your NFTs from your Tatum plan.
-You can try NFT Maker with Test API keys for free, but NFTs minted with Test API keys will not have any value, because they are minted on Testnet network.
+NFT Maker works with the both free and paid Tatum plans. You can try NFT Maker with Test API keys for free, but NFTs minted with Test API keys will not have any value, because they are minted on Testnet network.
+The paid Tatum API key plan works with blockchain Mainnet networks, and it pays for the gas fees to mint your NFTs from your Tatum API key plan.
 Please note, you can cancel your plan at any time, but **Tatum DOES NOT offer refunds for received payments**.
 
 **Due to high ETH fees, minting NFTs with ETH is available only with enterprise API keys.**
@@ -200,7 +200,7 @@ For a complete guide on how to build the backend to an NFT marketplace from scra
 Changed author of the plugin
 
 = 2.0.27 =
-Added support for Testnet & detailed info about minted NFTs
+Added support for Testnet & detailed info about minted NFTs & more validation messages
 
 == Upgrade Notice ==
 
