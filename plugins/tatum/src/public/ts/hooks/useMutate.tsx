@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { request } from "../utils";
 import { RouteLocationInterface, RouteParamsInterface, RouteRequestInterface } from "@tatum/utils";
-import { message } from "antd";
-import { ResponseError } from "../models/reponseError";
+import { showError } from "../utils/message";
+import { Error } from "../models/error";
 
-export const useMutate = <T extends ResponseError>(
-    location: RouteLocationInterface,
-    body?: Record<string, unknown>
-) => {
+export const useMutate = <T extends Error>(location: RouteLocationInterface, body?: Record<string, unknown>) => {
     const [data, setData] = useState<T | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
@@ -21,19 +18,16 @@ export const useMutate = <T extends ResponseError>(
                     ...mutateBody
                 }
             });
-
-            if (result?.status === "error" && result.message) {
-                showError(result.message);
+            if (result?.status === "error") {
+                showError(result);
             }
 
             setData(result);
         } catch (e) {
-            showError("An error occurred. Please contact support.");
+            showError({ message: "An error occurred. Please contact support." });
         } finally {
             setLoading(false);
         }
     };
     return { data, mutate, loading };
 };
-
-const showError = (content: string) => message.error({ content, style: { marginTop: "40px" } });

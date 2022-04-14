@@ -1,6 +1,6 @@
-import { ResponseError } from "./reponseError";
+import { Error } from "./error";
 
-export interface Nfts extends ResponseError {
+export interface Nfts extends Error {
     nfts: Nft[];
 }
 

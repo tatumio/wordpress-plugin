@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { request } from "../utils";
 import { RouteHttpVerb, RouteParamsInterface, RouteRequestInterface } from "@tatum/utils";
 import { showError } from "../utils/message";
-import { ResponseError } from "../models/reponseError";
+import { Error } from "../models/error";
 
-export const useGet = <T extends ResponseError>(path: string) => {
+export const useGet = <T extends Error>(path: string) => {
     const [data, setData] = useState<T | null>(null);
     useEffect(() => {
         async function fetchMyAPI() {

@@ -6,16 +6,16 @@ import { Tutorial } from "../tutorial";
 import { useMutate } from "../../../hooks/useMutate";
 import { RouteHttpVerb } from "@tatum/utils";
 import { showSuccess } from "../../../utils/message";
-import { ResponseError } from "../../../models/reponseError";
 import { getImageUrl } from "../../../utils/image";
 import "./index.scss";
 import { Page } from "../../../models";
 import { TestnetWarning } from "../testnetWarning";
+import { Error } from "../../../models/error";
 
 export const ApiKeyOverview = () => {
     const { apiKeyStore, pageStore } = useStores();
 
-    const { mutate } = useMutate<ResponseError>({ path: "/dismiss-tutorial", method: RouteHttpVerb.POST });
+    const { mutate } = useMutate<Error>({ path: "/dismiss-tutorial", method: RouteHttpVerb.POST });
     const [isDismissed, setDismissTutorial] = useState(apiKeyStore?.apiKey?.isTutorialDismissed);
 
     const dismissTutorial = async () => {

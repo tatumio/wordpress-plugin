@@ -1,6 +1,6 @@
-import { ResponseError } from "./reponseError";
+import { Error } from "./error";
 
-export interface Estimates extends ResponseError {
+export interface Estimates extends Error {
     estimates: Estimate[];
 }
 

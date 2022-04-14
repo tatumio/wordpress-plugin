@@ -1,6 +1,6 @@
-import { ResponseError } from "./reponseError";
+import { Error } from "./error";
 
-export interface ApiKey extends ResponseError {
+export interface ApiKey extends Error {
     apiKey: string;
     plan: string;
     remainingCredits: number;

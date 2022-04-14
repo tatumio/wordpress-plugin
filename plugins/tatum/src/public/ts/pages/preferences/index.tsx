@@ -2,7 +2,7 @@ import { Fees } from "./fees";
 import { Button, Input, Modal } from "antd";
 import "./index.scss";
 import { useMutate } from "../../hooks/useMutate";
-import { ResponseError } from "../../models/reponseError";
+import { Error } from "../../models/error";
 import { RouteHttpVerb } from "@tatum/utils";
 import { useForm, useFormContext, FormProvider } from "react-hook-form";
 import { useGet } from "../../hooks/useGet";
@@ -11,8 +11,8 @@ import { Page } from "../../models";
 import { useStores } from "../../store";
 
 export const Preferences = () => {
-    const { data } = useGet<ResponseError>("/preferences");
-    const { mutate } = useMutate<ResponseError>({ path: "/preferences", method: RouteHttpVerb.POST });
+    const { data } = useGet<Error>("/preferences");
+    const { mutate } = useMutate<Error>({ path: "/preferences", method: RouteHttpVerb.POST });
     const { pageStore } = useStores();
     const form = useForm();
     const onSubmit = (data: unknown) => {

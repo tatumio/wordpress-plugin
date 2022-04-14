@@ -7,7 +7,7 @@ import { Page } from "../../../models/page";
 import { Container, CardItemText, Spinner } from "../../../components";
 import "./index.scss";
 import { useGet } from "../../../hooks/useGet";
-import { ResponseError } from "../../../models/reponseError";
+import { Error } from "../../../models/error";
 
 const CardItem = ({
     title,
@@ -74,7 +74,7 @@ const Guideline: FC<{}> = observer(() => {
     );
 });
 
-interface SetupInterface extends ResponseError {
+interface SetupInterface extends Error {
     isWoocommerceInstalled?: boolean;
 }
 
