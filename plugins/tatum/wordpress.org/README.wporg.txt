@@ -200,7 +200,7 @@ For a complete guide on how to build the backend to an NFT marketplace from scra
 Changed author of the plugin
 
 = 2.0.27 =
-Added support for Testnet & detailed info about minted NFTs
+Added support for Testnet & detailed info about minted NFTs & more validation messages
 
 == Upgrade Notice ==
 
