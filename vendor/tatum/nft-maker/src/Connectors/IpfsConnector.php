@@ -114,8 +114,8 @@ class IpfsConnector
 
     private static function createMetadataJson($product, $hash) {
         return json_encode(array(
-            'name' => $product->get_title(),
-            'description' => $product->get_description(),
+            'name' => strip_tags(stripslashes($product->get_title())),
+            'description' => strip_tags(stripslashes($product->get_description())),
             'image' => "ipfs://$hash"
         ), JSON_UNESCAPED_SLASHES);
     }

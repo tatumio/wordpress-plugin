@@ -205,6 +205,9 @@ Added support for Testnet & detailed info about minted NFTs & more validation me
 = 2.0.28 =
 Fixed API key submit validation
 
+= 2.0.29 =
+Fixed activator lazy nft testnet field & strip HTML and special chars from IPFS metadata
+
 == Upgrade Notice ==
 
 = 1.0.0 =

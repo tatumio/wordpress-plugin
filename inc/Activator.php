@@ -40,10 +40,6 @@ class Activator
      * @param boolean $errorlevel If true throw errors
      */
     public function dbDelta($errorlevel) {
-        global $wpdb;
-        $lazyNftName = $this->getTableName("lazy_nft");
-        $sql = "ALTER TABLE $lazyNftName ADD `testnet` BOOLEAN NOT NULL AFTER `prepared_nft_id`;";
-        $wpdb->query($sql);
     }
 
     private function initDatabase() {
@@ -70,6 +66,7 @@ class Activator
             chain ENUM('CELO', 'ETH', 'BSC', 'ONE', 'MATIC') NOT NULL,
             error_cause varchar(256),
             prepared_nft_id bigint NOT NULL,
+            testnet BOOLEAN NOT NULL,
             UNIQUE KEY id (id),
             CONSTRAINT FK_LazyNft FOREIGN KEY (prepared_nft_id) REFERENCES $prepareNftName(id)
         ) $charset_collate;";
