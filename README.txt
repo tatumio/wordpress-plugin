@@ -5,7 +5,7 @@ Tags: nft, erc721, ethereum, celo, bsc, polygon, harmony, mint, tatum, blockchai
 Requires at least: 5.5
 Requires PHP: 7.0
 Tested up to: 5.8.2
-Stable tag: 2.0.28
+Stable tag: 2.0.30
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -205,7 +205,7 @@ Added support for Testnet & detailed info about minted NFTs & more validation me
 = 2.0.28 =
 Fixed API key submit validation
 
-= 2.0.29 =
+= 2.0.30 =
 Fixed activator lazy nft testnet field & strip HTML and special chars from IPFS metadata
 
 == Upgrade Notice ==
