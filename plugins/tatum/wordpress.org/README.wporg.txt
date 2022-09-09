@@ -1,11 +1,11 @@
 === NFT Maker ===
 Contributors: lukaskotol
 Donate link: lukas.kotol@gmail.com
-Tags: nft, erc721, ethereum, celo, bsc, polygon, harmony, mint, tatum, blockchain, smart contract, opensea
+Tags: nft, erc721, ethereum, celo, bsc, polygon, harmony, mint, tatum, blockchain, smart contract
 Requires at least: 5.5
 Requires PHP: 7.0
 Tested up to: 5.8.2
-Stable tag: 2.0.30
+Stable tag: 2.0.31
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -207,6 +207,9 @@ Fixed API key submit validation
 
 = 2.0.30 =
 Fixed activator lazy nft testnet field & strip HTML and special chars from IPFS metadata
+
+= 2.0.31 =
+Removed open sea link and changed eth testnet link to sepolia
 
 == Upgrade Notice ==
 

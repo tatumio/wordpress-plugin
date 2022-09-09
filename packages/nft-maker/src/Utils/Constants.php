@@ -21,23 +21,9 @@ class Constants
         ]
     ];
 
-    const OPEN_SEA_BASE_URL = [
-        'TESTNET' => 'https://testnets.opensea.io/',
-        'MAINNET' => 'https://opensea.io/'
-    ];
-
-    const OPEN_SEA_CHAIN_MAPPING = [
-        'TESTNET' => [
-            'MATIC' => 'mumbai'
-        ],
-        'MAINNET' => [
-            'MATIC' => 'matic',
-        ]
-    ];
-
     const EXPLORER = [
         'TESTNET' => [
-            'ETH' => "https://ropsten.etherscan.io/",
+            'ETH' => "https://sepolia.etherscan.io/",
             'CELO' => "https://alfajores-blockscout.celo-testnet.org/",
             'BSC' => "https://testnet.bscscan.com/",
             'MATIC' => "https://mumbai.polygonscan.com/",

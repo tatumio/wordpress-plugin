@@ -82,12 +82,7 @@ class PublicHooks
         $html = "Transction Hash: $txLink<br>";
 
         if (array_key_exists("tokenId", $nftDetail)) {
-            if (in_array($chain, ['MATIC', 'ETH']) && array_key_exists("openSeaUrl", $nftDetail)) {
-                $openSeaLink = BlockchainLink::formatLink($nftDetail['tokenId'] . " (OpenSea) ", $nftDetail['openSeaUrl']);
-                $html .= "Token Id: " . $openSeaLink . " - once transaction is confirmed link should be valid<br>";
-            } else {
-                $html .= "Token Id: " . $nftDetail['tokenId'] . "<br>";
-            }
+            $html .= "Token Id: " . $nftDetail['tokenId'] . "<br>";
         }
 
         $html .= "Contract Address: " . $nftDetail['contractAddress'] . "<br><br>";

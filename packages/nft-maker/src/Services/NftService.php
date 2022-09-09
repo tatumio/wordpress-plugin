@@ -85,8 +85,7 @@ class NftService
         if ($addTokenId) {
             $nftDetail = $this->getNftDetail($nft->chain, $nft->transaction_id, $nft->testnet);
 
-            if (array_key_exists("openSeaUrl", $nftDetail) && array_key_exists("tokenId", $nftDetail)) {
-                $formatted['openSeaUrl'] = $nftDetail['openSeaUrl'];
+            if (array_key_exists("tokenId", $nftDetail)) {
                 $formatted['tokenId'] = $nftDetail['tokenId'];
             }
             $formatted['contractAddress'] = $nftDetail['contractAddress'];
@@ -115,7 +114,6 @@ class NftService
         }
         return [
             'contractAddress' => Constants::CONTRACT_ADDRESS[$isTestnet][$chain],
-            'openSeaUrl' => BlockchainLink::openSea($tokenId, $chain, $testnet),
             'tokenId' => $tokenId
         ];
     }

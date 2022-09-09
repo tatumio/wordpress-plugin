@@ -25,7 +25,6 @@ const NftItem = ({ nft, lazy }: { nft: Nft; lazy: boolean }) => {
         width: "100%",
         align: "center"
     };
-    console.log(nft);
     return (
         <Card.Grid hoverable={false} style={gridStyle}>
             <div className="nftItem">
@@ -42,20 +41,7 @@ const NftItem = ({ nft, lazy }: { nft: Nft; lazy: boolean }) => {
                             </a>
                         </div>
                     )}
-                    {nft.tokenId && (
-                        <div>
-                            Token ID:{" "}
-                            {nft.openSeaUrl ? (
-                                <span>
-                                    <a target="_blank" rel="noreferrer" href={nft.openSeaUrl}>
-                                        {nft.tokenId} (OpenSea) - wait till confirmation
-                                    </a>
-                                </span>
-                            ) : (
-                                nft.tokenId
-                            )}
-                        </div>
-                    )}
+                    {nft.tokenId && <div>Token ID:{nft.tokenId}</div>}
 
                     {nft.transactionId || nft.errorCause ? (
                         <DateFormatted label="Sold" date={nft?.sold?.date} />
