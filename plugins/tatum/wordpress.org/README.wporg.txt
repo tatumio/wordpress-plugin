@@ -214,6 +214,9 @@ Removed open sea link and changed eth testnet link to sepolia
 = 2.0.32 =
 Added user agent header
 
+= 2.0.35 =
+Added user agent header - edit
+
 == Upgrade Notice ==
 
 = 1.0.0 =
