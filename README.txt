@@ -5,7 +5,7 @@ Tags: nft, erc721, ethereum, celo, bsc, polygon, harmony, mint, tatum, blockchai
 Requires at least: 5.5
 Requires PHP: 7.0
 Tested up to: 5.8.2
-Stable tag: 2.0.31
+Stable tag: 2.0.32
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -210,6 +210,9 @@ Fixed activator lazy nft testnet field & strip HTML and special chars from IPFS 
 
 = 2.0.31 =
 Removed open sea link and changed eth testnet link to sepolia
+
+= 2.0.32 =
+Added user agent header
 
 == Upgrade Notice ==
 

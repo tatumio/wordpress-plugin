@@ -79,7 +79,7 @@ class TatumConnector
     }
 
     private function headers(): array {
-        return array('Accept' => 'application/json', 'Content-Type' => 'application/json', 'x-api-key' => $this->apiKey);
+        return array('Accept' => 'application/json', 'Content-Type' => 'application/json', 'x-api-key' => $this->apiKey, 'User-Agent' => 'Tatum_WordPress_NftMaker/'.TATUM_VERSION);
     }
 
     public function getApiVersion() {
