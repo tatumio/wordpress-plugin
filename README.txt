@@ -217,6 +217,8 @@ Added user agent header
 = 2.0.35 =
 Added user agent header - edit
 
+= 2.0.36 =
+Fixed setup API key error
 == Upgrade Notice ==
 
 = 1.0.0 =
