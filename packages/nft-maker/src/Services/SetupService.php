@@ -31,7 +31,7 @@ class SetupService
         try {
             $this->tatumConnector->setApiKey($api_key);
             $api_key_resp = $this->tatumConnector->getApiVersion();
-            $isActive = $api_key_resp['status'] === 'ACTIVE' && $api_key_resp['expiration'] >= round(microtime(true) * 1000);
+            $isActive = $api_key_resp['expiration'] >= round(microtime(true) * 1000);
             if (($api_key_resp['testnet'] === false && $api_key_resp['price'] !== 0 && $isActive) || ($api_key_resp['testnet'] === true && $isActive)) {
                 update_option(TATUM_SLUG . '_api_key', $api_key);
                 return [
