@@ -5,9 +5,13 @@ Tags: nft, erc721, ethereum, celo, bsc, polygon, harmony, mint, tatum, blockchai
 Requires at least: 5.5
 Requires PHP: 7.0
 Tested up to: 5.8.2
-Stable tag: 2.0.32
+Stable tag: 2.0.36
 License: MIT
 License URI: https://opensource.org/licenses/MIT
+
+**NFTs minted via this plugin belong to the "Tatum General NFT" Collection, currently not visible on OpenSea and other wallets using OpenSea API, such as MetaMask. We're actively developing a new version to address this. Please refrain from using the plugin until then. **
+
+
 
 If you want to sell NFTs but don’t want to build an entire NFT marketplace from scratch, then NFT Maker is the plugin you’ve been waiting for.
 
@@ -219,6 +223,10 @@ Added user agent header - edit
 
 = 2.0.36 =
 Fixed setup API key error
+
+= 2.0.37 =
+Added deprecated info
+
 == Upgrade Notice ==
 
 = 1.0.0 =
