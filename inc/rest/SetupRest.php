@@ -76,6 +76,7 @@ class SetupRest
     }
 
     public function estimate() {
+        print_r("test");
         self::checkNonce();
         return new WP_REST_Response(["estimates" => $this->estimateService->estimateCountOfMintAllSupportedBlockchain()]);
     }
