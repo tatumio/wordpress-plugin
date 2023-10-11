@@ -5,7 +5,7 @@ Tags: nft, erc721, ethereum, celo, bsc, polygon, harmony, mint, tatum, blockchai
 Requires at least: 5.5
 Requires PHP: 7.0
 Tested up to: 5.8.2
-Stable tag: 2.0.36
+Stable tag: 2.0.37
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -226,6 +226,9 @@ Fixed setup API key error
 
 = 2.0.37 =
 Added deprecated info
+
+= 2.0.38 =
+Added deprecated info again
 
 == Upgrade Notice ==
 
